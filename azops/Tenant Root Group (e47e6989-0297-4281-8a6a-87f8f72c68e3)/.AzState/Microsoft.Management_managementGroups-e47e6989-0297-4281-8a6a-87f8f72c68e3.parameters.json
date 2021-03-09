@@ -30,13 +30,6 @@
             "Children": null
           },
           {
-            "Type": "/providers/Microsoft.Management/managementGroups",
-            "Id": "/providers/Microsoft.Management/managementGroups/FMG",
-            "Name": "FMG",
-            "DisplayName": "FMG",
-            "Children": null
-          },
-          {
             "Type": "/subscriptions",
             "Id": "/subscriptions/bb37c8bf-7152-48a1-ac02-2dac2333fe94",
             "Name": "bb37c8bf-7152-48a1-ac02-2dac2333fe94",
@@ -45,9 +38,37 @@
           },
           {
             "Type": "/subscriptions",
+            "Id": "/subscriptions/3a5a2eeb-8e60-4e7c-bfad-1c54182f0258",
+            "Name": "3a5a2eeb-8e60-4e7c-bfad-1c54182f0258",
+            "DisplayName": "TS AU FMG (Internet + On premises)",
+            "Children": null
+          },
+          {
+            "Type": "/subscriptions",
             "Id": "/subscriptions/6d73017e-c20f-4fe1-9f54-0f4a9d992e66",
             "Name": "6d73017e-c20f-4fe1-9f54-0f4a9d992e66",
             "DisplayName": "TS AU FMG (Development)",
+            "Children": null
+          },
+          {
+            "Type": "/subscriptions",
+            "Id": "/subscriptions/0e4d1e00-5638-4667-ba48-357115eb32a1",
+            "Name": "0e4d1e00-5638-4667-ba48-357115eb32a1",
+            "DisplayName": "TS AU FMG (Connectivity)",
+            "Children": null
+          },
+          {
+            "Type": "/subscriptions",
+            "Id": "/subscriptions/00427000-3587-4a3b-9817-803373c88774",
+            "Name": "00427000-3587-4a3b-9817-803373c88774",
+            "DisplayName": "TS AU FMG (Internet Only)",
+            "Children": null
+          },
+          {
+            "Type": "/subscriptions",
+            "Id": "/subscriptions/ccf951dc-2860-42f1-9e1a-5adf65d9220f",
+            "Name": "ccf951dc-2860-42f1-9e1a-5adf65d9220f",
+            "DisplayName": "TS AU FMG (Identity)",
             "Children": null
           },
           {
@@ -62,6 +83,13 @@
             "Id": "/subscriptions/47d60737-c43c-48d2-bdb5-8b851d533075",
             "Name": "47d60737-c43c-48d2-bdb5-8b851d533075",
             "DisplayName": "TS AU FMG (Sandbox)",
+            "Children": null
+          },
+          {
+            "Type": "/subscriptions",
+            "Id": "/subscriptions/7d8bccc8-ddf0-40fb-acf8-61829c21db71",
+            "Name": "7d8bccc8-ddf0-40fb-acf8-61829c21db71",
+            "DisplayName": "TS AU FMG (Management)",
             "Children": null
           },
           {
