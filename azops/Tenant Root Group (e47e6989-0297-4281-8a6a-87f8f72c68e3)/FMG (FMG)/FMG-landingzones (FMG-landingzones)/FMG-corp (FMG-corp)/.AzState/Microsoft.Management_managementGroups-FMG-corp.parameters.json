@@ -1,0 +1,29 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "input": {
+      "value": {
+        "Id": "/providers/Microsoft.Management/managementGroups/FMG-corp",
+        "Type": "/providers/Microsoft.Management/managementGroups",
+        "Name": "FMG-corp",
+        "TenantId": "e47e6989-0297-4281-8a6a-87f8f72c68e3",
+        "DisplayName": "FMG-corp",
+        "UpdatedTime": "2021-03-05T19:48:01.2095754Z",
+        "UpdatedBy": "1e6e96c6-9313-4136-9321-8cfbf5cec36e",
+        "ParentId": "/providers/Microsoft.Management/managementGroups/FMG-landingzones",
+        "ParentName": "FMG-landingzones",
+        "ParentDisplayName": "FMG-landingzones",
+        "Children": [
+          {
+            "Type": "/subscriptions",
+            "Id": "/subscriptions/3a5a2eeb-8e60-4e7c-bfad-1c54182f0258",
+            "Name": "3a5a2eeb-8e60-4e7c-bfad-1c54182f0258",
+            "DisplayName": "TS AU FMG (Internet + On premises)",
+            "Children": null
+          }
+        ]
+      }
+    }
+  }
+}

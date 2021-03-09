@@ -1,0 +1,15 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "input": {
+      "value": {
+        "Type": "/subscriptions",
+        "Id": "/subscriptions/47d60737-c43c-48d2-bdb5-8b851d533075",
+        "Name": "47d60737-c43c-48d2-bdb5-8b851d533075",
+        "DisplayName": "TS AU FMG (Sandbox)",
+        "Children": null
+      }
+    }
+  }
+}

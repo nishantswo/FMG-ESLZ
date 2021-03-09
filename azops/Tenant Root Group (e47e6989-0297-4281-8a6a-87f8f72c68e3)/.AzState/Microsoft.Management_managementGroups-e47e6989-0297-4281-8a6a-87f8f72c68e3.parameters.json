@@ -1,0 +1,92 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "input": {
+      "value": {
+        "Id": "/providers/Microsoft.Management/managementGroups/e47e6989-0297-4281-8a6a-87f8f72c68e3",
+        "Type": "/providers/Microsoft.Management/managementGroups",
+        "Name": "e47e6989-0297-4281-8a6a-87f8f72c68e3",
+        "TenantId": "e47e6989-0297-4281-8a6a-87f8f72c68e3",
+        "DisplayName": "Tenant Root Group",
+        "UpdatedTime": "2020-11-05T07:09:43.5531069Z",
+        "UpdatedBy": "Tenant Backfill Job",
+        "ParentId": null,
+        "ParentName": null,
+        "ParentDisplayName": null,
+        "Children": [
+          {
+            "Type": "/providers/Microsoft.Management/managementGroups",
+            "Id": "/providers/Microsoft.Management/managementGroups/SWOD",
+            "Name": "SWOD",
+            "DisplayName": "SWOD",
+            "Children": null
+          },
+          {
+            "Type": "/providers/Microsoft.Management/managementGroups",
+            "Id": "/providers/Microsoft.Management/managementGroups/FMGD",
+            "Name": "FMGD",
+            "DisplayName": "FMGD",
+            "Children": null
+          },
+          {
+            "Type": "/providers/Microsoft.Management/managementGroups",
+            "Id": "/providers/Microsoft.Management/managementGroups/FMG",
+            "Name": "FMG",
+            "DisplayName": "FMG",
+            "Children": null
+          },
+          {
+            "Type": "/subscriptions",
+            "Id": "/subscriptions/bb37c8bf-7152-48a1-ac02-2dac2333fe94",
+            "Name": "bb37c8bf-7152-48a1-ac02-2dac2333fe94",
+            "DisplayName": "Do not use!!",
+            "Children": null
+          },
+          {
+            "Type": "/subscriptions",
+            "Id": "/subscriptions/6d73017e-c20f-4fe1-9f54-0f4a9d992e66",
+            "Name": "6d73017e-c20f-4fe1-9f54-0f4a9d992e66",
+            "DisplayName": "TS AU FMG (Development)",
+            "Children": null
+          },
+          {
+            "Type": "/subscriptions",
+            "Id": "/subscriptions/4dd899d2-4f99-485e-b1bc-7d44c2a2e993",
+            "Name": "4dd899d2-4f99-485e-b1bc-7d44c2a2e993",
+            "DisplayName": "TS AU FMG (Production)",
+            "Children": null
+          },
+          {
+            "Type": "/subscriptions",
+            "Id": "/subscriptions/47d60737-c43c-48d2-bdb5-8b851d533075",
+            "Name": "47d60737-c43c-48d2-bdb5-8b851d533075",
+            "DisplayName": "TS AU FMG (Sandbox)",
+            "Children": null
+          },
+          {
+            "Type": "/subscriptions",
+            "Id": "/subscriptions/7051ccfd-bf07-4379-afd3-c5994f29523a",
+            "Name": "7051ccfd-bf07-4379-afd3-c5994f29523a",
+            "DisplayName": "TS AU FMG (Pre-Prod)",
+            "Children": null
+          },
+          {
+            "Type": "/subscriptions",
+            "Id": "/subscriptions/146cdf8a-a785-468c-8e4c-ee958acad65b",
+            "Name": "146cdf8a-a785-468c-8e4c-ee958acad65b",
+            "DisplayName": "TS AU FMG (UAT)",
+            "Children": null
+          },
+          {
+            "Type": "/subscriptions",
+            "Id": "/subscriptions/b8e2ac97-caa2-4af5-9e6e-520b8482f2f4",
+            "Name": "b8e2ac97-caa2-4af5-9e6e-520b8482f2f4",
+            "DisplayName": "TS AU FMG (QA)",
+            "Children": null
+          }
+        ]
+      }
+    }
+  }
+}

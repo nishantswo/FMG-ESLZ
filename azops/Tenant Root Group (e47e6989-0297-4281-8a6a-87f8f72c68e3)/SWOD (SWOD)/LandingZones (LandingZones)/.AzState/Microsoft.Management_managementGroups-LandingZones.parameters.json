@@ -1,0 +1,36 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "input": {
+      "value": {
+        "Id": "/providers/Microsoft.Management/managementGroups/LandingZones",
+        "Type": "/providers/Microsoft.Management/managementGroups",
+        "Name": "LandingZones",
+        "TenantId": "e47e6989-0297-4281-8a6a-87f8f72c68e3",
+        "DisplayName": "LandingZones",
+        "UpdatedTime": "2020-12-15T09:07:38.2964478Z",
+        "UpdatedBy": "8368d7f7-6ec1-4e54-a237-6637e7b68693",
+        "ParentId": "/providers/Microsoft.Management/managementGroups/SWOD",
+        "ParentName": "SWOD",
+        "ParentDisplayName": "SWOD",
+        "Children": [
+          {
+            "Type": "/providers/Microsoft.Management/managementGroups",
+            "Id": "/providers/Microsoft.Management/managementGroups/Corp",
+            "Name": "Corp",
+            "DisplayName": "Corp",
+            "Children": null
+          },
+          {
+            "Type": "/providers/Microsoft.Management/managementGroups",
+            "Id": "/providers/Microsoft.Management/managementGroups/Online",
+            "Name": "Online",
+            "DisplayName": "Online",
+            "Children": null
+          }
+        ]
+      }
+    }
+  }
+}

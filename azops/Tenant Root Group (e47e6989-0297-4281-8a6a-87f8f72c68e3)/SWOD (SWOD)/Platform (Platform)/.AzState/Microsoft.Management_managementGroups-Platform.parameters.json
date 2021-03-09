@@ -1,0 +1,50 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "input": {
+      "value": {
+        "Id": "/providers/Microsoft.Management/managementGroups/Platform",
+        "Type": "/providers/Microsoft.Management/managementGroups",
+        "Name": "Platform",
+        "TenantId": "e47e6989-0297-4281-8a6a-87f8f72c68e3",
+        "DisplayName": "Platform",
+        "UpdatedTime": "2020-12-15T09:06:03.9413894Z",
+        "UpdatedBy": "8368d7f7-6ec1-4e54-a237-6637e7b68693",
+        "ParentId": "/providers/Microsoft.Management/managementGroups/SWOD",
+        "ParentName": "SWOD",
+        "ParentDisplayName": "SWOD",
+        "Children": [
+          {
+            "Type": "/providers/Microsoft.Management/managementGroups",
+            "Id": "/providers/Microsoft.Management/managementGroups/Management",
+            "Name": "Management",
+            "DisplayName": "Management",
+            "Children": null
+          },
+          {
+            "Type": "/providers/Microsoft.Management/managementGroups",
+            "Id": "/providers/Microsoft.Management/managementGroups/Identity",
+            "Name": "Identity",
+            "DisplayName": "Identity",
+            "Children": null
+          },
+          {
+            "Type": "/providers/Microsoft.Management/managementGroups",
+            "Id": "/providers/Microsoft.Management/managementGroups/Sandbox",
+            "Name": "Sandbox",
+            "DisplayName": "Sandbox",
+            "Children": null
+          },
+          {
+            "Type": "/providers/Microsoft.Management/managementGroups",
+            "Id": "/providers/Microsoft.Management/managementGroups/Connectivity",
+            "Name": "Connectivity",
+            "DisplayName": "Connectivity",
+            "Children": null
+          }
+        ]
+      }
+    }
+  }
+}

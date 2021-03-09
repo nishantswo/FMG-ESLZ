@@ -1,0 +1,33 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "input": {
+      "value": {
+        "Identity": {
+          "principalId": "477af85c-ea62-4a47-9768-c2edcb060d5b",
+          "tenantId": "e47e6989-0297-4281-8a6a-87f8f72c68e3",
+          "type": "SystemAssigned"
+        },
+        "Location": "centralus",
+        "Name": "ASC provisioning Dependency agent for Linux",
+        "PolicyAssignmentId": "/subscriptions/19228dd2-65f3-4f8f-8946-374edba7d70b/providers/Microsoft.Authorization/policyAssignments/ASC provisioning Dependency agent for Linux",
+        "Properties": {
+          "Description": "This policy assignment was automatically created by Azure Security Center for agent installation as configured in Security Center auto provisioning.",
+          "DisplayName": "ASC provisioning Dependency agent for Linux",
+          "NotScopes": null,
+          "Parameters": {},
+          "PolicyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/4da21710-ce6f-4e06-8cdb-5cc4c93ffbee",
+          "Scope": "/subscriptions/19228dd2-65f3-4f8f-8946-374edba7d70b"
+        },
+        "ResourceId": "/subscriptions/19228dd2-65f3-4f8f-8946-374edba7d70b/providers/Microsoft.Authorization/policyAssignments/ASC provisioning Dependency agent for Linux",
+        "ResourceName": "ASC provisioning Dependency agent for Linux",
+        "ResourceType": "Microsoft.Authorization/policyAssignments",
+        "Sku": {
+          "name": "A0",
+          "tier": "Free"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "input": {
+      "value": {
+        "Id": "/providers/Microsoft.Management/managementGroups/Management",
+        "Type": "/providers/Microsoft.Management/managementGroups",
+        "Name": "Management",
+        "TenantId": "e47e6989-0297-4281-8a6a-87f8f72c68e3",
+        "DisplayName": "Management",
+        "UpdatedTime": "2020-12-15T09:06:31.8484907Z",
+        "UpdatedBy": "8368d7f7-6ec1-4e54-a237-6637e7b68693",
+        "ParentId": "/providers/Microsoft.Management/managementGroups/Platform",
+        "ParentName": "Platform",
+        "ParentDisplayName": "Platform",
+        "Children": [
+          {
+            "Type": "/subscriptions",
+            "Id": "/subscriptions/f0ee4764-1dd8-40d2-9246-abab220805f2",
+            "Name": "f0ee4764-1dd8-40d2-9246-abab220805f2",
+            "DisplayName": "SWOD-Management",
+            "Children": null
+          }
+        ]
+      }
+    }
+  }
+}

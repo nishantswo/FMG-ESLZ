@@ -1,0 +1,15 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "input": {
+      "value": {
+        "Type": "/subscriptions",
+        "Id": "/subscriptions/f0ee4764-1dd8-40d2-9246-abab220805f2",
+        "Name": "f0ee4764-1dd8-40d2-9246-abab220805f2",
+        "DisplayName": "SWOD-Management",
+        "Children": null
+      }
+    }
+  }
+}

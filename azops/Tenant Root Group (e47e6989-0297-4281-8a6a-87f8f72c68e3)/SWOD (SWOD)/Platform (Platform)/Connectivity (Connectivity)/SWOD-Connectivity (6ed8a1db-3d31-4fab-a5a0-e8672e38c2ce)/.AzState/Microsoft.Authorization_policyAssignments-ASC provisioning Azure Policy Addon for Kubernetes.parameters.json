@@ -1,0 +1,33 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "input": {
+      "value": {
+        "Identity": {
+          "principalId": "c6b14555-ac64-4f14-aa6d-d24a500418f9",
+          "tenantId": "e47e6989-0297-4281-8a6a-87f8f72c68e3",
+          "type": "SystemAssigned"
+        },
+        "Location": "centralus",
+        "Name": "ASC provisioning Azure Policy Addon for Kubernetes",
+        "PolicyAssignmentId": "/subscriptions/6ed8a1db-3d31-4fab-a5a0-e8672e38c2ce/providers/Microsoft.Authorization/policyAssignments/ASC provisioning Azure Policy Addon for Kubernetes",
+        "Properties": {
+          "Description": "This policy assignment was automatically created by Azure Security Center for agent installation as configured in Security Center auto provisioning.",
+          "DisplayName": "ASC provisioning Azure Policy Addon for Kubernetes",
+          "NotScopes": null,
+          "Parameters": {},
+          "PolicyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a8eff44f-8c92-45c3-a3fb-9880802d67a7",
+          "Scope": "/subscriptions/6ed8a1db-3d31-4fab-a5a0-e8672e38c2ce"
+        },
+        "ResourceId": "/subscriptions/6ed8a1db-3d31-4fab-a5a0-e8672e38c2ce/providers/Microsoft.Authorization/policyAssignments/ASC provisioning Azure Policy Addon for Kubernetes",
+        "ResourceName": "ASC provisioning Azure Policy Addon for Kubernetes",
+        "ResourceType": "Microsoft.Authorization/policyAssignments",
+        "Sku": {
+          "name": "A0",
+          "tier": "Free"
+        }
+      }
+    }
+  }
+}

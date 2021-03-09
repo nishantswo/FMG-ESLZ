@@ -1,0 +1,33 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "input": {
+      "value": {
+        "Identity": {
+          "principalId": "be254b09-a019-4fac-b9a5-0f8757e5256f",
+          "tenantId": "e47e6989-0297-4281-8a6a-87f8f72c68e3",
+          "type": "SystemAssigned"
+        },
+        "Location": "centralus",
+        "Name": "ASC provisioning Dependency agent for Windows",
+        "PolicyAssignmentId": "/subscriptions/8259b731-8dd1-4547-81af-4907d5adb16d/providers/Microsoft.Authorization/policyAssignments/ASC provisioning Dependency agent for Windows",
+        "Properties": {
+          "Description": "This policy assignment was automatically created by Azure Security Center for agent installation as configured in Security Center auto provisioning.",
+          "DisplayName": "ASC provisioning Dependency agent for Windows",
+          "NotScopes": null,
+          "Parameters": {},
+          "PolicyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1c210e94-a481-4beb-95fa-1571b434fb04",
+          "Scope": "/subscriptions/8259b731-8dd1-4547-81af-4907d5adb16d"
+        },
+        "ResourceId": "/subscriptions/8259b731-8dd1-4547-81af-4907d5adb16d/providers/Microsoft.Authorization/policyAssignments/ASC provisioning Dependency agent for Windows",
+        "ResourceName": "ASC provisioning Dependency agent for Windows",
+        "ResourceType": "Microsoft.Authorization/policyAssignments",
+        "Sku": {
+          "name": "A0",
+          "tier": "Free"
+        }
+      }
+    }
+  }
+}
