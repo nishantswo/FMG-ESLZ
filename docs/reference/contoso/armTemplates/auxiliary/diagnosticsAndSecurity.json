@@ -4,9 +4,9 @@
     "parameters": {
         "topLevelManagementGroupPrefix": {
             "type": "string",
-            "maxLength": 5,
+            "maxLength": 10,
             "metadata": {
-                "description": "Provide top level management group prefix to route deployments in the hierarchy."
+                "description": "Provide a prefix (max 10 characters, unique at tenant-scope) for the Management Group hierarchy and other resources created as part of Enterprise-scale."
             }
         },
         "managementSubscriptionId": {
@@ -171,6 +171,34 @@
                 "description": "If 'Yes' is selected, policy will be assigned to enforce VMSS monitoring."
             }
         },
+        "prodLzSubscriptionId": {
+            "type": "array",
+            "defaultValue": [],
+            "metadata": {
+                "description": "Optionally provide an array of subscription id's that will be moved to the prod landing zone management group."
+            }
+        },
+        "uatLzSubscriptionId": {
+            "type": "array",
+            "defaultValue": [],
+            "metadata": {
+                "description": "Optionally provide an array of subscription id's that will be moved to the uat landing zone management group."
+            }
+        },
+        "qaSubscriptionId": {
+            "type": "array",
+            "defaultValue": [],
+            "metadata": {
+                "description": "Optionally provide an array of subscription id's that will be moved to the qa landing zone management group."
+            }
+        },
+        "devSubscriptionId": {
+            "type": "array",
+            "defaultValue": [],
+            "metadata": {
+                "description": "Optionally provide an array of subscription id's that will be moved to the dev landing zone management group."
+            }
+        },
         "onlineLzSubscriptionId": {
             "type": "array",
             "defaultValue": [],
@@ -241,6 +269,14 @@
         "idActivityResourceDeploymentName": "[take(concat('activity-identity', deployment().location, deployment().name), 40)]",
         "connAscResourceDeploymentName": "[take(concat('asc-conn', deployment().location, deployment().name), 40)]",
         "connActivityResourceDeploymentName": "[take(concat('activity-conn', deployment().location, deployment().name), 40)]",
+        "noProdLzActivityDeployment": "naProdActivity",
+        "noProdLzAscDeployment": "naProdAsc",
+        "noUatLzActivityDeployment": "naUatActivity",
+        "nouatLzAscDeployment": "naUatAsc",
+        "noQaLzActivityDeployment": "naQaActivity",
+        "noQaLzAscDeployment": "naQaAsc",
+        "noDevLzActivityDeployment": "naDevActivity",
+        "noDevLzAscDeployment": "naDevAsc",
         "noOnlineLzActivityDeployment": "naOnlineActivity",
         "noOnlineLzAscDeployment": "naOnlineAsc",
         "noCorpLzActivityDeployment": "naCorpActivity",
@@ -655,7 +691,91 @@
                 "template": "[if(and(not(empty(parameters('connectivitySubscriptionId'))), equals(parameters('enableAsc'), 'Yes')), reference(variables('policyDefinitions').deployAzureSecurity, '2018-05-01').policyRule.then.details.deployment.properties.template, 'na')]",
                 "parameters": "[if(and(not(empty(parameters('connectivitySubscriptionId'))), equals(parameters('enableAsc'), 'Yes')), reference(concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').azureSecurity), '2018-05-01').parameters, json('null'))]"
             }
-        },        
+        },   
+        {
+            // Conditional ARM deployments to invoke template from ActivityLog diagnostics on dev subscription(s)
+            "condition": "[and(not(empty(parameters('devLzSubscriptionId'))),equals(parameters('enableLogAnalytics'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "[if(not(empty(parameters('devLzSubscriptionId'))), concat(variables('lzActivityResourceDeploymentName'), copyIndex()), variables('noDevLzActivityDeployment'))]",
+            "location": "[deployment().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/roleAssignments/', variables('roleAssignmentNames').deployAzureActivityLog)]"
+            ],
+            "copy": {
+                "name": "lzDevActivityCopy",
+                "count": "[if(not(empty(parameters('devLzSubscriptionId'))), length(parameters('devLzSubscriptionId')), 1)]"
+            },
+            "subscriptionId": "[if(not(empty(parameters('devLzSubscriptionId'))), parameters('devLzSubscriptionId')[copyIndex()], '')]",
+            "properties": {
+                "mode": "incremental",
+                "template": "[if(and(not(empty(parameters('devLzSubscriptionId'))), equals(parameters('enableLogAnalytics'), 'Yes')), reference(variables('policyDefinitions').deployAzureActivityLog, '2018-05-01').policyRule.then.details.deployment.properties.template, variables('blankTemplateEscaped'))]",
+                "parameters": "[if(and(not(empty(parameters('devLzSubscriptionId'))), equals(parameters('enableLogAnalytics'), 'Yes')), reference(concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').azureActivityLog), '2018-05-01').parameters, json('null'))]"
+            }
+        },
+        {
+            // Conditional ARM deployments to invoke template from ActivityLog diagnostics on qa subscription(s)
+            "condition": "[and(not(empty(parameters('qaLzSubscriptionId'))),equals(parameters('enableLogAnalytics'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "[if(not(empty(parameters('qaLzSubscriptionId'))), concat(variables('lzActivityResourceDeploymentName'), copyIndex()), variables('noQaLzActivityDeployment'))]",
+            "location": "[deployment().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/roleAssignments/', variables('roleAssignmentNames').deployAzureActivityLog)]"
+            ],
+            "copy": {
+                "name": "lzQaActivityCopy",
+                "count": "[if(not(empty(parameters('qaLzSubscriptionId'))), length(parameters('qaLzSubscriptionId')), 1)]"
+            },
+            "subscriptionId": "[if(not(empty(parameters('qaLzSubscriptionId'))), parameters('qaLzSubscriptionId')[copyIndex()], '')]",
+            "properties": {
+                "mode": "incremental",
+                "template": "[if(and(not(empty(parameters('qaLzSubscriptionId'))), equals(parameters('enableLogAnalytics'), 'Yes')), reference(variables('policyDefinitions').deployAzureActivityLog, '2018-05-01').policyRule.then.details.deployment.properties.template, variables('blankTemplateEscaped'))]",
+                "parameters": "[if(and(not(empty(parameters('qaLzSubscriptionId'))), equals(parameters('enableLogAnalytics'), 'Yes')), reference(concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').azureActivityLog), '2018-05-01').parameters, json('null'))]"
+            }
+        },
+        {
+            // Conditional ARM deployments to invoke template from ActivityLog diagnostics on uat subscription(s)
+            "condition": "[and(not(empty(parameters('uatLzSubscriptionId'))),equals(parameters('enableLogAnalytics'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "[if(not(empty(parameters('uatLzSubscriptionId'))), concat(variables('lzActivityResourceDeploymentName'), copyIndex()), variables('noUatLzActivityDeployment'))]",
+            "location": "[deployment().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/roleAssignments/', variables('roleAssignmentNames').deployAzureActivityLog)]"
+            ],
+            "copy": {
+                "name": "lzUatActivityCopy",
+                "count": "[if(not(empty(parameters('uatLzSubscriptionId'))), length(parameters('uatLzSubscriptionId')), 1)]"
+            },
+            "subscriptionId": "[if(not(empty(parameters('uatLzSubscriptionId'))), parameters('uatLzSubscriptionId')[copyIndex()], '')]",
+            "properties": {
+                "mode": "incremental",
+                "template": "[if(and(not(empty(parameters('uatLzSubscriptionId'))), equals(parameters('enableLogAnalytics'), 'Yes')), reference(variables('policyDefinitions').deployAzureActivityLog, '2018-05-01').policyRule.then.details.deployment.properties.template, variables('blankTemplateEscaped'))]",
+                "parameters": "[if(and(not(empty(parameters('uatLzSubscriptionId'))), equals(parameters('enableLogAnalytics'), 'Yes')), reference(concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').azureActivityLog), '2018-05-01').parameters, json('null'))]"
+            }
+        },
+        {
+            // Conditional ARM deployments to invoke template from ActivityLog diagnostics on prod subscription(s)
+            "condition": "[and(not(empty(parameters('prodLzSubscriptionId'))),equals(parameters('enableLogAnalytics'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "[if(not(empty(parameters('prodLzSubscriptionId'))), concat(variables('lzActivityResourceDeploymentName'), copyIndex()), variables('noProdLzActivityDeployment'))]",
+            "location": "[deployment().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/roleAssignments/', variables('roleAssignmentNames').deployAzureActivityLog)]"
+            ],
+            "copy": {
+                "name": "lzProdActivityCopy",
+                "count": "[if(not(empty(parameters('prodLzSubscriptionId'))), length(parameters('prodLzSubscriptionId')), 1)]"
+            },
+            "subscriptionId": "[if(not(empty(parameters('prodLzSubscriptionId'))), parameters('prodLzSubscriptionId')[copyIndex()], '')]",
+            "properties": {
+                "mode": "incremental",
+                "template": "[if(and(not(empty(parameters('prodLzSubscriptionId'))), equals(parameters('enableLogAnalytics'), 'Yes')), reference(variables('policyDefinitions').deployAzureActivityLog, '2018-05-01').policyRule.then.details.deployment.properties.template, variables('blankTemplateEscaped'))]",
+                "parameters": "[if(and(not(empty(parameters('prodLzSubscriptionId'))), equals(parameters('enableLogAnalytics'), 'Yes')), reference(concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').azureActivityLog), '2018-05-01').parameters, json('null'))]"
+            }
+        },
         {
             // Conditional ARM deployments to invoke template from ActivityLog diagnostics on online subscription(s)
             "condition": "[and(not(empty(parameters('onlineLzSubscriptionId'))),equals(parameters('enableLogAnalytics'), 'Yes'))]",
@@ -696,6 +816,90 @@
                 "mode": "incremental",
                 "template": "[if(and(not(empty(parameters('corpLzSubscriptionId'))), equals(parameters('enableLogAnalytics'), 'Yes')), reference(variables('policyDefinitions').deployAzureActivityLog, '2018-05-01').policyRule.then.details.deployment.properties.template, variables('blankTemplateEscaped'))]",
                 "parameters": "[if(and(not(empty(parameters('corpLzSubscriptionId'))), equals(parameters('enableLogAnalytics'), 'Yes')), reference(concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').azureActivityLog), '2018-05-01').parameters, json('null'))]"
+            }
+        },
+        {
+            // Conditional ARM deployments to invoke template from ASC on dev subscription(s)
+            "condition": "[and(not(empty(parameters('devLzSubscriptionId'))), equals(parameters('enableAsc'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "[if(not(empty(parameters('devLzSubscriptionId'))), concat(variables('lzAscResourceDeploymentName'), copyIndex()), variables('noDevLzAscDeployment'))]",
+            "location": "[deployment().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/roleAssignments/', variables('roleAssignmentNames').deployAzureSecurity)]"
+            ],
+            "copy": {
+                "name": "lzDevAscCopy",
+                "count": "[if(not(empty(parameters('devLzSubscriptionId'))), length(parameters('devLzSubscriptionId')), 1)]"
+            },
+            "subscriptionId": "[if(not(empty(parameters('devLzSubscriptionId'))), parameters('devLzSubscriptionId')[copyIndex()], '')]",
+            "properties": {
+                "mode": "incremental",
+                "template": "[if(and(not(empty(parameters('managementSubscriptionId'))), equals(parameters('enableAsc'), 'Yes')), reference(variables('policyDefinitions').deployAzureSecurity, '2018-05-01').policyRule.then.details.deployment.properties.template, 'na')]",
+                "parameters": "[if(and(not(empty(parameters('managementSubscriptionId'))), equals(parameters('enableAsc'), 'Yes')), reference(concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').azureSecurity), '2018-05-01').parameters, json('null'))]"
+            }
+        },
+        {
+            // Conditional ARM deployments to invoke template from ASC on qa subscription(s)
+            "condition": "[and(not(empty(parameters('qaLzSubscriptionId'))), equals(parameters('enableAsc'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "[if(not(empty(parameters('qaLzSubscriptionId'))), concat(variables('lzAscResourceDeploymentName'), copyIndex()), variables('noQaLzAscDeployment'))]",
+            "location": "[deployment().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/roleAssignments/', variables('roleAssignmentNames').deployAzureSecurity)]"
+            ],
+            "copy": {
+                "name": "lzQaAscCopy",
+                "count": "[if(not(empty(parameters('qaLzSubscriptionId'))), length(parameters('qaLzSubscriptionId')), 1)]"
+            },
+            "subscriptionId": "[if(not(empty(parameters('qaLzSubscriptionId'))), parameters('qaLzSubscriptionId')[copyIndex()], '')]",
+            "properties": {
+                "mode": "incremental",
+                "template": "[if(and(not(empty(parameters('managementSubscriptionId'))), equals(parameters('enableAsc'), 'Yes')), reference(variables('policyDefinitions').deployAzureSecurity, '2018-05-01').policyRule.then.details.deployment.properties.template, 'na')]",
+                "parameters": "[if(and(not(empty(parameters('managementSubscriptionId'))), equals(parameters('enableAsc'), 'Yes')), reference(concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').azureSecurity), '2018-05-01').parameters, json('null'))]"
+            }
+        },
+        {
+            // Conditional ARM deployments to invoke template from ASC on uat subscription(s)
+            "condition": "[and(not(empty(parameters('uatLzSubscriptionId'))), equals(parameters('enableAsc'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "[if(not(empty(parameters('uatLzSubscriptionId'))), concat(variables('lzAscResourceDeploymentName'), copyIndex()), variables('noUatLzAscDeployment'))]",
+            "location": "[deployment().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/roleAssignments/', variables('roleAssignmentNames').deployAzureSecurity)]"
+            ],
+            "copy": {
+                "name": "lzUatAscCopy",
+                "count": "[if(not(empty(parameters('uatLzSubscriptionId'))), length(parameters('uatLzSubscriptionId')), 1)]"
+            },
+            "subscriptionId": "[if(not(empty(parameters('uatLzSubscriptionId'))), parameters('uatLzSubscriptionId')[copyIndex()], '')]",
+            "properties": {
+                "mode": "incremental",
+                "template": "[if(and(not(empty(parameters('managementSubscriptionId'))), equals(parameters('enableAsc'), 'Yes')), reference(variables('policyDefinitions').deployAzureSecurity, '2018-05-01').policyRule.then.details.deployment.properties.template, 'na')]",
+                "parameters": "[if(and(not(empty(parameters('managementSubscriptionId'))), equals(parameters('enableAsc'), 'Yes')), reference(concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').azureSecurity), '2018-05-01').parameters, json('null'))]"
+            }
+        },
+         {
+            // Conditional ARM deployments to invoke template from ASC on prod subscription(s)
+            "condition": "[and(not(empty(parameters('prodLzSubscriptionId'))), equals(parameters('enableAsc'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "[if(not(empty(parameters('prodLzSubscriptionId'))), concat(variables('lzAscResourceDeploymentName'), copyIndex()), variables('noProdLzAscDeployment'))]",
+            "location": "[deployment().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/roleAssignments/', variables('roleAssignmentNames').deployAzureSecurity)]"
+            ],
+            "copy": {
+                "name": "lzProdAscCopy",
+                "count": "[if(not(empty(parameters('prodLzSubscriptionId'))), length(parameters('prodLzSubscriptionId')), 1)]"
+            },
+            "subscriptionId": "[if(not(empty(parameters('prodLzSubscriptionId'))), parameters('prodLzSubscriptionId')[copyIndex()], '')]",
+            "properties": {
+                "mode": "incremental",
+                "template": "[if(and(not(empty(parameters('managementSubscriptionId'))), equals(parameters('enableAsc'), 'Yes')), reference(variables('policyDefinitions').deployAzureSecurity, '2018-05-01').policyRule.then.details.deployment.properties.template, 'na')]",
+                "parameters": "[if(and(not(empty(parameters('managementSubscriptionId'))), equals(parameters('enableAsc'), 'Yes')), reference(concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').azureSecurity), '2018-05-01').parameters, json('null'))]"
             }
         },
         {
