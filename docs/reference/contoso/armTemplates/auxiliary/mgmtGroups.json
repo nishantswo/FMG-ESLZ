@@ -22,6 +22,10 @@
         "landingZoneMgs": {
             "type": "array",
             "defaultValue": [
+                "dev",
+                "qa",
+                "uat",
+                "prod",
                 "online",
                 "corp"
             ],
