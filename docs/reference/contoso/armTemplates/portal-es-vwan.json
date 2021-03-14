@@ -8,7 +8,7 @@
         "steps": [
             {
                 "name": "lzSettings",
-                "label": "Enterprise-Scale company PPrefix",
+                "label": "Enterprise-Scale company Prefix",
                 "subLabel": {
                     "preValidation": "Provide a company prefix for the management group structure that will be created.",
                     "postValidation": "Done"
@@ -936,6 +936,150 @@
                         "visible": true,
                         "constraints": {
                             "allowedValues": "[map(steps('lzGoalState').lzCorpSubsApi.value, (sub) => parse(concat('{\"label\":\"', sub.displayName, '\",\"description\":\"', sub.subscriptionId, '\",\"value\":\"', toLower(sub.subscriptionId), '\"}')) )]",
+                            "required": false
+                        }
+                    },
+					{
+                        "name": "prodText",
+                        "type": "Microsoft.Common.TextBlock",
+                        "visible": "[equals(steps('esGoalState').esLogAnalytics, 'Yes')]",
+                        "options": {
+                            "text": "Select the subscriptions you want to move to prod management group.",
+                            "link": {
+                                "label": "Learn more",
+                                "uri": "https://docs.microsoft.com/azure/azure-monitor/insights/solutions"
+                            }
+                        }
+                    },
+                    {
+                        "name": "lzProdSubsApi",
+                        "type": "Microsoft.Solutions.ArmApiControl",
+                        "request": {
+                            "method": "GET",
+                            "path": "subscriptions?api-version=2020-01-01"
+                        }
+                    },                  
+                    {
+                        "name": "esProdLzSub",
+                        "type": "Microsoft.Common.DropDown",
+                        "label": "Prod landing zone subscriptions (optional)",
+                        "toolTip": "",
+                        "multiselect": true,
+                        "selectAll": true,
+                        "filter": true,
+                        "filterPlaceholder": "Filter items ...",
+                        "multiLine": true,
+                        "visible": true,
+                        "constraints": {
+                            "allowedValues": "[map(steps('lzGoalState').lzOnlineSubsApi.value, (sub) => parse(concat('{\"label\":\"', sub.displayName, '\",\"description\":\"', sub.subscriptionId, '\",\"value\":\"', toLower(sub.subscriptionId), '\"}')) )]",
+                            "required": false
+                        }
+                    },
+					{
+                        "name": "uatText",
+                        "type": "Microsoft.Common.TextBlock",
+                        "visible": "[equals(steps('esGoalState').esLogAnalytics, 'Yes')]",
+                        "options": {
+                            "text": "Select the subscriptions you want to move to uat management group.",
+                            "link": {
+                                "label": "Learn more",
+                                "uri": "https://docs.microsoft.com/azure/azure-monitor/insights/solutions"
+                            }
+                        }
+                    },
+                    {
+                        "name": "lzUatSubsApi",
+                        "type": "Microsoft.Solutions.ArmApiControl",
+                        "request": {
+                            "method": "GET",
+                            "path": "subscriptions?api-version=2020-01-01"
+                        }
+                    },                  
+                    {
+                        "name": "esUatLzSub",
+                        "type": "Microsoft.Common.DropDown",
+                        "label": "UAT landing zone subscriptions (optional)",
+                        "toolTip": "",
+                        "multiselect": true,
+                        "selectAll": true,
+                        "filter": true,
+                        "filterPlaceholder": "Filter items ...",
+                        "multiLine": true,
+                        "visible": true,
+                        "constraints": {
+                            "allowedValues": "[map(steps('lzGoalState').lzOnlineSubsApi.value, (sub) => parse(concat('{\"label\":\"', sub.displayName, '\",\"description\":\"', sub.subscriptionId, '\",\"value\":\"', toLower(sub.subscriptionId), '\"}')) )]",
+                            "required": false
+                        }
+                    },
+					{
+                        "name": "qaText",
+                        "type": "Microsoft.Common.TextBlock",
+                        "visible": "[equals(steps('esGoalState').esLogAnalytics, 'Yes')]",
+                        "options": {
+                            "text": "Select the subscriptions you want to move to qa management group.",
+                            "link": {
+                                "label": "Learn more",
+                                "uri": "https://docs.microsoft.com/azure/azure-monitor/insights/solutions"
+                            }
+                        }
+                    },
+                    {
+                        "name": "lzQaSubsApi",
+                        "type": "Microsoft.Solutions.ArmApiControl",
+                        "request": {
+                            "method": "GET",
+                            "path": "subscriptions?api-version=2020-01-01"
+                        }
+                    },                  
+                    {
+                        "name": "esQaLzSub",
+                        "type": "Microsoft.Common.DropDown",
+                        "label": "QA landing zone subscriptions (optional)",
+                        "toolTip": "",
+                        "multiselect": true,
+                        "selectAll": true,
+                        "filter": true,
+                        "filterPlaceholder": "Filter items ...",
+                        "multiLine": true,
+                        "visible": true,
+                        "constraints": {
+                            "allowedValues": "[map(steps('lzGoalState').lzOnlineSubsApi.value, (sub) => parse(concat('{\"label\":\"', sub.displayName, '\",\"description\":\"', sub.subscriptionId, '\",\"value\":\"', toLower(sub.subscriptionId), '\"}')) )]",
+                            "required": false
+                        }
+                    },
+					{
+                        "name": "devText",
+                        "type": "Microsoft.Common.TextBlock",
+                        "visible": "[equals(steps('esGoalState').esLogAnalytics, 'Yes')]",
+                        "options": {
+                            "text": "Select the subscriptions you want to move to dev management group.",
+                            "link": {
+                                "label": "Learn more",
+                                "uri": "https://docs.microsoft.com/azure/azure-monitor/insights/solutions"
+                            }
+                        }
+                    },
+                    {
+                        "name": "lzDevSubsApi",
+                        "type": "Microsoft.Solutions.ArmApiControl",
+                        "request": {
+                            "method": "GET",
+                            "path": "subscriptions?api-version=2020-01-01"
+                        }
+                    },                  
+                    {
+                        "name": "esDevLzSub",
+                        "type": "Microsoft.Common.DropDown",
+                        "label": "DEV landing zone subscriptions (optional)",
+                        "toolTip": "",
+                        "multiselect": true,
+                        "selectAll": true,
+                        "filter": true,
+                        "filterPlaceholder": "Filter items ...",
+                        "multiLine": true,
+                        "visible": true,
+                        "constraints": {
+                            "allowedValues": "[map(steps('lzGoalState').lzOnlineSubsApi.value, (sub) => parse(concat('{\"label\":\"', sub.displayName, '\",\"description\":\"', sub.subscriptionId, '\",\"value\":\"', toLower(sub.subscriptionId), '\"}')) )]",
                             "required": false
                         }
                     },
