@@ -185,14 +185,14 @@
                 "description": "Optionally provide an array of subscription id's that will be moved to the uat landing zone management group."
             }
         },
-        "qaSubscriptionId": {
+        "qaLzSubscriptionId": {
             "type": "array",
             "defaultValue": [],
             "metadata": {
                 "description": "Optionally provide an array of subscription id's that will be moved to the qa landing zone management group."
             }
         },
-        "devSubscriptionId": {
+        "devLzSubscriptionId": {
             "type": "array",
             "defaultValue": [],
             "metadata": {
