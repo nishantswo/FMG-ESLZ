@@ -83,28 +83,28 @@
             "type": "array",
             "defaultValue": [],
             "metadata": {
-                "description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first online landing zones."
+                "description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first prod landing zones."
             }
         },
 		"uatLzSubscriptionId": {
             "type": "array",
             "defaultValue": [],
             "metadata": {
-                "description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first online landing zones."
+                "description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first uat landing zones."
             }
         },
         "qaLzSubscriptionId": {
             "type": "array",
             "defaultValue": [],
             "metadata": {
-                "description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first corp landing zones."
+                "description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first qa landing zones."
             }
         },
 		"devLzSubscriptionId": {
             "type": "array",
             "defaultValue": [],
             "metadata": {
-                "description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first online landing zones."
+                "description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first dev landing zones."
             }
         },
         "enableLogAnalytics": {
@@ -460,6 +460,10 @@
         "noSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-management', '/', 'na')]",
         "noOnlineLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-online', '/', 'nalz')]",
         "noCorpLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-corp', '/', 'nalz')]",
+		"noProdLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-prod', '/', 'nalz')]",
+        "noUatLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-uat', '/', 'nalz')]",
+		"noQaLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-qa', '/', 'nalz')]",
+        "noDevLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-dev', '/', 'nalz')]",
         "connectivityMoveSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-connectivity', '/', parameters('connectivitySubscriptionId'))]",
         "noConnectivitySubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-connectivity', '/', 'naconn')]",
         "identityMoveSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-identity', '/', parameters('identitySubscriptionId'))]",
@@ -560,6 +564,62 @@
             "dependsOn": [
                 "[variables('deploymentNames').mgmtGroupDeploymentName]"
             ],
+            "properties": {}
+        },
+		{
+            "condition": "[not(empty(parameters('devLzSubscriptionId')))]",
+            "type": "Microsoft.Management/managementGroups/subscriptions",
+            "apiVersion": "2020-05-01",
+            "name": "[if(not(empty(parameters('devLzSubscriptionId'))), concat(parameters('enterpriseScaleCompanyPrefix'), '-dev', '/', parameters('devLzSubscriptionId')[copyIndex()]), variables('noDevLzSubscription'))]",
+            "dependsOn": [
+                "[variables('deploymentNames').mgmtGroupDeploymentName]"
+            ],
+            "copy": {
+                "name": "devLzMove",
+                "count": "[length(parameters('devLzSubscriptionId'))]"
+            },
+            "properties": {}
+        },
+		 {
+            "condition": "[not(empty(parameters('qaLzSubscriptionId')))]",
+            "type": "Microsoft.Management/managementGroups/subscriptions",
+            "apiVersion": "2020-05-01",
+            "name": "[if(not(empty(parameters('qaLzSubscriptionId'))), concat(parameters('enterpriseScaleCompanyPrefix'), '-qa', '/', parameters('qaLzSubscriptionId')[copyIndex()]), variables('noQaLzSubscription'))]",
+            "dependsOn": [
+                "[variables('deploymentNames').mgmtGroupDeploymentName]"
+            ],
+            "copy": {
+                "name": "qaLzMove",
+                "count": "[length(parameters('qaLzSubscriptionId'))]"
+            },
+            "properties": {}
+        },
+		 {
+            "condition": "[not(empty(parameters('uatLzSubscriptionId')))]",
+            "type": "Microsoft.Management/managementGroups/subscriptions",
+            "apiVersion": "2020-05-01",
+            "name": "[if(not(empty(parameters('uatLzSubscriptionId'))), concat(parameters('enterpriseScaleCompanyPrefix'), '-uat', '/', parameters('uatLzSubscriptionId')[copyIndex()]), variables('noUatLzSubscription'))]",
+            "dependsOn": [
+                "[variables('deploymentNames').mgmtGroupDeploymentName]"
+            ],
+            "copy": {
+                "name": "uatLzMove",
+                "count": "[length(parameters('uatLzSubscriptionId'))]"
+            },
+            "properties": {}
+        },
+		 {
+            "condition": "[not(empty(parameters('prodLzSubscriptionId')))]",
+            "type": "Microsoft.Management/managementGroups/subscriptions",
+            "apiVersion": "2020-05-01",
+            "name": "[if(not(empty(parameters('prodLzSubscriptionId'))), concat(parameters('enterpriseScaleCompanyPrefix'), '-prod', '/', parameters('prodLzSubscriptionId')[copyIndex()]), variables('noProdLzSubscription'))]",
+            "dependsOn": [
+                "[variables('deploymentNames').mgmtGroupDeploymentName]"
+            ],
+            "copy": {
+                "name": "prodLzMove",
+                "count": "[length(parameters('prodLzSubscriptionId'))]"
+            },
             "properties": {}
         },
         {
@@ -825,6 +885,18 @@
                     },
                     "managementSubscriptionId": {
                         "value": "[parameters('managementSubscriptionId')]"
+                    },
+					"devLzSubscriptionId": {
+                        "value": "[parameters('devLzSubscriptionId')]"
+                    },
+                    "qaLzSubscriptionId": {
+                        "value": "[parameters('qaLzSubscriptionId')]"
+                    },
+					"uatLzSubscriptionId": {
+                        "value": "[parameters('uatLzSubscriptionId')]"
+                    },
+                    "prodLzSubscriptionId": {
+                        "value": "[parameters('prodLzSubscriptionId')]"
                     },
                     "onlineLzSubscriptionId": {
                         "value": "[parameters('onlineLzSubscriptionId')]"
