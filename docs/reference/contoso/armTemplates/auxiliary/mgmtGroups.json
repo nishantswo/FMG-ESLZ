@@ -4,6 +4,9 @@
     "parameters": {
         "topLevelManagementGroupPrefix": {
             "type": "string",
+			"defaultValue": [
+                "fmg"
+            ],
             "metadata": {
                 "description": "Provide prefix for the management group structure."
             }
@@ -22,9 +25,7 @@
         "landingZoneMgs": {
             "type": "array",
             "defaultValue": [
-                "dev",
-                "uat",
-                "prod",
+                "corp"
                 "online"
             ],
             "metadata": {
