@@ -886,13 +886,13 @@
                             "method": "GET",
                             "path": "subscriptions?api-version=2020-01-01"
                         }
-                    },                  
+                    },   
                     {
                         "name": "esOnlineLzSub",
                         "type": "Microsoft.Common.DropDown",
                         "label": "Online landing zone subscriptions (optional)",
                         "toolTip": "",
-                        "multiselect": true,
+                        "multiselect": false,
                         "selectAll": true,
                         "filter": true,
                         "filterPlaceholder": "Filter items ...",
@@ -900,7 +900,7 @@
                         "visible": true,
                         "constraints": {
                             "allowedValues": "[map(steps('lzGoalState').lzOnlineSubsApi.value, (sub) => parse(concat('{\"label\":\"', sub.displayName, '\",\"description\":\"', sub.subscriptionId, '\",\"value\":\"', toLower(sub.subscriptionId), '\"}')) )]",
-                            "required": false
+                            "required": true
                         }
                     },
                     {
@@ -928,7 +928,7 @@
                         "type": "Microsoft.Common.DropDown",
                         "label": "Corp landing zone subscriptions (optional)",
                         "toolTip": "",
-                        "multiselect": true,
+                        "multiselect": false,
                         "selectAll": true,
                         "filter": true,
                         "filterPlaceholder": "Filter items ...",
@@ -936,7 +936,7 @@
                         "visible": true,
                         "constraints": {
                             "allowedValues": "[map(steps('lzGoalState').lzCorpSubsApi.value, (sub) => parse(concat('{\"label\":\"', sub.displayName, '\",\"description\":\"', sub.subscriptionId, '\",\"value\":\"', toLower(sub.subscriptionId), '\"}')) )]",
-                            "required": false
+                            "required": true
                         }
                     },
 					{
@@ -964,7 +964,7 @@
                         "type": "Microsoft.Common.DropDown",
                         "label": "Prod landing zone subscriptions (optional)",
                         "toolTip": "",
-                        "multiselect": true,
+                        "multiselect": false,
                         "selectAll": true,
                         "filter": true,
                         "filterPlaceholder": "Filter items ...",
@@ -972,7 +972,7 @@
                         "visible": true,
                         "constraints": {
                             "allowedValues": "[map(steps('lzGoalState').lzOnlineSubsApi.value, (sub) => parse(concat('{\"label\":\"', sub.displayName, '\",\"description\":\"', sub.subscriptionId, '\",\"value\":\"', toLower(sub.subscriptionId), '\"}')) )]",
-                            "required": false
+                            "required": true
                         }
                     },
 					{
@@ -1000,7 +1000,7 @@
                         "type": "Microsoft.Common.DropDown",
                         "label": "UAT landing zone subscriptions (optional)",
                         "toolTip": "",
-                        "multiselect": true,
+                        "multiselect": false,
                         "selectAll": true,
                         "filter": true,
                         "filterPlaceholder": "Filter items ...",
@@ -1008,7 +1008,7 @@
                         "visible": true,
                         "constraints": {
                             "allowedValues": "[map(steps('lzGoalState').lzOnlineSubsApi.value, (sub) => parse(concat('{\"label\":\"', sub.displayName, '\",\"description\":\"', sub.subscriptionId, '\",\"value\":\"', toLower(sub.subscriptionId), '\"}')) )]",
-                            "required": false
+                            "required": true
                         }
                     },
 					{
@@ -1036,7 +1036,7 @@
                         "type": "Microsoft.Common.DropDown",
                         "label": "QA landing zone subscriptions (optional)",
                         "toolTip": "",
-                        "multiselect": true,
+                        "multiselect": false,
                         "selectAll": true,
                         "filter": true,
                         "filterPlaceholder": "Filter items ...",
@@ -1044,7 +1044,7 @@
                         "visible": true,
                         "constraints": {
                             "allowedValues": "[map(steps('lzGoalState').lzOnlineSubsApi.value, (sub) => parse(concat('{\"label\":\"', sub.displayName, '\",\"description\":\"', sub.subscriptionId, '\",\"value\":\"', toLower(sub.subscriptionId), '\"}')) )]",
-                            "required": false
+                            "required": true
                         }
                     },
 					{
@@ -1072,7 +1072,7 @@
                         "type": "Microsoft.Common.DropDown",
                         "label": "DEV landing zone subscriptions (optional)",
                         "toolTip": "",
-                        "multiselect": true,
+                        "multiselect": false,
                         "selectAll": true,
                         "filter": true,
                         "filterPlaceholder": "Filter items ...",
@@ -1080,7 +1080,7 @@
                         "visible": true,
                         "constraints": {
                             "allowedValues": "[map(steps('lzGoalState').lzOnlineSubsApi.value, (sub) => parse(concat('{\"label\":\"', sub.displayName, '\",\"description\":\"', sub.subscriptionId, '\",\"value\":\"', toLower(sub.subscriptionId), '\"}')) )]",
-                            "required": false
+                            "required": true
                         }
                     },
                     {
