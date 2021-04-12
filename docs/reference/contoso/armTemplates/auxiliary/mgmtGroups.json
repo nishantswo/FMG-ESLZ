@@ -25,7 +25,7 @@
         "landingZoneMgs": {
             "type": "array",
             "defaultValue": [
-                "corp"
+                "corp",
                 "online"
             ],
             "metadata": {
