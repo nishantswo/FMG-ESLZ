@@ -850,9 +850,6 @@
 					"devLzSubscriptionId": {
 						"value": "[parameters('devLzSubscriptionId')]"
 					},
-					"qaLzSubscriptionId": {
-						"value": "[parameters('qaLzSubscriptionId')]"
-					},
 					"uatLzSubscriptionId": {
 						"value": "[parameters('uatLzSubscriptionId')]"
 					},
@@ -861,9 +858,6 @@
 					},
 					"onlineLzSubscriptionId": {
 						"value": "[parameters('onlineLzSubscriptionId')]"
-					},
-					"corpLzSubscriptionId": {
-						"value": "[parameters('corpLzSubscriptionId')]"
 					},
 					"identitySubscriptionId": {
 						"value": "[parameters('identitySubscriptionId')]"
