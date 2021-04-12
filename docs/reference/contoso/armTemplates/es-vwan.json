@@ -72,13 +72,7 @@
 				"description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first online landing zones."
 			}
 		},
-		"corpLzSubscriptionId": {
-			"type": "string",
-			"defaultValue": "",
-			"metadata": {
-				"description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first corp landing zones."
-			}
-		},
+		
 		"prodLzSubscriptionId": {
 			"type": "string",
 			"defaultValue": "",
@@ -93,13 +87,7 @@
 				"description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first uat landing zones."
 			}
 		},
-		"qaLzSubscriptionId": {
-			"type": "string",
-			"defaultValue": "",
-			"metadata": {
-				"description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first qa landing zones."
-			}
-		},
+		
 		"devLzSubscriptionId": {
 			"type": "string",
 			"defaultValue": "",
