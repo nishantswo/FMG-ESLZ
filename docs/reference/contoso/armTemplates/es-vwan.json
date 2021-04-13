@@ -72,11 +72,18 @@
                 "description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first online landing zones."
             }
         },
-        "corpLzSubscriptionId": {
+        "prodLzSubscriptionId": {
             "type": "array",
             "defaultValue": [],
             "metadata": {
-                "description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first corp landing zones."
+                "description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first prod landing zones."
+            }
+        },
+		 "uatLzSubscriptionId": {
+            "type": "array",
+            "defaultValue": [],
+            "metadata": {
+                "description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first uat landing zones."
             }
         },
         "enableLogAnalytics": {
@@ -468,7 +475,8 @@
         "moveSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-management', '/', parameters('managementSubscriptionId'))]",
         "noSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-management', '/', 'na')]",
         "noOnlineLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-online', '/', 'nalz')]",
-        "noCorpLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-corp', '/', 'nalz')]",
+        "noProdLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-prod', '/', 'nalz')]",
+		"noUatLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-uat', '/', 'nalz')]",
         "connectivityMoveSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-connectivity', '/', parameters('connectivitySubscriptionId'))]",
         "noConnectivitySubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-connectivity', '/', 'naconn')]",
         "identityMoveSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-identity', '/', parameters('identitySubscriptionId'))]",
@@ -587,19 +595,33 @@
             "properties": {}
         },
         {
-            "condition": "[not(empty(parameters('corpLzSubscriptionId')))]",
+            "condition": "[not(empty(parameters('prodLzSubscriptionId')))]",
             "type": "Microsoft.Management/managementGroups/subscriptions",
             "apiVersion": "2020-05-01",
-            "name": "[if(not(empty(parameters('corpLzSubscriptionId'))), concat(parameters('enterpriseScaleCompanyPrefix'), '-corp', '/', parameters('corpLzSubscriptionId')[copyIndex()]), variables('noCorpLzSubscription'))]",
+            "name": "[if(not(empty(parameters('prodLzSubscriptionId'))), concat(parameters('enterpriseScaleCompanyPrefix'), '-prod', '/', parameters('prodLzSubscriptionId')[copyIndex()]), variables('noProdLzSubscription'))]",
             "dependsOn": [
                 "[variables('deploymentNames').mgmtGroupDeploymentName]"
             ],
             "copy": {
                 "name": "onlineLzMove",
-                "count": "[length(parameters('corpLzSubscriptionId'))]"
+                "count": "[length(parameters('prodLzSubscriptionId'))]"
             },
             "properties": {}
-        },        
+        },  
+ {
+            "condition": "[not(empty(parameters('uatLzSubscriptionId')))]",
+            "type": "Microsoft.Management/managementGroups/subscriptions",
+            "apiVersion": "2020-05-01",
+            "name": "[if(not(empty(parameters('uatLzSubscriptionId'))), concat(parameters('enterpriseScaleCompanyPrefix'), '-uat', '/', parameters('uatLzSubscriptionId')[copyIndex()]), variables('noUatLzSubscription'))]",
+            "dependsOn": [
+                "[variables('deploymentNames').mgmtGroupDeploymentName]"
+            ],
+            "copy": {
+                "name": "onlineLzMove",
+                "count": "[length(parameters('uatLzSubscriptionId'))]"
+            },
+            "properties": {}
+        },  		
         {
             "condition": "[and(not(empty(parameters('managementSubscriptionId'))),equals(parameters('enableLogAnalytics'), 'Yes'))]",
             "type": "Microsoft.Resources/deployments",
@@ -838,8 +860,11 @@
                     "onlineLzSubscriptionId": {
                         "value": "[parameters('onlineLzSubscriptionId')]"
                     },
-                    "corpLzSubscriptionId": {
-                        "value": "[parameters('corpLzSubscriptionId')]"
+                    "prodLzSubscriptionId": {
+                        "value": "[parameters('prodLzSubscriptionId')]"
+                    },
+					 "uatLzSubscriptionId": {
+                        "value": "[parameters('uatLzSubscriptionId')]"
                     },
                     "identitySubscriptionId": {
                         "value": "[parameters('identitySubscriptionId')]"
