@@ -33,35 +33,28 @@
                 "description": "Provide the subscription id of an existing, empty subscription you want to dedicate for identity."
             }
         },
-		"identityVnetName": {
+	"identityVnetName": {
             "type": "string",
             "defaultValue": "identity-vnet",
             "metadata": {
                 "description": "hub vnet name"
             }
         },
-		"onlineVnetName": {
-            "type": "string",
-            "defaultValue": "online-vnet",
-            "metadata": {
-                "description": "online vnet name"
-            }
-        },
-		"prodVnetName": {
+	"prodVnetName": {
             "type": "string",
             "defaultValue": "prod-vnet",
             "metadata": {
                 "description": "prod vnet name"
             }
         },
-		"uatVnetName": {
+	"uatVnetName": {
             "type": "string",
             "defaultValue": "uat-vnet",
             "metadata": {
                 "description": "uat vnet name"
             }
         },
-		"devVnetName": {
+	"devVnetName": {
             "type": "string",
             "defaultValue": "dev-vnet",
             "metadata": {
@@ -646,36 +639,6 @@
           ],
           "properties": {
             "addressPrefix": "10.122.104.0/22"
-          }
-        }
-      ]
-    },
-	{
-      "type": "Microsoft.Network/virtualNetworks",
-      "apiVersion": "2020-05-01",
-      "name": "[parameters('onlineVnetName')]",
-      "location": "[parameters('location')]",
-	  "dependsOn": [
-            "[variables('rgNameOnline')]"
-          ],
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[parameters('onlineVnetPrefix')]"
-          ]
-        }
-      },
-      "resources": [
-        {
-          "type": "subnets",
-          "apiVersion": "2020-05-01",
-          "location": "[parameters('location')]",
-          "name": "frontend",
-          "dependsOn": [
-            "[parameters('onlineVnetName')]"
-          ],
-          "properties": {
-            "addressPrefix": "10.122.24.0/23"
           }
         }
       ]
