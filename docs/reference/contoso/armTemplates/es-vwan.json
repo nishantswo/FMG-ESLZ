@@ -40,7 +40,7 @@
                 "description": "hub vnet name"
             }
         },
-		"onlinVnetName": {
+		"onlineVnetName": {
             "type": "string",
             "defaultValue": "online-vnet",
             "metadata": {
