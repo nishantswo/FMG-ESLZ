@@ -1046,7 +1046,7 @@
                         "visible": true,
                         "options": {
                             "icon": "Info",
-                            "text": "You can optionally provide subscriptions for your first landing zones for both 'online' and 'corp' and assign recommended policies that will ensure workloads will be secure, monitored, and protected according to best practices.",
+                            "text": "You can optionally provide subscriptions for your first landing zones for 'online' 'prod' & 'uat' and assign recommended policies that will ensure workloads will be secure, monitored, and protected according to best practices.",
                             "uri": "https://github.com/Azure/Enterprise-Scale/blob/main/docs/Deploy/ES-schema.md"
                         }
                     },
@@ -1087,11 +1087,11 @@
                         }
                     },
                     {
-                        "name": "corpText",
+                        "name": "prodText",
                         "type": "Microsoft.Common.TextBlock",
                         "visible": "[equals(steps('esGoalState').esLogAnalytics, 'Yes')]",
                         "options": {
-                            "text": "Select the subscriptions you want to move to corp management group.",
+                            "text": "Select the subscriptions you want to move to prod management group.",
                             "link": {
                                 "label": "Learn more",
                                 "uri": "https://docs.microsoft.com/azure/azure-monitor/insights/solutions"
@@ -1099,7 +1099,7 @@
                         }
                     },
                     {
-                        "name": "lzCorpSubsApi",
+                        "name": "lzProdSubsApi",
                         "type": "Microsoft.Solutions.ArmApiControl",
                         "request": {
                             "method": "GET",
@@ -1107,9 +1107,9 @@
                         }
                     },
                     {
-                        "name": "esCorpLzSub",
+                        "name": "esProdLzSub",
                         "type": "Microsoft.Common.DropDown",
-                        "label": "Corp landing zone subscriptions (optional)",
+                        "label": "Prod landing zone subscriptions (optional)",
                         "toolTip": "",
                         "multiselect": true,
                         "selectAll": true,
@@ -1118,7 +1118,43 @@
                         "multiLine": true,
                         "visible": true,
                         "constraints": {
-                            "allowedValues": "[map(steps('lzGoalState').lzCorpSubsApi.value, (sub) => parse(concat('{\"label\":\"', sub.displayName, '\",\"description\":\"', sub.subscriptionId, '\",\"value\":\"', toLower(sub.subscriptionId), '\"}')) )]",
+                            "allowedValues": "[map(steps('lzGoalState').lzProdSubsApi.value, (sub) => parse(concat('{\"label\":\"', sub.displayName, '\",\"description\":\"', sub.subscriptionId, '\",\"value\":\"', toLower(sub.subscriptionId), '\"}')) )]",
+                            "required": false
+                        }
+                    },
+					 {
+                        "name": "uatText",
+                        "type": "Microsoft.Common.TextBlock",
+                        "visible": "[equals(steps('esGoalState').esLogAnalytics, 'Yes')]",
+                        "options": {
+                            "text": "Select the subscriptions you want to move to uat management group.",
+                            "link": {
+                                "label": "Learn more",
+                                "uri": "https://docs.microsoft.com/azure/azure-monitor/insights/solutions"
+                            }
+                        }
+                    },
+                    {
+                        "name": "lzUatSubsApi",
+                        "type": "Microsoft.Solutions.ArmApiControl",
+                        "request": {
+                            "method": "GET",
+                            "path": "subscriptions?api-version=2020-01-01"
+                        }
+                    },
+                    {
+                        "name": "esUatLzSub",
+                        "type": "Microsoft.Common.DropDown",
+                        "label": "Uat landing zone subscriptions (optional)",
+                        "toolTip": "",
+                        "multiselect": true,
+                        "selectAll": true,
+                        "filter": true,
+                        "filterPlaceholder": "Filter items ...",
+                        "multiLine": true,
+                        "visible": true,
+                        "constraints": {
+                            "allowedValues": "[map(steps('lzGoalState').lzUatSubsApi.value, (sub) => parse(concat('{\"label\":\"', sub.displayName, '\",\"description\":\"', sub.subscriptionId, '\",\"value\":\"', toLower(sub.subscriptionId), '\"}')) )]",
                             "required": false
                         }
                     },
@@ -1428,7 +1464,8 @@
             "managementSubscriptionId": "[steps('esGoalState').esMgmtSub]",
             "identitySubscriptionId": "[if(or(not(equals(steps('esIdentityGoalState').esIdentitySub, steps('esGoalState').esMgmtSub)), not(equals(steps('esIdentityGoalState').esIdentitySub, steps('esConnectivityGoalState').esConnectivitySub))), steps('esIdentityGoalState').esIdentitySub, '')]",
             "onlineLzSubscriptionId": "[if(or(not(contains(steps('lzGoalState').esOnlineLzSub, steps('esGoalState').esMgmtSub)), not(contains(steps('lzGoalState').esOnlineLzSub, steps('esConnectivityGoalState').esConnectivitySub))), steps('lzGoalState').esOnlineLzSub, '')]",
-            "corpLzSubscriptionId": "[if(or(not(contains(steps('lzGoalState').esCorpLzSub, steps('esGoalState').esMgmtSub)), not(contains(steps('lzGoalState').esCorpLzSub, steps('esConnectivityGoalState').esConnectivitySub))), steps('lzGoalState').esCorpLzSub, '')]",
+            "prodLzSubscriptionId": "[if(or(not(contains(steps('lzGoalState').esProdLzSub, steps('esGoalState').esMgmtSub)), not(contains(steps('lzGoalState').esProdLzSub, steps('esConnectivityGoalState').esConnectivitySub))), steps('lzGoalState').esProdLzSub, '')]",
+			"uatLzSubscriptionId": "[if(or(not(contains(steps('lzGoalState').esUatLzSub, steps('esGoalState').esMgmtSub)), not(contains(steps('lzGoalState').esUatLzSub, steps('esConnectivityGoalState').esConnectivitySub))), steps('lzGoalState').esUatLzSub, '')]",
             "enableLogAnalytics": "[steps('esGoalState').esLogAnalytics]",
             "denyRdpForIdentity": "[steps('esIdentityGoalState').esIdDenyRdp]",
             "denySubnetWithoutNsgForIdentity": "[steps('esIdentityGoalState').esIdDenySubnetNsg]",
