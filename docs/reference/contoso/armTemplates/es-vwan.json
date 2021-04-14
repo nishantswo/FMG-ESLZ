@@ -882,7 +882,7 @@
 
 		{
 			"type": "Microsoft.Network/virtualNetworks",
-			"apiVersion": "2019-11-01",
+			"apiVersion": "2020-05-01",
 			"name": "[parameters('identityVnetName')]",
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', variables('rgNameIdentity'))]"
