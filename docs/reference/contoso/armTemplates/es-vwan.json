@@ -903,7 +903,7 @@
                     "resources": [
 					{
       "type": "Microsoft.Network/virtualNetworks",
-      "apiVersion": "2020-05-01",
+      "apiVersion": "2019-11-01",
       "name": "[parameters('identityVnetName')]",
       "location": "[parameters('location')]",
       "properties": {
