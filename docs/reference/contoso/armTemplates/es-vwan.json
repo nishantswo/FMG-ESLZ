@@ -939,7 +939,7 @@
             "location": "[deployment().location]",
             "name": "onlinevnetdeployment",
 			        
-          "subscriptionId": "[parameters('onlineSubscriptionId')]",
+          "subscriptionId": "[parameters('onlineLzSubscriptionId')]",
             "properties": {
                 "mode": "Incremental",
                 "template": {
@@ -972,7 +972,7 @@
             "location": "[deployment().location]",
             "name": "prodvnetdeployment",
 			        
-          "subscriptionId": "[parameters('prodSubscriptionId')]",
+          "subscriptionId": "[parameters('prodLzSubscriptionId')]",
             "properties": {
                 "mode": "Incremental",
                 "template": {
@@ -1006,7 +1006,7 @@
             "location": "[deployment().location]",
             "name": "uatvnetdeployment",
 			        
-          "subscriptionId": "[parameters('uatSubscriptionId')]",
+          "subscriptionId": "[parameters('uatLzSubscriptionId')]",
             "properties": {
                 "mode": "Incremental",
                 "template": {
@@ -1040,7 +1040,7 @@
             "location": "[deployment().location]",
             "name": "devvnetdeployment",
 			        
-          "subscriptionId": "[parameters('devSubscriptionId')]",
+          "subscriptionId": "[parameters('devLzSubscriptionId')]",
             "properties": {
                 "mode": "Incremental",
                 "template": {
