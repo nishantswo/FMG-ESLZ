@@ -719,381 +719,340 @@
 			},
 			"properties": {}
 		},
-		      {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
-            "location": "[deployment().location]",
-            "name": "[variables('rgNameIdentity')]",
-            "subscriptionId": "[parameters('identitySubscriptionId')]",
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "parameters": {},
-                    "resources": [
-                        {
-                            "type": "Microsoft.Resources/resourceGroups",
-                            "apiVersion": "2019-10-01",
-                            "location": "[deployment().location]",
-                            "name": "[variables('rgNameIdentity')]",
-                            "properties": {}
-                        }
-                        
-                    ]
-                }
-            }
-        },
-		       {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
-            "location": "[deployment().location]",
-            "name": "[variables('rgNameManagement')]",
-            "subscriptionId": "[parameters('managementSubscriptionId')]",
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "parameters": {},
-                    "resources": [
-                        {
-                            "type": "Microsoft.Resources/resourceGroups",
-                            "apiVersion": "2019-10-01",
-                            "location": "[deployment().location]",
-                            "name": "[variables('rgNameManagement')]",
-                            "properties": {}
-                        }
-                        
-                    ]
-                }
-            }
-        },
-		       {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
-            "location": "[deployment().location]",
-            "name": "[variables('rgNameOnline')]",
-	    "copy": {
-                "name": "rgCopy",
-                "count": "[if(not(empty(parameters('onlineLzSubscriptionId'))), length(parameters('onlineLzSubscriptionId')), 1)]"
-            },
-            "subscriptionId": "[if(not(empty(parameters('onlineLzSubscriptionId'))), parameters('onlineLzSubscriptionId')[copyIndex()], '')]",
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "parameters": {},
-                    "resources": [
-                        {
-                            "type": "Microsoft.Resources/resourceGroups",
-                            "apiVersion": "2019-10-01",
-                            "location": "[deployment().location]",
-                            "name": "[variables('rgNameOnline')]",
-                            "properties": {}
-                        }
-                        
-                    ]
-                }
-            }
-        },
-		       {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
-            "location": "[deployment().location]",
-            "name": "[variables('rgNameProd')]",
-			        "copy": {
-                "name": "rgCopy",
-                "count": "[if(not(empty(parameters('prodLzSubscriptionId'))), length(parameters('prodLzSubscriptionId')), 1)]"
-            },
-            "subscriptionId": "[if(not(empty(parameters('prodLzSubscriptionId'))), parameters('prodLzSubscriptionId')[copyIndex()], '')]",
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "parameters": {},
-                    "resources": [
-                        {
-                            "type": "Microsoft.Resources/resourceGroups",
-                            "apiVersion": "2019-10-01",
-                            "location": "[deployment().location]",
-                            "name": "[variables('rgNameProd')]",
-                            "properties": {}
-                        }
-                        
-                    ]
-                }
-            }
-        },
-		       {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
-            "location": "[deployment().location]",
-            "name": "[variables('rgNameUat')]",
-			        "copy": {
-                "name": "rgCopy",
-                "count": "[if(not(empty(parameters('uatLzSubscriptionId'))), length(parameters('uatLzSubscriptionId')), 1)]"
-            },
-            "subscriptionId": "[if(not(empty(parameters('uatLzSubscriptionId'))), parameters('uatLzSubscriptionId')[copyIndex()], '')]",
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "parameters": {},
-                    "resources": [
-                        {
-                            "type": "Microsoft.Resources/resourceGroups",
-                            "apiVersion": "2019-10-01",
-                            "location": "[deployment().location]",
-                            "name": "[variables('rgNameUat')]",
-                            "properties": {}
-                        }
-                        
-                    ]
-                }
-            }
-        },
-		       {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
-            "location": "[deployment().location]",
-            "name": "[variables('rgNameDev')]",
-			        "copy": {
-                "name": "rgCopy",
-                "count": "[if(not(empty(parameters('devLzSubscriptionId'))), length(parameters('devLzSubscriptionId')), 1)]"
-            },
-          "subscriptionId": "[if(not(empty(parameters('devLzSubscriptionId'))), parameters('devLzSubscriptionId')[copyIndex()], '')]",
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "parameters": {},
-                    "resources": [
-                        {
-                            "type": "Microsoft.Resources/resourceGroups",
-                            "apiVersion": "2019-10-01",
-                            "location": "[deployment().location]",
-                            "name": "[variables('rgNameDev')]",
-                            "properties": {}
-                        }
-                        
-                    ]
-                }
-            }
-        },	
-		        {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
-            "location": "[deployment().location]",
-            "name": "identityvnetdeployment",
-	    "dependsOn": [
-	    "[resourceId('Microsoft.Resources/deployments', variables('rgNameIdentity'))]"
-	     ],        
-          "subscriptionId": "[parameters('identitySubscriptionId')]",
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-		    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "parameters": {},
-                    "resources": [
-					{
-      "type": "Microsoft.Network/virtualNetworks",
-      "apiVersion": "2019-11-01",
-      "name": "[parameters('identityVnetName')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[parameters('identityVnetPrefix')]"
-          ]
-        }
-      },
-      "resources": [
-        {
-          "type": "subnets",
-          "apiVersion": "2020-05-01",
-          "location": "[parameters('location')]",
-          "name": "frontend",
-            "dependsOn": [
-	    "[resourceId('Microsoft.Network/virtualNetworks', parameters('identityVnetName'))]"
-	     ],     
-          "properties": {
-            "addressPrefix": "10.122.122.128/27"
-          }
-        }
-      ]
-    }
-                       
-                        
-                    ]
-                }
-            }
-        },	
-		      
-		        {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
-            "location": "[deployment().location]",
-            "name": "onlinevnetdeployment",
-	    "dependsOn": [
-	    "[resourceId('Microsoft.Resources/deployments', variables('rgNameOnline'))]"
-	     ],  
-				"copy": {
-                "name": "vnCopy",
-                "count": "[if(not(empty(parameters('onlineLzSubscriptionId'))), length(parameters('onlineLzSubscriptionId')), 1)]"
-            },
-			        
-          "subscriptionId": "[if(not(empty(parameters('onlineLzSubscriptionId'))), parameters('onlineLzSubscriptionId')[copyIndex()], '')]",
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-		    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "parameters": {},
-                    "resources": [
-					{
-      "type": "Microsoft.Network/virtualNetworks",
-      "apiVersion": "2020-05-01",
-      "name": "[parameters('onlineVnetName')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[parameters('onlineVnetPrefix')]"
-          ]
-        }
-      }
-    }
-                       
-                        
-                    ]
-                }
-            }
-        },	
-		       {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
-            "location": "[deployment().location]",
-            "name": "prodvnetdeployment",
-			        "dependsOn": [
-	    "[resourceId('Microsoft.Resources/deployments', variables('rgNameProd'))]"
-	     ],  
-			       "copy": {
-                "name": "vnCopy",
-                "count": "[if(not(empty(parameters('prodLzSubscriptionId'))), length(parameters('prodLzSubscriptionId')), 1)]"
-            },
-	    "subscriptionId": "[if(not(empty(parameters('prodLzSubscriptionId'))), parameters('prodLzSubscriptionId')[copyIndex()], '')]",		        
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-		    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "parameters": {},
-                    "resources": [
-					{
-      "type": "Microsoft.Network/virtualNetworks",
-      "apiVersion": "2020-05-01",
-      "name": "[parameters('prodVnetName')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[parameters('prodVnetPrefix')]"
-          ]
-        }
-      }
-    }
-                       
-                        
-                    ]
-                }
-            }
-        },	
-		      
-		       {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
-            "location": "[deployment().location]",
-            "name": "uatvnetdeployment",
-			        "dependsOn": [
-	    "[resourceId('Microsoft.Resources/deployments', variables('rgNameUat'))]"
-	     ],  
-		"copy": {
-                "name": "vnCopy",
-                "count": "[if(not(empty(parameters('uatLzSubscriptionId'))), length(parameters('uatLzSubscriptionId')), 1)]"
-            },	        
-          "subscriptionId": "[if(not(empty(parameters('uatLzSubscriptionId'))), parameters('uatLzSubscriptionId')[copyIndex()], '')]",	
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-		    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "parameters": {},
-                    "resources": [
-					{
-      "type": "Microsoft.Network/virtualNetworks",
-      "apiVersion": "2020-05-01",
-      "name": "[parameters('uatVnetName')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[parameters('uatVnetPrefix')]"
-          ]
-        }
-      }
-    }
-                       
-                        
-                    ]
-                }
-            }
-        },	
-		      
-		       {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
-            "location": "[deployment().location]",
-            "name": "devvnetdeployment",
-			        "dependsOn": [
-	    "[resourceId('Microsoft.Resources/deployments', variables('rgNameDev'))]"
-	     ],  
-			 "copy": {
-                "name": "vnCopy",
-                "count": "[if(not(empty(parameters('devLzSubscriptionId'))), length(parameters('devLzSubscriptionId')), 1)]"
-            },       
-          "subscriptionId": "[if(not(empty(parameters('devLzSubscriptionId'))), parameters('devLzSubscriptionId')[copyIndex()], '')]",	
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-		    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "parameters": {},
-                    "resources": [
-					{
-      "type": "Microsoft.Network/virtualNetworks",
-      "apiVersion": "2020-05-01",
-      "name": "[parameters('devVnetName')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[parameters('devVnetPrefix')]"
-          ]
-        }
-      }
-    }
-                       
-                        
-                    ]
-                }
-            }
-        },	
+		{
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"location": "[deployment().location]",
+			"name": "[variables('rgNameIdentity')]",
+			"subscriptionId": "[parameters('identitySubscriptionId')]",
+			"properties": {
+				"mode": "Incremental",
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {},
+					"resources": [{
+							"type": "Microsoft.Resources/resourceGroups",
+							"apiVersion": "2019-10-01",
+							"location": "[deployment().location]",
+							"name": "[variables('rgNameIdentity')]",
+							"properties": {}
+						}
+
+					]
+				}
+			}
+		},
+		{
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"location": "[deployment().location]",
+			"name": "[variables('rgNameManagement')]",
+			"subscriptionId": "[parameters('managementSubscriptionId')]",
+			"properties": {
+				"mode": "Incremental",
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {},
+					"resources": [{
+							"type": "Microsoft.Resources/resourceGroups",
+							"apiVersion": "2019-10-01",
+							"location": "[deployment().location]",
+							"name": "[variables('rgNameManagement')]",
+							"properties": {}
+						}
+
+					]
+				}
+			}
+		},
+		{
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"location": "[deployment().location]",
+			"name": "[variables('rgNameOnline')]",
+			"copy": {
+				"name": "rgCopy",
+				"count": "[if(not(empty(parameters('onlineLzSubscriptionId'))), length(parameters('onlineLzSubscriptionId')), 1)]"
+			},
+			"subscriptionId": "[if(not(empty(parameters('onlineLzSubscriptionId'))), parameters('onlineLzSubscriptionId')[copyIndex()], '')]",
+			"properties": {
+				"mode": "Incremental",
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {},
+					"resources": [{
+							"type": "Microsoft.Resources/resourceGroups",
+							"apiVersion": "2019-10-01",
+							"location": "[deployment().location]",
+							"name": "[variables('rgNameOnline')]",
+							"properties": {}
+						}
+
+					]
+				}
+			}
+		},
+		{
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"location": "[deployment().location]",
+			"name": "[variables('rgNameProd')]",
+			"copy": {
+				"name": "rgCopy",
+				"count": "[if(not(empty(parameters('prodLzSubscriptionId'))), length(parameters('prodLzSubscriptionId')), 1)]"
+			},
+			"subscriptionId": "[if(not(empty(parameters('prodLzSubscriptionId'))), parameters('prodLzSubscriptionId')[copyIndex()], '')]",
+			"properties": {
+				"mode": "Incremental",
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {},
+					"resources": [{
+							"type": "Microsoft.Resources/resourceGroups",
+							"apiVersion": "2019-10-01",
+							"location": "[deployment().location]",
+							"name": "[variables('rgNameProd')]",
+							"properties": {}
+						}
+
+					]
+				}
+			}
+		},
+		{
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"location": "[deployment().location]",
+			"name": "[variables('rgNameUat')]",
+			"copy": {
+				"name": "rgCopy",
+				"count": "[if(not(empty(parameters('uatLzSubscriptionId'))), length(parameters('uatLzSubscriptionId')), 1)]"
+			},
+			"subscriptionId": "[if(not(empty(parameters('uatLzSubscriptionId'))), parameters('uatLzSubscriptionId')[copyIndex()], '')]",
+			"properties": {
+				"mode": "Incremental",
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {},
+					"resources": [{
+							"type": "Microsoft.Resources/resourceGroups",
+							"apiVersion": "2019-10-01",
+							"location": "[deployment().location]",
+							"name": "[variables('rgNameUat')]",
+							"properties": {}
+						}
+
+					]
+				}
+			}
+		},
+		{
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"location": "[deployment().location]",
+			"name": "[variables('rgNameDev')]",
+			"copy": {
+				"name": "rgCopy",
+				"count": "[if(not(empty(parameters('devLzSubscriptionId'))), length(parameters('devLzSubscriptionId')), 1)]"
+			},
+			"subscriptionId": "[if(not(empty(parameters('devLzSubscriptionId'))), parameters('devLzSubscriptionId')[copyIndex()], '')]",
+			"properties": {
+				"mode": "Incremental",
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {},
+					"resources": [{
+							"type": "Microsoft.Resources/resourceGroups",
+							"apiVersion": "2019-10-01",
+							"location": "[deployment().location]",
+							"name": "[variables('rgNameDev')]",
+							"properties": {}
+						}
+
+					]
+				}
+			}
+		},
+
+		{
+			"type": "Microsoft.Network/virtualNetworks",
+			"apiVersion": "2019-11-01",
+			"name": "[parameters('identityVnetName')]",
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', variables('rgNameIdentity'))]"
+			],
+			"location": "[parameters('location')]",
+			"properties": {
+				"addressSpace": {
+					"addressPrefixes": [
+						"[parameters('identityVnetPrefix')]"
+					]
+				}
+			}
+		},
+
+
+		{
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"location": "[deployment().location]",
+			"name": "onlinevnetdeployment",
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', variables('rgNameOnline'))]"
+			],
+			"copy": {
+				"name": "vnCopy",
+				"count": "[if(not(empty(parameters('onlineLzSubscriptionId'))), length(parameters('onlineLzSubscriptionId')), 1)]"
+			},
+
+			"subscriptionId": "[if(not(empty(parameters('onlineLzSubscriptionId'))), parameters('onlineLzSubscriptionId')[copyIndex()], '')]",
+			"properties": {
+				"mode": "Incremental",
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {},
+					"resources": [{
+							"type": "Microsoft.Network/virtualNetworks",
+							"apiVersion": "2020-05-01",
+							"name": "[parameters('onlineVnetName')]",
+							"location": "[parameters('location')]",
+							"properties": {
+								"addressSpace": {
+									"addressPrefixes": [
+										"[parameters('onlineVnetPrefix')]"
+									]
+								}
+							}
+						}
+
+
+					]
+				}
+			}
+		},
+		{
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"location": "[deployment().location]",
+			"name": "prodvnetdeployment",
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', variables('rgNameProd'))]"
+			],
+			"copy": {
+				"name": "vnCopy",
+				"count": "[if(not(empty(parameters('prodLzSubscriptionId'))), length(parameters('prodLzSubscriptionId')), 1)]"
+			},
+			"subscriptionId": "[if(not(empty(parameters('prodLzSubscriptionId'))), parameters('prodLzSubscriptionId')[copyIndex()], '')]",
+			"properties": {
+				"mode": "Incremental",
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {},
+					"resources": [{
+							"type": "Microsoft.Network/virtualNetworks",
+							"apiVersion": "2020-05-01",
+							"name": "[parameters('prodVnetName')]",
+							"location": "[parameters('location')]",
+							"properties": {
+								"addressSpace": {
+									"addressPrefixes": [
+										"[parameters('prodVnetPrefix')]"
+									]
+								}
+							}
+						}
+
+
+					]
+				}
+			}
+		},
+
+		{
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"location": "[deployment().location]",
+			"name": "uatvnetdeployment",
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', variables('rgNameUat'))]"
+			],
+			"copy": {
+				"name": "vnCopy",
+				"count": "[if(not(empty(parameters('uatLzSubscriptionId'))), length(parameters('uatLzSubscriptionId')), 1)]"
+			},
+			"subscriptionId": "[if(not(empty(parameters('uatLzSubscriptionId'))), parameters('uatLzSubscriptionId')[copyIndex()], '')]",
+			"properties": {
+				"mode": "Incremental",
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {},
+					"resources": [{
+							"type": "Microsoft.Network/virtualNetworks",
+							"apiVersion": "2020-05-01",
+							"name": "[parameters('uatVnetName')]",
+							"location": "[parameters('location')]",
+							"properties": {
+								"addressSpace": {
+									"addressPrefixes": [
+										"[parameters('uatVnetPrefix')]"
+									]
+								}
+							}
+						}
+
+
+					]
+				}
+			}
+		},
+
+		{
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"location": "[deployment().location]",
+			"name": "devvnetdeployment",
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', variables('rgNameDev'))]"
+			],
+			"copy": {
+				"name": "vnCopy",
+				"count": "[if(not(empty(parameters('devLzSubscriptionId'))), length(parameters('devLzSubscriptionId')), 1)]"
+			},
+			"subscriptionId": "[if(not(empty(parameters('devLzSubscriptionId'))), parameters('devLzSubscriptionId')[copyIndex()], '')]",
+			"properties": {
+				"mode": "Incremental",
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {},
+					"resources": [{
+							"type": "Microsoft.Network/virtualNetworks",
+							"apiVersion": "2020-05-01",
+							"name": "[parameters('devVnetName')]",
+							"location": "[parameters('location')]",
+							"properties": {
+								"addressSpace": {
+									"addressPrefixes": [
+										"[parameters('devVnetPrefix')]"
+									]
+								}
+							}
+						}
+
+
+					]
+				}
+			}
+		},
 		{
 			"condition": "[and(not(empty(parameters('managementSubscriptionId'))),equals(parameters('enableLogAnalytics'), 'Yes'))]",
 			"type": "Microsoft.Resources/deployments",
