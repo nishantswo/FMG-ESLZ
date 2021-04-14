@@ -890,11 +890,8 @@
             "apiVersion": "2019-10-01",
             "location": "[deployment().location]",
             "name": "identityvnetdeployment",
-			        "copy": {
-                "name": "vnCopy",
-                "count": "[if(not(empty(parameters('identitySubscriptionId'))), length(parameters('identitySubscriptionId')), 1)]"
-            },
-          "subscriptionId": "[if(not(empty(parameters('identitySubscriptionId'))), parameters('identitySubscriptionId')[copyIndex()], '')]",
+			        
+          "subscriptionId": "[parameters('identitySubscriptionId')]",
             "properties": {
                 "mode": "Incremental",
                 "template": {
