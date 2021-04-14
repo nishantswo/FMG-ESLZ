@@ -888,7 +888,6 @@
 			"apiVersion": "2019-10-01",
 			"name": "onlinevnetdeployment",
 			"resourceGroup": "[variables('rgNameOnline')]",
-			"location": "[deployment().location]",
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', variables('rgNameOnline'))]"
 			],
@@ -908,6 +907,7 @@
 							"type": "Microsoft.Network/virtualNetworks",
 							"apiVersion": "2020-05-01",
 							"name": "[parameters('onlineVnetName')]",
+						"location": "[deployment().location]",
 							"properties": {
 								"addressSpace": {
 									"addressPrefixes": [
