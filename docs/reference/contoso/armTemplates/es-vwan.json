@@ -543,6 +543,11 @@
 			"azOps": "[uri(deployment().properties.templateLink.uri, 'auxiliary/azOpsSetup.json')]"
 		},
 		"rgNameIdentity": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-identity')]",
+		"rgNameManagement": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-management')]",
+		"rgNameOnline": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-online')]",
+		"rgNameProd": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-prod')]",
+		"rgNameUat": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-uat')]",
+		"rgNameDev": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-dev')]",
 		"moveSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-management', '/', parameters('managementSubscriptionId'))]",
 		"noSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-management', '/', 'na')]",
 		"noOnlineLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-online', '/', 'nalz')]",
