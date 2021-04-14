@@ -542,6 +542,7 @@
 			"identity": "[uri(deployment().properties.templateLink.uri, 'auxiliary/identity.json')]",
 			"azOps": "[uri(deployment().properties.templateLink.uri, 'auxiliary/azOpsSetup.json')]"
 		},
+		"rgNameIdentity": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-identity')]",
 		"moveSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-management', '/', parameters('managementSubscriptionId'))]",
 		"noSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-management', '/', 'na')]",
 		"noOnlineLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-online', '/', 'nalz')]",
@@ -706,6 +707,34 @@
 			},
 			"properties": {}
 		},
+		      {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "location": "[deployment().location]",
+            "name": "[concat('EntScale', '-resourceGroup')]",
+            "subscriptionId": "[parameters('identitySubscriptionId')]",
+	    "dependsOn": [
+				"[variables('deploymentNames').mgmtGroupDeploymentName]"
+		    ],
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+                        {
+                            "type": "Microsoft.Resources/resourceGroups",
+                            "apiVersion": "2019-10-01",
+                            "location": "[deployment().location]",
+                            "name": "[variables('identityrgName')]",
+                            "properties": {}
+                        }
+                        
+                    ]
+                }
+            }
+        },
 		{
 			"condition": "[and(not(empty(parameters('managementSubscriptionId'))),equals(parameters('enableLogAnalytics'), 'Yes'))]",
 			"type": "Microsoft.Resources/deployments",
