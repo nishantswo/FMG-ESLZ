@@ -890,7 +890,9 @@
             "apiVersion": "2019-10-01",
             "location": "[deployment().location]",
             "name": "identityvnetdeployment",
-			        
+	    "dependsOn": [
+	    "[resourceId('Microsoft.Resources/deployments', variables('rgNameIdentity'))]"
+	     ],        
           "subscriptionId": "[parameters('identitySubscriptionId')]",
             "properties": {
                 "mode": "Incremental",
@@ -938,6 +940,9 @@
             "apiVersion": "2019-10-01",
             "location": "[deployment().location]",
             "name": "onlinevnetdeployment",
+	    "dependsOn": [
+	    "[resourceId('Microsoft.Resources/deployments', variables('rgNameOnline'))]"
+	     ],  
 				"copy": {
                 "name": "vnCopy",
                 "count": "[if(not(empty(parameters('onlineLzSubscriptionId'))), length(parameters('onlineLzSubscriptionId')), 1)]"
@@ -975,6 +980,9 @@
             "apiVersion": "2019-10-01",
             "location": "[deployment().location]",
             "name": "prodvnetdeployment",
+			        "dependsOn": [
+	    "[resourceId('Microsoft.Resources/deployments', variables('rgNameProd'))]"
+	     ],  
 			       "copy": {
                 "name": "vnCopy",
                 "count": "[if(not(empty(parameters('prodLzSubscriptionId'))), length(parameters('prodLzSubscriptionId')), 1)]"
@@ -1012,6 +1020,9 @@
             "apiVersion": "2019-10-01",
             "location": "[deployment().location]",
             "name": "uatvnetdeployment",
+			        "dependsOn": [
+	    "[resourceId('Microsoft.Resources/deployments', variables('rgNameUat'))]"
+	     ],  
 		"copy": {
                 "name": "vnCopy",
                 "count": "[if(not(empty(parameters('uatLzSubscriptionId'))), length(parameters('uatLzSubscriptionId')), 1)]"
@@ -1049,6 +1060,9 @@
             "apiVersion": "2019-10-01",
             "location": "[deployment().location]",
             "name": "devvnetdeployment",
+			        "dependsOn": [
+	    "[resourceId('Microsoft.Resources/deployments', variables('rgNameDev'))]"
+	     ],  
 			 "copy": {
                 "name": "vnCopy",
                 "count": "[if(not(empty(parameters('devLzSubscriptionId'))), length(parameters('devLzSubscriptionId')), 1)]"
