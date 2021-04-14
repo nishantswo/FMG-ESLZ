@@ -938,8 +938,12 @@
             "apiVersion": "2019-10-01",
             "location": "[deployment().location]",
             "name": "onlinevnetdeployment",
+				"copy": {
+                "name": "vnCopy",
+                "count": "[if(not(empty(parameters('onlineLzSubscriptionId'))), length(parameters('onlineLzSubscriptionId')), 1)]"
+            },
 			        
-          "subscriptionId": "[parameters('onlineLzSubscriptionId')]",
+          "subscriptionId": "[if(not(empty(parameters('onlineLzSubscriptionId'))), parameters('onlineLzSubscriptionId')[copyIndex()], '')]",
             "properties": {
                 "mode": "Incremental",
                 "template": {
