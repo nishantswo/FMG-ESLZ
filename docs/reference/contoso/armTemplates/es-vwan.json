@@ -884,41 +884,7 @@
                     ]
                 }
             }
-        },
-		      {
-      "type": "Microsoft.Network/virtualNetworks",
-      "apiVersion": "2020-05-01",
-      "name": "[parameters('identityVnetName')]",
-      "location": "[parameters('location')]",
-	  "dependsOn": [
-            "[variables('rgNameIdentity')]" 
-          ],
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[parameters('identityVnetPrefix')]"
-          ]
-        }
-      },
-      "resources": [
-        {
-          "type": "subnets",
-          "apiVersion": "2020-05-01",
-          "location": "[parameters('location')]",
-          "name": "adds-prod",
-          "dependsOn": [
-            "[parameters('identityVnetName')]"
-          ],
-          "properties": {
-            "addressPrefix": "10.122.104.0/22"
-          }
-        }
-      ]
-    },
-		      
-		
-		
-		      
+        },	      
 		{
 			"condition": "[and(not(empty(parameters('managementSubscriptionId'))),equals(parameters('enableLogAnalytics'), 'Yes'))]",
 			"type": "Microsoft.Resources/deployments",
