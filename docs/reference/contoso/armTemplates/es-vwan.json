@@ -796,7 +796,11 @@
             "apiVersion": "2019-10-01",
             "location": "[deployment().location]",
             "name": "[variables('rgNameProd')]",
-            "subscriptionId": "[parameters('prodLzSubscriptionId')]",
+			        "copy": {
+                "name": "rgCopy",
+                "count": "[if(not(empty(parameters('prodLzSubscriptionId'))), length(parameters('prodLzSubscriptionId')), 1)]"
+            },
+            "subscriptionId": "[if(not(empty(parameters('prodLzSubscriptionId'))), parameters('prodLzSubscriptionId')[copyIndex()], '')]",
             "properties": {
                 "mode": "Incremental",
                 "template": {
@@ -821,7 +825,11 @@
             "apiVersion": "2019-10-01",
             "location": "[deployment().location]",
             "name": "[variables('rgNameUat')]",
-            "subscriptionId": "[parameters('uatLzSubscriptionId')]",
+			        "copy": {
+                "name": "rgCopy",
+                "count": "[if(not(empty(parameters('uatLzSubscriptionId'))), length(parameters('uatLzSubscriptionId')), 1)]"
+            },
+            "subscriptionId": "[if(not(empty(parameters('uatLzSubscriptionId'))), parameters('uatLzSubscriptionId')[copyIndex()], '')]",
             "properties": {
                 "mode": "Incremental",
                 "template": {
@@ -846,7 +854,11 @@
             "apiVersion": "2019-10-01",
             "location": "[deployment().location]",
             "name": "[variables('rgNameDev')]",
-            "subscriptionId": "[parameters('devLzSubscriptionId')]",
+			        "copy": {
+                "name": "rgCopy",
+                "count": "[if(not(empty(parameters('devLzSubscriptionId'))), length(parameters('devLzSubscriptionId')), 1)]"
+            },
+          "subscriptionId": "[if(not(empty(parameters('devLzSubscriptionId'))), parameters('devLzSubscriptionId')[copyIndex()], '')]",
             "properties": {
                 "mode": "Incremental",
                 "template": {
