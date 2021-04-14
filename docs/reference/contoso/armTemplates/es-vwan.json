@@ -543,6 +543,11 @@
 			"azOps": "[uri(deployment().properties.templateLink.uri, 'auxiliary/azOpsSetup.json')]"
 		},
 		"rgNameIdentity": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-identity')]",
+		"rgNameManagement": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-management')]",
+		"rgNameOnline": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-online')]",
+		"rgNameProd": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-prod')]",
+		"rgNameUat": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-uat')]",
+		"rgNameDev": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-dev')]",
 		"moveSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-management', '/', parameters('managementSubscriptionId'))]",
 		"noSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-management', '/', 'na')]",
 		"noOnlineLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-online', '/', 'nalz')]",
@@ -711,7 +716,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-10-01",
             "location": "[deployment().location]",
-            "name": "[concat('EntScale', '-resourceGroup')]",
+            "name": "[variables('rgNameIdentity')]",
             "subscriptionId": "[parameters('identitySubscriptionId')]",
             "properties": {
                 "mode": "Incremental",
@@ -732,6 +737,251 @@
                 }
             }
         },
+		       {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "location": "[deployment().location]",
+            "name": "[variables('rgNameManagement')]",
+            "subscriptionId": "[parameters('managementSubscriptionId')]",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+                        {
+                            "type": "Microsoft.Resources/resourceGroups",
+                            "apiVersion": "2019-10-01",
+                            "location": "[deployment().location]",
+                            "name": "[variables('rgNameManagement')]",
+                            "properties": {}
+                        }
+                        
+                    ]
+                }
+            }
+        },
+		       {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "location": "[deployment().location]",
+            "name": "[variables('rgNameOnline')]",
+            "subscriptionId": "[parameters('onlineSubscriptionId')]",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+                        {
+                            "type": "Microsoft.Resources/resourceGroups",
+                            "apiVersion": "2019-10-01",
+                            "location": "[deployment().location]",
+                            "name": "[variables('rgNameOnline')]",
+                            "properties": {}
+                        }
+                        
+                    ]
+                }
+            }
+        },
+		       {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "location": "[deployment().location]",
+            "name": "[variables('rgNameProd')]",
+            "subscriptionId": "[parameters('prodSubscriptionId')]",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+                        {
+                            "type": "Microsoft.Resources/resourceGroups",
+                            "apiVersion": "2019-10-01",
+                            "location": "[deployment().location]",
+                            "name": "[variables('rgNameProd')]",
+                            "properties": {}
+                        }
+                        
+                    ]
+                }
+            }
+        },
+		       {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "location": "[deployment().location]",
+            "name": "[variables('rgNameUat')]",
+            "subscriptionId": "[parameters('uatSubscriptionId')]",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+                        {
+                            "type": "Microsoft.Resources/resourceGroups",
+                            "apiVersion": "2019-10-01",
+                            "location": "[deployment().location]",
+                            "name": "[variables('rgNameUat')]",
+                            "properties": {}
+                        }
+                        
+                    ]
+                }
+            }
+        },
+		       {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "location": "[deployment().location]",
+            "name": "[variables('rgNameDev')]",
+            "subscriptionId": "[parameters('devSubscriptionId')]",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+                        {
+                            "type": "Microsoft.Resources/resourceGroups",
+                            "apiVersion": "2019-10-01",
+                            "location": "[deployment().location]",
+                            "name": "[variables('rgNameDev')]",
+                            "properties": {}
+                        }
+                        
+                    ]
+                }
+            }
+        },
+		      {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-05-01",
+      "name": "[parameters('identityVnetName')]",
+      "location": "[parameters('location')]",
+	  "dependsOn": [
+            "[variables('rgNameIdentity')]" 
+          ],
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('identityVnetPrefix')]"
+          ]
+        }
+      },
+      "resources": [
+        {
+          "type": "subnets",
+          "apiVersion": "2020-05-01",
+          "location": "[parameters('location')]",
+          "name": "adds-prod",
+          "dependsOn": [
+            "[parameters('identityVnetName')]"
+          ],
+          "properties": {
+            "addressPrefix": "10.122.104.0/22"
+          }
+        }
+      ]
+    },
+	{
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-05-01",
+      "name": "[parameters('prodVnetName')]",
+      "location": "[parameters('location')]",
+	  "dependsOn": [
+            "[variables('rgNameProd')]"
+          ],
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('prodVnetPrefix')]"
+          ]
+        }
+      },
+      "resources": [
+        {
+          "type": "subnets",
+          "apiVersion": "2020-05-01",
+          "location": "[parameters('location')]",
+          "name": "frontend",
+          "dependsOn": [
+            "[parameters('prodVnetName')]"
+          ],
+          "properties": {
+            "addressPrefix": "10.122.56.0/23"
+          }
+        }
+      ]
+    },
+	{
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-05-01",
+      "name": "[parameters('uatVnetName')]",
+      "location": "[parameters('location')]",
+	  "dependsOn": [
+            "[variables('rgNameUat')]"
+          ],
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('uatVnetPrefix')]"
+          ]
+        }
+      },
+      "resources": [
+        {
+          "type": "subnets",
+          "apiVersion": "2020-05-01",
+          "location": "[parameters('location')]",
+          "name": "frontend",
+          "dependsOn": [
+            "[parameters('uatVnetName')]"
+          ],
+          "properties": {
+            "addressPrefix": "10.122.88.0/23"
+          }
+        }
+      ]
+    },
+	{
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-05-01",
+      "name": "[parameters('devVnetName')]",
+      "location": "[parameters('location')]",
+	  "dependsOn": [
+            "[variables('rgNameDev')]"
+          ],
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('devVnetPrefix')]"
+          ]
+        }
+      },
+      "resources": [
+        {
+          "type": "subnets",
+          "apiVersion": "2020-05-01",
+          "location": "[parameters('location')]",
+          "name": "frontend",
+          "dependsOn": [
+            "[parameters('devVnetName')]"
+          ],
+          "properties": {
+            "addressPrefix": "10.122.72.0/23"
+          }
+        }
+      ]
+    },
 		      
 		{
 			"condition": "[and(not(empty(parameters('managementSubscriptionId'))),equals(parameters('enableLogAnalytics'), 'Yes'))]",
