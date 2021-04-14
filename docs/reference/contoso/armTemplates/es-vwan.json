@@ -767,7 +767,7 @@
             "apiVersion": "2019-10-01",
             "location": "[deployment().location]",
             "name": "[variables('rgNameOnline')]",
-            "subscriptionId": "[parameters('onlineSubscriptionId')]",
+            "subscriptionId": "[parameters('onlineLzSubscriptionId')]",
             "properties": {
                 "mode": "Incremental",
                 "template": {
@@ -792,7 +792,7 @@
             "apiVersion": "2019-10-01",
             "location": "[deployment().location]",
             "name": "[variables('rgNameProd')]",
-            "subscriptionId": "[parameters('prodSubscriptionId')]",
+            "subscriptionId": "[parameters('prodLzSubscriptionId')]",
             "properties": {
                 "mode": "Incremental",
                 "template": {
@@ -817,7 +817,7 @@
             "apiVersion": "2019-10-01",
             "location": "[deployment().location]",
             "name": "[variables('rgNameUat')]",
-            "subscriptionId": "[parameters('uatSubscriptionId')]",
+            "subscriptionId": "[parameters('uatLzSubscriptionId')]",
             "properties": {
                 "mode": "Incremental",
                 "template": {
@@ -842,7 +842,7 @@
             "apiVersion": "2019-10-01",
             "location": "[deployment().location]",
             "name": "[variables('rgNameDev')]",
-            "subscriptionId": "[parameters('devSubscriptionId')]",
+            "subscriptionId": "[parameters('devLzSubscriptionId')]",
             "properties": {
                 "mode": "Incremental",
                 "template": {
@@ -888,6 +888,36 @@
           ],
           "properties": {
             "addressPrefix": "10.122.104.0/22"
+          }
+        }
+      ]
+    },
+		        {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-05-01",
+      "name": "[parameters('onlineVnetName')]",
+      "location": "[parameters('location')]",
+	  "dependsOn": [
+            "[variables('rgNameOnline')]" 
+          ],
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('onlineVnetPrefix')]"
+          ]
+        }
+      },
+      "resources": [
+        {
+          "type": "subnets",
+          "apiVersion": "2020-05-01",
+          "location": "[parameters('location')]",
+          "name": "frontend",
+          "dependsOn": [
+            "[parameters('onlineVnetName')]"
+          ],
+          "properties": {
+            "addressPrefix": "10.122.0.0/19"
           }
         }
       ]
