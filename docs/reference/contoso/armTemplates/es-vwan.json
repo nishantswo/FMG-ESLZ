@@ -767,7 +767,7 @@
             "apiVersion": "2019-10-01",
             "location": "[deployment().location]",
             "name": "[variables('rgNameOnline')]",
-            "subscriptionId": "[parameters('onlineLzSubscriptionId')]",
+            "subscriptionId": "[parameters('onlineLzSubscriptionId')[copyIndex()]]",
             "properties": {
                 "mode": "Incremental",
                 "template": {
