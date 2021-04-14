@@ -966,6 +966,107 @@
                 }
             }
         },	
+		       {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "location": "[deployment().location]",
+            "name": "prodvnetdeployment",
+			        
+          "subscriptionId": "[parameters('prodSubscriptionId')]",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+		    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+					{
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-05-01",
+      "name": "[parameters('prodVnetName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('prodVnetPrefix')]"
+          ]
+        }
+      }
+    }
+                       
+                        
+                    ]
+                }
+            }
+        },	
+		      
+		       {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "location": "[deployment().location]",
+            "name": "uatvnetdeployment",
+			        
+          "subscriptionId": "[parameters('uatSubscriptionId')]",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+		    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+					{
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-05-01",
+      "name": "[parameters('uatVnetName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('uatVnetPrefix')]"
+          ]
+        }
+      }
+    }
+                       
+                        
+                    ]
+                }
+            }
+        },	
+		      
+		       {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "location": "[deployment().location]",
+            "name": "devvnetdeployment",
+			        
+          "subscriptionId": "[parameters('devSubscriptionId')]",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+		    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+					{
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-05-01",
+      "name": "[parameters('devVnetName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('devVnetPrefix')]"
+          ]
+        }
+      }
+    }
+                       
+                        
+                    ]
+                }
+            }
+        },	
 		{
 			"condition": "[and(not(empty(parameters('managementSubscriptionId'))),equals(parameters('enableLogAnalytics'), 'Yes'))]",
 			"type": "Microsoft.Resources/deployments",
