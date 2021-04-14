@@ -767,6 +767,10 @@
             "apiVersion": "2019-10-01",
             "location": "[deployment().location]",
             "name": "[variables('rgNameOnline')]",
+	    "copy": {
+                "name": "rgCopy",
+                "count": "[if(not(empty(parameters('onlineLzSubscriptionId'))), length(parameters('onlineLzSubscriptionId')), 1)]"
+            },
             "subscriptionId": "[parameters('onlineLzSubscriptionId')[copyIndex()]]",
             "properties": {
                 "mode": "Incremental",
