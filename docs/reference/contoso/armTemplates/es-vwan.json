@@ -136,28 +136,28 @@
 			"defaultValue": "No"
 		},
 		"onlineLzSubscriptionId": {
-			"type": "array",
+			"type": "string",
 			"defaultValue": [],
 			"metadata": {
 				"description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first online landing zones."
 			}
 		},
 		"prodLzSubscriptionId": {
-			"type": "array",
+			"type": "string",
 			"defaultValue": [],
 			"metadata": {
 				"description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first prod landing zones."
 			}
 		},
 		"uatLzSubscriptionId": {
-			"type": "array",
+			"type": "string",
 			"defaultValue": [],
 			"metadata": {
 				"description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first uat landing zones."
 			}
 		},
 		"devLzSubscriptionId": {
-			"type": "array",
+			"type": "string",
 			"defaultValue": [],
 			"metadata": {
 				"description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first dev landing zones."
