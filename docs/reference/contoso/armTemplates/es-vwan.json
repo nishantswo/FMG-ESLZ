@@ -771,7 +771,7 @@
                 "name": "rgCopy",
                 "count": "[if(not(empty(parameters('onlineLzSubscriptionId'))), length(parameters('onlineLzSubscriptionId')), 1)]"
             },
-            "subscriptionId": "[parameters('onlineLzSubscriptionId')[copyIndex()]]",
+            "subscriptionId": "[if(not(empty(parameters('onlineLzSubscriptionId'))), parameters('onlineLzSubscriptionId')[copyIndex()], '')]",
             "properties": {
                 "mode": "Incremental",
                 "template": {
