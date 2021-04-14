@@ -915,6 +915,36 @@
         }
       ]
     },
+		       {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-05-01",
+      "name": "[parameters('onlineVnetName')]",
+      "location": "[parameters('location')]",
+	  "dependsOn": [
+            "[variables('rgNameOnline')]" 
+          ],
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('onlineVnetPrefix')]"
+          ]
+        }
+      },
+      "resources": [
+        {
+          "type": "subnets",
+          "apiVersion": "2020-05-01",
+          "location": "[parameters('location')]",
+          "name": "frontend",
+          "dependsOn": [
+            "[parameters('onlineVnetName')]"
+          ],
+          "properties": {
+            "addressPrefix": "10.122.0.0/19"
+          }
+        }
+      ]
+    },
 		
 		
 		      
