@@ -724,7 +724,7 @@
                             "type": "Microsoft.Resources/resourceGroups",
                             "apiVersion": "2019-10-01",
                             "location": "[deployment().location]",
-                            "name": "[variables('identityrgName')]",
+                            "name": "[variables('rgNameIdentity')]",
                             "properties": {}
                         }
                         
