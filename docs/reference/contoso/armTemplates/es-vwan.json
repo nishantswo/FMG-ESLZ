@@ -507,7 +507,7 @@
 			"defaultValue": ""
 		},
 		"principalSecret": {
-			"type": "securestring",
+			"type": "string",
 			"defaultValue": ""
 		},
 		"gitHubUserNameOrOrg": {
