@@ -712,7 +712,9 @@
                             "apiVersion": "2019-10-01",
                             "location": "[deployment().location]",
                             "name": "[variables('rgNameIdentity')]",
-			      
+			      "dependsOn": [
+				"[variables('deploymentNames').mgmtGroupDeploymentName]"
+			],
                             "properties": {}
                         },
 		      
