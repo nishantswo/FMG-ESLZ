@@ -671,10 +671,6 @@
 			"dependsOn": [
 				"[variables('deploymentNames').mgmtGroupDeploymentName]"
 			],
-			"copy": {
-				"name": "onlineLzMove",
-				"count": "[length(parameters('onlineLzSubscriptionId'))]"
-			},
 			"properties": {}
 		},
 		{
@@ -685,10 +681,6 @@
 			"dependsOn": [
 				"[variables('deploymentNames').mgmtGroupDeploymentName]"
 			],
-			"copy": {
-				"name": "onlineLzMove",
-				"count": "[length(parameters('prodLzSubscriptionId'))]"
-			},
 			"properties": {}
 		},
 		{
@@ -699,10 +691,6 @@
 			"dependsOn": [
 				"[variables('deploymentNames').mgmtGroupDeploymentName]"
 			],
-			"copy": {
-				"name": "onlineLzMove",
-				"count": "[length(parameters('uatLzSubscriptionId'))]"
-			},
 			"properties": {}
 		},
 		{
@@ -713,10 +701,6 @@
 			"dependsOn": [
 				"[variables('deploymentNames').mgmtGroupDeploymentName]"
 			],
-			"copy": {
-				"name": "onlineLzMove",
-				"count": "[length(parameters('devLzSubscriptionId'))]"
-			},
 			"properties": {}
 		},
 		      {
