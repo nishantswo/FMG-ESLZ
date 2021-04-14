@@ -907,7 +907,6 @@
 							"type": "Microsoft.Network/virtualNetworks",
 							"apiVersion": "2020-05-01",
 							"name": "[parameters('onlineVnetName')]",
-							"location": "[parameters('location')]",
 							"properties": {
 								"addressSpace": {
 									"addressPrefixes": [
