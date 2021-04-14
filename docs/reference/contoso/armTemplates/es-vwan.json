@@ -932,6 +932,40 @@
                 }
             }
         },	
+		      
+		        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "location": "[deployment().location]",
+            "name": "onlinevnetdeployment",
+			        
+          "subscriptionId": "[parameters('onlineSubscriptionId')]",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+		    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+					{
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-05-01",
+      "name": "[parameters('onlineVnetName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('onlineVnetPrefix')]"
+          ]
+        }
+      }
+    }
+                       
+                        
+                    ]
+                }
+            }
+        },	
 		{
 			"condition": "[and(not(empty(parameters('managementSubscriptionId'))),equals(parameters('enableLogAnalytics'), 'Yes'))]",
 			"type": "Microsoft.Resources/deployments",
