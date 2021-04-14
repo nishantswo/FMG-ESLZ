@@ -173,28 +173,28 @@
         },
         "onlineLzSubscriptionId": {
             "type": "string",
-            "defaultValue": [],
+            "defaultValue": "",
             "metadata": {
                 "description": "Optionally provide an array of subscription id's that will be moved to the online landing zone management group."
             }
         },
         "prodLzSubscriptionId": {
             "type": "string",
-            "defaultValue": [],
+            "defaultValue": "",
             "metadata": {
                 "description": "Optionally provide an array of subscription id's that will be moved to the prod landing zone management group."
             }
         },
 		 "uatLzSubscriptionId": {
             "type": "string",
-            "defaultValue": [],
+            "defaultValue": "",
             "metadata": {
                 "description": "Optionally provide an array of subscription id's that will be moved to the uat landing zone management group."
             }
         },
 			 "devLzSubscriptionId": {
             "type": "string",
-            "defaultValue": [],
+            "defaultValue": "",
             "metadata": {
                 "description": "Optionally provide an array of subscription id's that will be moved to the dev landing zone management group."
             }
