@@ -40,6 +40,13 @@
 				"description": "hub vnet name"
 			}
 		},
+		"onlineVnetName": {
+			"type": "string",
+			"defaultValue": "online-vnet",
+			"metadata": {
+				"description": "hub vnet name"
+			}
+		},
 		"prodVnetName": {
 			"type": "string",
 			"defaultValue": "prod-vnet",
