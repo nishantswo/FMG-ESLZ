@@ -884,7 +884,57 @@
                     ]
                 }
             }
-        },	      
+        },	
+		        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "location": "[deployment().location]",
+            "name": "identityvnetdeployment",
+			        "copy": {
+                "name": "vnCopy",
+                "count": "[if(not(empty(parameters('identitySubscriptionId'))), length(parameters('identitySubscriptionId')), 1)]"
+            },
+          "subscriptionId": "[if(not(empty(parameters('identitySubscriptionId'))), parameters('identitySubscriptionId')[copyIndex()], '')]",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+		    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+					{
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-05-01",
+      "name": "[parameters('identityVnetName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('identityVnetPrefix')]"
+          ]
+        }
+      },
+      "resources": [
+        {
+          "type": "subnets",
+          "apiVersion": "2020-05-01",
+          "location": "[parameters('location')]",
+          "name": "frontend",
+          "dependsOn": [
+            "[parameters('identityVnetName')]"
+          ],
+          "properties": {
+            "addressPrefix": "10.122.122.128/27"
+          }
+        }
+      ]
+    }
+                       
+                        
+                    ]
+                }
+            }
+        },	
 		{
 			"condition": "[and(not(empty(parameters('managementSubscriptionId'))),equals(parameters('enableLogAnalytics'), 'Yes'))]",
 			"type": "Microsoft.Resources/deployments",
