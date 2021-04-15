@@ -106,16 +106,16 @@
 			"type": "string"
 		},
 		"onlineLzSubscriptionId": {
-			"type": "string"
+			"type": "array"
 		},
 		"prodLzSubscriptionId": {
-			"type": "string"
+			"type": "array"
 		},
 		"uatLzSubscriptionId": {
-			"type": "string"
+			"type": "array"
 		},
 		"devLzSubscriptionId": {
-			"type": "string"
+			"type": "array"
 		}
 		
 	},
