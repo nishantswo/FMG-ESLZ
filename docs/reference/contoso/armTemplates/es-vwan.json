@@ -879,6 +879,45 @@
 				}
 			}
 		},
+		{
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"name": "identityvnetdeployment",
+			"resourceGroup": "[variables('rgNameIdentity')]",
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', variables('rgNameIdentity'))]"
+			],
+			"copy": {
+				"name": "vnCopy",
+				"count": "[if(not(empty(parameters('identitySubscriptionId'))), length(parameters('identitySubscriptionId')), 1)]"
+			},
+
+			"subscriptionId": "[if(not(empty(parameters('identitySubscriptionId'))), parameters('identitySubscriptionId')[copyIndex()], '')]",
+			"properties": {
+				"mode": "Incremental",
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {},
+					"resources": [{
+							"type": "Microsoft.Network/virtualNetworks",
+							"apiVersion": "2020-05-01",
+							"name": "[parameters('identityVnetName')]",
+						"location": "[deployment().location]",
+							"properties": {
+								"addressSpace": {
+									"addressPrefixes": [
+										"[parameters('identityVnetPrefix')]"
+									]
+								}
+							}
+						}
+
+
+					]
+				}
+			}
+		},
 
 		
 
@@ -927,6 +966,7 @@
 			"apiVersion": "2019-10-01",
 			"location": "[deployment().location]",
 			"name": "prodvnetdeployment",
+			"resourceGroup": "[variables('rgNameProd')]",
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', variables('rgNameProd'))]"
 			],
@@ -966,6 +1006,7 @@
 			"apiVersion": "2019-10-01",
 			"location": "[deployment().location]",
 			"name": "uatvnetdeployment",
+			"resourceGroup": "[variables('rgNameUat')]",
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', variables('rgNameUat'))]"
 			],
@@ -1005,6 +1046,7 @@
 			"apiVersion": "2019-10-01",
 			"location": "[deployment().location]",
 			"name": "devvnetdeployment",
+			"resourceGroup": "[variables('rgNameDev')]",
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', variables('rgNameDev'))]"
 			],
