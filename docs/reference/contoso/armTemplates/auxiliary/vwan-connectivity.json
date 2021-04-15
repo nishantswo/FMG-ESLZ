@@ -221,22 +221,6 @@
                     ]
                 }
             }
-        },
-		 {
-            "type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
-            "apiVersion": "2020-05-01",
-            "name": "[concat(variables('vHubName'), '/', parameters('identityVnetName'))]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', concat('EntScale', '-connectivitySub') )]"
-            ],
-            "properties": {
-                "remoteVirtualNetwork": {
-                    "id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('identityVnetName'))]"
-                },
-                "allowHubToRemoteVnetTransit": true,
-                "allowRemoteVnetToUseHubVnetGateways": true,
-                "enableInternetSecurity": true
-            }
         }
     ]
 }
