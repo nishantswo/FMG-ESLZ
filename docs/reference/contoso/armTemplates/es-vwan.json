@@ -1392,6 +1392,21 @@
 					},
 					"connectivitySubscriptionId": {
 						"value": "[parameters('connectivitySubscriptionId')]"
+					},
+					"identitySubscriptionId": {
+						"value": "[parameters('identitySubscriptionId')]"
+					},
+					"onlineSubscriptionId": {
+						"value": "[parameters('onlineSubscriptionId')]"
+					},
+					"prodSubscriptionId": {
+						"value": "[parameters('prodSubscriptionId')]"
+					},
+					"uatSubscriptionId": {
+						"value": "[parameters('uatSubscriptionId')]"
+					},
+					"devSubscriptionId": {
+						"value": "[parameters('devSubscriptionId')]"
 					}
 				}
 			}
