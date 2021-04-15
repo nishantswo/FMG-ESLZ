@@ -269,9 +269,11 @@
 						"dependsOn": [
 							"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]"
 						],
+				
 						"properties": {
 							"remoteVirtualNetwork": {
-							"id": "[concat('/subscriptions/', parameters('prodLzSubscriptionId'), '/resourceGroups/', parameters('rgNameProd'), '/providers/Microsoft.Network/virtualNetworks/', parameters('prodVnetName'))]"},
+							"id": "[concat('/subscriptions/', parameters('prodLzSubscriptionId')[copyIndex()], '/resourceGroups/', parameters('rgNameProd'), '/providers/Microsoft.Network/virtualNetworks/', parameters('prodVnetName'))]"
+							},
 							"allowHubToRemoteVnetTransit": true,
 							"allowRemoteVnetToUseHubVnetGateways": true,
 							"enableInternetSecurity": true
