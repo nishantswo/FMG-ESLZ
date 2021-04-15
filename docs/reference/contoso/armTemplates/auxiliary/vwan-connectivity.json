@@ -17,6 +17,13 @@
             },
             "defaultValue": "192.168.0.0/24"
         },
+				"identityVnetName": {
+			"type": "string",
+			"defaultValue": "identity-vnet",
+			"metadata": {
+				"description": "hub vnet name"
+			}
+		},
         "location": {
             "type": "string",
             "metadata": {
@@ -213,6 +220,22 @@
                         }
                     ]
                 }
+            }
+        },
+		 {
+            "type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
+            "apiVersion": "2020-05-01",
+            "name": "[format('{0}/{1}_connection', variables('vHubName'), variables('identityVnetName')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', concat('EntScale', '-connectivitySub') )]"
+            ],
+            "properties": {
+                "remoteVirtualNetwork": {
+                    "id": "[resourceId('Microsoft.Network/virtualNetworks', variables('identityVnetName'))]"
+                },
+                "allowHubToRemoteVnetTransit": true,
+                "allowRemoteVnetToUseHubVnetGateways": true,
+                "enableInternetSecurity": true
             }
         }
     ]
