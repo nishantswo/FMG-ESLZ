@@ -981,7 +981,7 @@
 							"type": "Microsoft.Network/virtualNetworks",
 							"apiVersion": "2020-05-01",
 							"name": "[parameters('prodVnetName')]",
-							"location": "[parameters('location')]",
+							"location": "[deployment().location]",
 							"properties": {
 								"addressSpace": {
 									"addressPrefixes": [
@@ -1021,7 +1021,7 @@
 							"type": "Microsoft.Network/virtualNetworks",
 							"apiVersion": "2020-05-01",
 							"name": "[parameters('uatVnetName')]",
-							"location": "[parameters('location')]",
+							"location": "[deployment().location]",
 							"properties": {
 								"addressSpace": {
 									"addressPrefixes": [
@@ -1061,7 +1061,7 @@
 							"type": "Microsoft.Network/virtualNetworks",
 							"apiVersion": "2020-05-01",
 							"name": "[parameters('devVnetName')]",
-							"location": "[parameters('location')]",
+							"location": "[deployment().location]",
 							"properties": {
 								"addressSpace": {
 									"addressPrefixes": [
@@ -1076,6 +1076,7 @@
 				}
 			}
 		},
+		      	
 		{
 			"condition": "[and(not(empty(parameters('managementSubscriptionId'))),equals(parameters('enableLogAnalytics'), 'Yes'))]",
 			"type": "Microsoft.Resources/deployments",
