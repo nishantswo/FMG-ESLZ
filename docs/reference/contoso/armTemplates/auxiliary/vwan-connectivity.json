@@ -52,6 +52,13 @@
 				"description": "dev vnet name"
 			}
 		},
+		"rgNameProd": {
+			"type": "string",
+			"defaultValue": "fmgd-prod",
+			"metadata": {
+				"description": "prod vnet name"
+			}
+		},
 		"location": {
 			"type": "string",
 			"metadata": {
@@ -94,7 +101,23 @@
 		},
 		"connectivitySubscriptionId": {
 			"type": "string"
+		},
+		"identitySubscriptionId": {
+			"type": "string"
+		},
+		"onlineLzSubscriptionId": {
+			"type": "string"
+		},
+		"prodLzSubscriptionId": {
+			"type": "string"
+		},
+		"uatLzSubscriptionId": {
+			"type": "string"
+		},
+		"devLzSubscriptionId": {
+			"type": "string"
 		}
+		
 	},
 	"variables": {
 		"vWanName": "[concat(parameters('topLevelManagementGroupPrefix'), '-vwan-', parameters('location'))]",
@@ -242,14 +265,13 @@
 									{
 						"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
 						"apiVersion": "2020-05-01",
-						"name": "[concat(variables('vHubName'), '/', parameters('identityVnetName'))]",
+						"name": "[concat(variables('vHubName'), '/', parameters('prodVnetName'))]",
 						"dependsOn": [
 							"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]"
 						],
 						"properties": {
 							"remoteVirtualNetwork": {
-								"id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('identityVnetName'))]"
-							},
+							"id": "[concat('/subscriptions/', parameters('prodLzSubscriptionId'), '/resourceGroups/', parameters('rgNameProd'), '/providers/Microsoft.Network/virtualNetworks/', parameters('prodVnetName'))]"},
 							"allowHubToRemoteVnetTransit": true,
 							"allowRemoteVnetToUseHubVnetGateways": true,
 							"enableInternetSecurity": true
