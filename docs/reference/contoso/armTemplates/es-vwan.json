@@ -925,8 +925,8 @@
 		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
-			"location": "[deployment().location]",
 			"name": "prodvnetdeployment",
+			"resourceGroup": "[variables('rgNameProd')]",
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', variables('rgNameProd'))]"
 			],
@@ -934,6 +934,7 @@
 				"name": "vnCopy",
 				"count": "[if(not(empty(parameters('prodLzSubscriptionId'))), length(parameters('prodLzSubscriptionId')), 1)]"
 			},
+
 			"subscriptionId": "[if(not(empty(parameters('prodLzSubscriptionId'))), parameters('prodLzSubscriptionId')[copyIndex()], '')]",
 			"properties": {
 				"mode": "Incremental",
@@ -945,89 +946,11 @@
 							"type": "Microsoft.Network/virtualNetworks",
 							"apiVersion": "2020-05-01",
 							"name": "[parameters('prodVnetName')]",
-							"location": "[parameters('location')]",
+						"location": "[deployment().location]",
 							"properties": {
 								"addressSpace": {
 									"addressPrefixes": [
 										"[parameters('prodVnetPrefix')]"
-									]
-								}
-							}
-						}
-
-
-					]
-				}
-			}
-		},
-
-		{
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2019-10-01",
-			"location": "[deployment().location]",
-			"name": "uatvnetdeployment",
-			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', variables('rgNameUat'))]"
-			],
-			"copy": {
-				"name": "vnCopy",
-				"count": "[if(not(empty(parameters('uatLzSubscriptionId'))), length(parameters('uatLzSubscriptionId')), 1)]"
-			},
-			"subscriptionId": "[if(not(empty(parameters('uatLzSubscriptionId'))), parameters('uatLzSubscriptionId')[copyIndex()], '')]",
-			"properties": {
-				"mode": "Incremental",
-				"template": {
-					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-					"contentVersion": "1.0.0.0",
-					"parameters": {},
-					"resources": [{
-							"type": "Microsoft.Network/virtualNetworks",
-							"apiVersion": "2020-05-01",
-							"name": "[parameters('uatVnetName')]",
-							"location": "[parameters('location')]",
-							"properties": {
-								"addressSpace": {
-									"addressPrefixes": [
-										"[parameters('uatVnetPrefix')]"
-									]
-								}
-							}
-						}
-
-
-					]
-				}
-			}
-		},
-
-		{
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2019-10-01",
-			"location": "[deployment().location]",
-			"name": "devvnetdeployment",
-			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', variables('rgNameDev'))]"
-			],
-			"copy": {
-				"name": "vnCopy",
-				"count": "[if(not(empty(parameters('devLzSubscriptionId'))), length(parameters('devLzSubscriptionId')), 1)]"
-			},
-			"subscriptionId": "[if(not(empty(parameters('devLzSubscriptionId'))), parameters('devLzSubscriptionId')[copyIndex()], '')]",
-			"properties": {
-				"mode": "Incremental",
-				"template": {
-					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-					"contentVersion": "1.0.0.0",
-					"parameters": {},
-					"resources": [{
-							"type": "Microsoft.Network/virtualNetworks",
-							"apiVersion": "2020-05-01",
-							"name": "[parameters('devVnetName')]",
-							"location": "[parameters('location')]",
-							"properties": {
-								"addressSpace": {
-									"addressPrefixes": [
-										"[parameters('devVnetPrefix')]"
 									]
 								}
 							}
