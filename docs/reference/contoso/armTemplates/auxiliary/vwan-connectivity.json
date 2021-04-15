@@ -225,7 +225,7 @@
 		 {
             "type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
             "apiVersion": "2020-05-01",
-            "name": "[concat(variables('vHubName'), variables('identityVnetName'))]",
+            "name": "[concat(variables('vHubName'), parameters('identityVnetName'))]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', concat('EntScale', '-connectivitySub') )]"
             ],
