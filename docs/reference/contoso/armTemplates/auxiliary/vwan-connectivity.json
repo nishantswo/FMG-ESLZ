@@ -24,6 +24,34 @@
 				"description": "hub vnet name"
 			}
 		},
+		"onlineVnetName": {
+			"type": "string",
+			"defaultValue": "online-vnet",
+			"metadata": {
+				"description": "online vnet name"
+			}
+		},
+		"prodVnetName": {
+			"type": "string",
+			"defaultValue": "prod-vnet",
+			"metadata": {
+				"description": "prod vnet name"
+			}
+		},
+		"uatVnetName": {
+			"type": "string",
+			"defaultValue": "uat-vnet",
+			"metadata": {
+				"description": "uat vnet name"
+			}
+		},
+		"devVnetName": {
+			"type": "string",
+			"defaultValue": "dev-vnet",
+			"metadata": {
+				"description": "dev vnet name"
+			}
+		},
 		"location": {
 			"type": "string",
 			"metadata": {
@@ -225,6 +253,70 @@
 						"properties": {
 							"remoteVirtualNetwork": {
 								"id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('identityVnetName'))]"
+							},
+							"allowHubToRemoteVnetTransit": true,
+							"allowRemoteVnetToUseHubVnetGateways": true,
+							"enableInternetSecurity": true
+						}
+					},
+					 {
+						"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
+						"apiVersion": "2020-05-01",
+						"name": "[concat(variables('vHubName'), '/', parameters('onlineVnetName'))]",
+						"dependsOn": [
+							"[resourceId('Microsoft.Resources/deployments', variables('resourceDeploymentName') )]"
+						],
+						"properties": {
+							"remoteVirtualNetwork": {
+								"id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('onlineVnetName'))]"
+							},
+							"allowHubToRemoteVnetTransit": true,
+							"allowRemoteVnetToUseHubVnetGateways": true,
+							"enableInternetSecurity": true
+						}
+					},
+					 {
+						"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
+						"apiVersion": "2020-05-01",
+						"name": "[concat(variables('vHubName'), '/', parameters('prodVnetName'))]",
+						"dependsOn": [
+							"[resourceId('Microsoft.Resources/deployments', variables('resourceDeploymentName') )]"
+						],
+						"properties": {
+							"remoteVirtualNetwork": {
+								"id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('prodVnetName'))]"
+							},
+							"allowHubToRemoteVnetTransit": true,
+							"allowRemoteVnetToUseHubVnetGateways": true,
+							"enableInternetSecurity": true
+						}
+					},
+					 {
+						"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
+						"apiVersion": "2020-05-01",
+						"name": "[concat(variables('vHubName'), '/', parameters('uatVnetName'))]",
+						"dependsOn": [
+							"[resourceId('Microsoft.Resources/deployments', variables('resourceDeploymentName') )]"
+						],
+						"properties": {
+							"remoteVirtualNetwork": {
+								"id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('uatVnetName'))]"
+							},
+							"allowHubToRemoteVnetTransit": true,
+							"allowRemoteVnetToUseHubVnetGateways": true,
+							"enableInternetSecurity": true
+						}
+					},
+					{
+						"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
+						"apiVersion": "2020-05-01",
+						"name": "[concat(variables('vHubName'), '/', parameters('devVnetName'))]",
+						"dependsOn": [
+							"[resourceId('Microsoft.Resources/deployments', variables('resourceDeploymentName') )]"
+						],
+						"properties": {
+							"remoteVirtualNetwork": {
+								"id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('devVnetName'))]"
 							},
 							"allowHubToRemoteVnetTransit": true,
 							"allowRemoteVnetToUseHubVnetGateways": true,
