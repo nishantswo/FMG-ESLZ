@@ -1396,17 +1396,17 @@
 					"identitySubscriptionId": {
 						"value": "[parameters('identitySubscriptionId')]"
 					},
-					"onlineSubscriptionId": {
-						"value": "[parameters('onlineSubscriptionId')]"
+					"onlineLzSubscriptionId": {
+						"value": "[parameters('onlineLzSubscriptionId')]"
 					},
-					"prodSubscriptionId": {
-						"value": "[parameters('prodSubscriptionId')]"
+					"prodLzSubscriptionId": {
+						"value": "[parameters('prodLzSubscriptionId')]"
 					},
-					"uatSubscriptionId": {
-						"value": "[parameters('uatSubscriptionId')]"
+					"uatLzSubscriptionId": {
+						"value": "[parameters('uatLzSubscriptionId')]"
 					},
-					"devSubscriptionId": {
-						"value": "[parameters('devSubscriptionId')]"
+					"devLzSubscriptionId": {
+						"value": "[parameters('devLzSubscriptionId')]"
 					}
 				}
 			}
