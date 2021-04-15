@@ -893,10 +893,10 @@
 			],
 			"copy": {
 				"name": "vnCopy",
-				"count": "[if(not(empty(parameters('identityLzSubscriptionId'))), length(parameters('identityLzSubscriptionId')), 1)]"
+				"count": "[if(not(empty(parameters('identitySubscriptionId'))), length(parameters('identitySubscriptionId')), 1)]"
 			},
 
-			"subscriptionId": "[if(not(empty(parameters('identityLzSubscriptionId'))), parameters('identityLzSubscriptionId')[copyIndex()], '')]",
+			"subscriptionId": "[if(not(empty(parameters('identitySubscriptionId'))), parameters('identitySubscriptionId')[copyIndex()], '')]",
 			"properties": {
 				"mode": "Incremental",
 				"template": {
