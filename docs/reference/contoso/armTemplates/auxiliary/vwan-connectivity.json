@@ -238,10 +238,28 @@
 												"id": "[json('null')]"
 											}
 										}
-									}
+									},
+									{
+						"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
+						"apiVersion": "2020-05-01",
+						"name": "[concat(variables('vHubName'), '/', parameters('identityVnetName'))]",
+						"dependsOn": [
+							"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]"
+						],
+						"properties": {
+							"remoteVirtualNetwork": {
+								"id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('identityVnetName'))]"
+							},
+							"allowHubToRemoteVnetTransit": true,
+							"allowRemoteVnetToUseHubVnetGateways": true,
+							"enableInternetSecurity": true
+						}
+					}
+									      
 								]
 							}
 						}
+					
 						
 						
 					}
