@@ -891,12 +891,9 @@
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', variables('rgNameIdentity'))]"
 			],
-			"copy": {
-				"name": "vnCopy",
-				"count": "[if(not(empty(parameters('identitySubscriptionId'))), length(parameters('identitySubscriptionId')), 1)]"
-			},
+			
 
-			"subscriptionId": "[if(not(empty(parameters('identitySubscriptionId'))), parameters('identitySubscriptionId')[copyIndex()], '')]",
+			"subscriptionId": "[parameters('identitySubscriptionId')]",
 			"properties": {
 				"mode": "Incremental",
 				"template": {
