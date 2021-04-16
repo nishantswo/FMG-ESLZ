@@ -268,7 +268,46 @@
 											}
 										}
 									},
-									{
+									 {
+			"condition": "[not(empty(parameters('identityLzSubscriptionId')))]",
+			"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
+			"apiVersion": "2020-05-01",
+			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('identityVnetName'))]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
+				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]"
+			],
+
+			"properties": {
+			      "remoteVirtualNetwork": {
+							"id": "[concat('/subscriptions/', if(not(empty(parameters('identityLzSubscriptionId'))), parameters('identityLzSubscriptionId')[copyIndex()], ''), '/resourceGroups/', parameters('rgNameIdentity'), '/providers/Microsoft.Network/virtualNetworks/', parameters('identityVnetName'))]"
+							},
+							"allowHubToRemoteVnetTransit": true,
+							"allowRemoteVnetToUseHubVnetGateways": true,
+							"enableInternetSecurity": true
+			}
+		},
+									      {
+			"condition": "[not(empty(parameters('onlineLzSubscriptionId')))]",
+			"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
+			"apiVersion": "2020-05-01",
+			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('onlineVnetName'))]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
+				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]"
+			],
+
+			"properties": {
+			      "remoteVirtualNetwork": {
+							"id": "[concat('/subscriptions/', if(not(empty(parameters('onlineLzSubscriptionId'))), parameters('onlineLzSubscriptionId')[copyIndex()], ''), '/resourceGroups/', parameters('rgNameOnline'), '/providers/Microsoft.Network/virtualNetworks/', parameters('onlineVnetName'))]"
+							},
+							"allowHubToRemoteVnetTransit": true,
+							"allowRemoteVnetToUseHubVnetGateways": true,
+							"enableInternetSecurity": true
+			}
+		},
+									     
+									      {
 			"condition": "[not(empty(parameters('prodLzSubscriptionId')))]",
 			"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
 			"apiVersion": "2020-05-01",
@@ -281,6 +320,44 @@
 			"properties": {
 			      "remoteVirtualNetwork": {
 							"id": "[concat('/subscriptions/', if(not(empty(parameters('prodLzSubscriptionId'))), parameters('prodLzSubscriptionId')[copyIndex()], ''), '/resourceGroups/', parameters('rgNameProd'), '/providers/Microsoft.Network/virtualNetworks/', parameters('prodVnetName'))]"
+							},
+							"allowHubToRemoteVnetTransit": true,
+							"allowRemoteVnetToUseHubVnetGateways": true,
+							"enableInternetSecurity": true
+			}
+		},
+									         {
+			"condition": "[not(empty(parameters('uatLzSubscriptionId')))]",
+			"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
+			"apiVersion": "2020-05-01",
+			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('uatVnetName'))]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
+				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]"
+			],
+
+			"properties": {
+			      "remoteVirtualNetwork": {
+							"id": "[concat('/subscriptions/', if(not(empty(parameters('uatLzSubscriptionId'))), parameters('uatLzSubscriptionId')[copyIndex()], ''), '/resourceGroups/', parameters('rgNameUat'), '/providers/Microsoft.Network/virtualNetworks/', parameters('uatVnetName'))]"
+							},
+							"allowHubToRemoteVnetTransit": true,
+							"allowRemoteVnetToUseHubVnetGateways": true,
+							"enableInternetSecurity": true
+			}
+		},
+									         {
+			"condition": "[not(empty(parameters('devLzSubscriptionId')))]",
+			"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
+			"apiVersion": "2020-05-01",
+			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('devVnetName'))]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
+				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]"
+			],
+
+			"properties": {
+			      "remoteVirtualNetwork": {
+							"id": "[concat('/subscriptions/', if(not(empty(parameters('devLzSubscriptionId'))), parameters('devLzSubscriptionId')[copyIndex()], ''), '/resourceGroups/', parameters('rgNameDev'), '/providers/Microsoft.Network/virtualNetworks/', parameters('devVnetName'))]"
 							},
 							"allowHubToRemoteVnetTransit": true,
 							"allowRemoteVnetToUseHubVnetGateways": true,
