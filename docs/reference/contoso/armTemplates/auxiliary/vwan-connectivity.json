@@ -160,6 +160,10 @@
 						"dependsOn": [
 							"[concat('Microsoft.Resources/resourceGroups/', variables('rgName'))]"
 						],
+								        "copy": {
+				"name": "hubCopy",
+				"count": "[if(not(empty(parameters('prodLzSubscriptionId'))), length(parameters('prodLzSubscriptionId')), 1)]"
+			},
 						"properties": {
 							"mode": "Incremental",
 							"template": {
@@ -270,10 +274,10 @@
 			"dependsOn": [
 				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]"
 			],
-	
+
 			"properties": {
 			      "remoteVirtualNetwork": {
-							"id": "[concat('/subscriptions/', parameters('prodLzSubscriptionId'), '/resourceGroups/', parameters('rgNameProd'), '/providers/Microsoft.Network/virtualNetworks/', parameters('prodVnetName'))]"
+							"id": "[concat('/subscriptions/', [if(not(empty(parameters('prodLzSubscriptionId'))), parameters('prodLzSubscriptionId')[copyIndex()], '')], '/resourceGroups/', parameters('rgNameProd'), '/providers/Microsoft.Network/virtualNetworks/', parameters('prodVnetName'))]"
 							},
 							"allowHubToRemoteVnetTransit": true,
 							"allowRemoteVnetToUseHubVnetGateways": true,
