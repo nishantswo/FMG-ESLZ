@@ -269,11 +269,12 @@
 									},
 									{
 			"condition": "[not(empty(parameters('prodLzSubscriptionId')))]",
-			"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
+			"type": "Microsoft.Network/vpnGateways/hubVirtualNetworkConnections",
 			"apiVersion": "2020-05-01",
 			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('prodVnetName'))]",
 			"dependsOn": [
-				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]"
+				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
+				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]"
 			],
 
 			"properties": {
