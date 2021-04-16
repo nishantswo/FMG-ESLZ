@@ -139,6 +139,10 @@
 		"location": "[deployment().location]",
 		"name": "[concat('EntScale', '-connectivitySub')]",
 		"subscriptionId": "[parameters('connectivitySubscriptionId')]",
+		   "copy": {
+				"name": "hubCopy",
+				"count": "[if(not(empty(parameters('prodLzSubscriptionId'))), length(parameters('prodLzSubscriptionId')), 1)]"
+			},
 		"properties": {
 			"mode": "Incremental",
 			"template": {
@@ -160,10 +164,7 @@
 						"dependsOn": [
 							"[concat('Microsoft.Resources/resourceGroups/', variables('rgName'))]"
 						],
-								        "copy": {
-				"name": "hubCopy",
-				"count": "[if(not(empty(parameters('prodLzSubscriptionId'))), length(parameters('prodLzSubscriptionId')), 1)]"
-			},
+								     
 						"properties": {
 							"mode": "Incremental",
 							"template": {
