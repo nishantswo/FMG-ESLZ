@@ -274,7 +274,7 @@
 			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('prodVnetName'))]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
-				"[concat('Microsoft.Network/vpnGateways/',fmgd-vpngw-eastus)]"
+				"[concat('Microsoft.Network/vpnGateways/',"fmgd-vpngw-eastus")]"
 			],
 
 			"properties": {
