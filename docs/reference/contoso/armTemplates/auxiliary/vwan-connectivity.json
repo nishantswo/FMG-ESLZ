@@ -263,25 +263,28 @@
 										}
 									},
 									{
-						"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
-						"apiVersion": "2020-05-01",
-						"name": "[concat(variables('vHubName'), '/', parameters('prodVnetName'))]",
-						"dependsOn": [
-							"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]"
-						],
-						"copy": {
-						"name": "hubCopy",
-						"count": "[if(not(empty(parameters('prodLzSubscriptionId'))), length(parameters('prodLzSubscriptionId')), 1)]"
-						},
-						"properties": {
-							"remoteVirtualNetwork": {
-							"id": "[concat('/subscriptions/', if(not(empty(parameters('prodLzSubscriptionId'))), parameters('prodLzSubscriptionId')[copyIndex()], ''), '/resourceGroups/', parameters('rgNameProd'), '/providers/Microsoft.Network/virtualNetworks/', parameters('prodVnetName'))]"
+			"condition": "[not(empty(parameters('prodLzSubscriptionId')))]",
+			"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
+			"apiVersion": "2020-05-01",
+			"name": "[if(not(empty(parameters('prodLzSubscriptionId'))), concat(variables('vHubName'), '-prod', '/', parameters('prodLzSubscriptionId')[copyIndex()]))]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]"
+			],
+			"copy": {
+				"name": "copyvhub",
+				"count": "[length(parameters('prodLzSubscriptionId'))]"
+			},
+			"properties": {
+			      "remoteVirtualNetwork": {
+							"id": "[concat('/subscriptions/', parameters('prodLzSubscriptionId')[copyIndex()], '/resourceGroups/', parameters('rgNameProd'), '/providers/Microsoft.Network/virtualNetworks/', parameters('prodVnetName'))]"
 							},
 							"allowHubToRemoteVnetTransit": true,
 							"allowRemoteVnetToUseHubVnetGateways": true,
 							"enableInternetSecurity": true
-						}
-					}
+			}
+		}
+								
+							
 									      
 								]
 							}
