@@ -269,7 +269,7 @@
 										}
 									},
 									 {
-			"condition": "[not(empty(parameters('identityLzSubscriptionId')))]",
+			"condition": "[not(empty(parameters('identitySubscriptionId')))]",
 			"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
 			"apiVersion": "2020-05-01",
 			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('identityVnetName'))]",
@@ -280,7 +280,7 @@
 
 			"properties": {
 			      "remoteVirtualNetwork": {
-							"id": "[concat('/subscriptions/', if(not(empty(parameters('identityLzSubscriptionId'))), parameters('identityLzSubscriptionId')[copyIndex()], ''), '/resourceGroups/', parameters('rgNameIdentity'), '/providers/Microsoft.Network/virtualNetworks/', parameters('identityVnetName'))]"
+							"id": "[concat('/subscriptions/', if(not(empty(parameters('identitySubscriptionId'))), parameters('identitySubscriptionId')[copyIndex()], ''), '/resourceGroups/', parameters('rgNameIdentity'), '/providers/Microsoft.Network/virtualNetworks/', parameters('identityVnetName'))]"
 							},
 							"allowHubToRemoteVnetTransit": true,
 							"allowRemoteVnetToUseHubVnetGateways": true,
