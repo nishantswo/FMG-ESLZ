@@ -11,7 +11,7 @@
 		},
 		"managementSubscriptionId": {
 			"type": "string",
-			"defaultValue": "",
+			"defaultValue": "7d8bccc8-ddf0-40fb-acf8-61829c21db71",
 			"maxLength": 36,
 			"metadata": {
 				"description": "Provide the subscription id of an existing, empty subscription you want to dedicate for management. If you don't want to bring a subscription, leave this parameter empty as is."
@@ -19,7 +19,7 @@
 		},
 		"connectivitySubscriptionId": {
 			"type": "string",
-			"defaultValue": "",
+			"defaultValue": "0e4d1e00-5638-4667-ba48-357115eb32a1",
 			"maxLength": 36,
 			"metadata": {
 				"description": "Provide the subscription id of an existing, empty subscription you want to dedicate for networking."
@@ -27,7 +27,7 @@
 		},
 		"identitySubscriptionId": {
 			"type": "string",
-			"defaultValue": "",
+			"defaultValue": "ccf951dc-2860-42f1-9e1a-5adf65d9220f",
 			"maxLength": 36,
 			"metadata": {
 				"description": "Provide the subscription id of an existing, empty subscription you want to dedicate for identity."
@@ -151,28 +151,28 @@
 		},
 		"onlineLzSubscriptionId": {
 			"type": "array",
-			"defaultValue": [],
+			"defaultValue": ["00427000-3587-4a3b-9817-803373c88774"],
 			"metadata": {
 				"description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first online landing zones."
 			}
 		},
 		"prodLzSubscriptionId": {
 			"type": "array",
-			"defaultValue": [],
+			"defaultValue": ["4dd899d2-4f99-485e-b1bc-7d44c2a2e993"],
 			"metadata": {
 				"description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first prod landing zones."
 			}
 		},
 		"uatLzSubscriptionId": {
 			"type": "array",
-			"defaultValue": [],
+			"defaultValue": ["146cdf8a-a785-468c-8e4c-ee958acad65b"],
 			"metadata": {
 				"description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first uat landing zones."
 			}
 		},
 		"devLzSubscriptionId": {
 			"type": "array",
-			"defaultValue": [],
+			"defaultValue": ["6d73017e-c20f-4fe1-9f54-0f4a9d992e66"],
 			"metadata": {
 				"description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first dev landing zones."
 			}
