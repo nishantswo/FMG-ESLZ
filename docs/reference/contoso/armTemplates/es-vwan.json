@@ -976,7 +976,7 @@
 										"addressPrefix": "[parameters('subnet1Prefix')]",
 										"networkSecurityGroup": {
 										
-											"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', parameters('rgNameIdentity'), '/providers/Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]"
+											"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]"
 										},
 										"serviceEndpoints": [{
 												"service": "Microsoft.Storage",
