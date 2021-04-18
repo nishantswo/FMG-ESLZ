@@ -897,7 +897,7 @@
 		{
       "comments": "Default Network Security Group for template",
       "type": "Microsoft.Network/networkSecurityGroups",
-      "apiVersion": "2020-05-01",
+      "apiVersion": "2019-10-01",
       "name": "[parameters('networkSecurityGroupName')]",
       "location": "[deployment().location]",
       "properties": {
