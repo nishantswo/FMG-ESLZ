@@ -1253,7 +1253,15 @@
 				"template": {
 					"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
 					"contentVersion": "1.0.0.0",
-					"parameters": {},
+					"parameters": {
+					 "tenantId": {
+   					   "type": "string",
+    					   "defaultValue": "[subscription().tenantId]",
+    					   "metadata": {
+     					   "description": "Specifies the Azure Active Directory tenant ID that should be used for authenticating requests to the key vault. Get it by using Get-AzSubscription cmdlet."
+    						  }
+    						}
+					},
 					"resources": [{
       "type": "Microsoft.KeyVault/vaults",
       "apiVersion": "2019-09-01",
@@ -1263,7 +1271,7 @@
         "enabledForDeployment": "[parameters('enabledForDeployment')]",
         "enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
         "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
-        "tenantId": "[subscription().tenantId]",
+        "tenantId": "[parameters('tenantId')]",
         "sku": {
           "name": "[parameters('skuName')]",
           "family": "A"
