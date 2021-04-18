@@ -913,7 +913,7 @@
 					"resources": [{
 							"type": "Microsoft.Network/networkSecurityGroups",
 							"apiVersion": "2020-05-01",
-							"name": "[variables('networkSecurityGroupName')]",
+							"name": "[parameters('networkSecurityGroupName')]",
 						"location": "[deployment().location]",
 							"properties": {
         "securityRules": [
