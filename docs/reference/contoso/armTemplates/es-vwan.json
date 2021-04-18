@@ -924,9 +924,7 @@
 									"addressPrefixes": [
 										"[parameters('identityVnetPrefix')]"
 									]
-								}
-							}
-						},
+								},
 								"subnets": [
           {
             "name": "subnet1",
@@ -946,10 +944,15 @@
                                         "*"
                                     ]
                                 }
-              ]
+              ],
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
+              }
             }
           }
         ]
+							}
+						}
 
 
 					]
