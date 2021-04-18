@@ -53,7 +53,7 @@
 			"metadata": {
 				"description": "hub vnet name"
 			}
-		},		
+		},
 		"onlineVnetName": {
 			"type": "string",
 			"defaultValue": "online-vnet",
@@ -899,13 +899,13 @@
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"name": "NSGdeployment",
-		        "subscriptionId": "[parameters('identitySubscriptionId')]",
-           		"resourceGroup": "[variables('rgNameIdentity')]",
+			"subscriptionId": "[parameters('identitySubscriptionId')]",
+			"resourceGroup": "[variables('rgNameIdentity')]",
 			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', variables('rgNameIdentity'))]"
+				"[resourceId('Microsoft.Resources/deployments', variables('rgNameIdentity'))]",
 				"NSGdeployment"
 			],
-			
+
 			"properties": {
 				"mode": "Incremental",
 				"template": {
@@ -916,24 +916,22 @@
 							"type": "Microsoft.Network/networkSecurityGroups",
 							"apiVersion": "2020-05-01",
 							"name": "[parameters('networkSecurityGroupName')]",
-						"location": "[deployment().location]",
+							"location": "[deployment().location]",
 							"properties": {
-        "securityRules": [
-          {
-            "name": "default-allow-3389",
-            "properties": {
-              "priority": 1000,
-              "access": "Allow",
-              "direction": "Inbound",
-              "destinationPortRange": "3389",
-              "protocol": "Tcp",
-              "sourceAddressPrefix": "*",
-              "sourcePortRange": "*",
-              "destinationAddressPrefix": "*"
-            }
-          }
-        ]
-      }
+								"securityRules": [{
+									"name": "default-allow-3389",
+									"properties": {
+										"priority": 1000,
+										"access": "Allow",
+										"direction": "Inbound",
+										"destinationPortRange": "3389",
+										"protocol": "Tcp",
+										"sourceAddressPrefix": "*",
+										"sourcePortRange": "*",
+										"destinationAddressPrefix": "*"
+									}
+								}]
+							}
 						}
 
 
@@ -950,9 +948,9 @@
 			"resourceGroup": "[variables('rgNameIdentity')]",
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', variables('rgNameIdentity'))]",
-				
+
 			],
-			
+
 
 			"subscriptionId": "[parameters('identitySubscriptionId')]",
 			"properties": {
@@ -965,39 +963,36 @@
 							"type": "Microsoft.Network/virtualNetworks",
 							"apiVersion": "2020-05-01",
 							"name": "[parameters('identityVnetName')]",
-						"location": "[deployment().location]",
+							"location": "[deployment().location]",
 							"properties": {
 								"addressSpace": {
 									"addressPrefixes": [
 										"[parameters('identityVnetPrefix')]"
 									]
 								},
-								"subnets": [
-          {
-            "name": "subnet1",
-            "properties": {
-              "addressPrefix": "[parameters('subnet1Prefix')]",
-	      "networkSecurityGroup": {
-                                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
-                                },
-              "serviceEndpoints": [
-                {
-                                    "service": "Microsoft.Storage",
-                                    "locations": [
-                                        "australiasoutheast",
-                                        "australiaeast"
-                                    ]
-                                },
-                                {
-                                    "service": "Microsoft.EventHub",
-                                    "locations": [
-                                        "*"
-                                    ]
-                                }
-              ]
-            }
-          }
-        ]
+								"subnets": [{
+									"name": "subnet1",
+									"properties": {
+										"addressPrefix": "[parameters('subnet1Prefix')]",
+										"networkSecurityGroup": {
+											"id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
+										},
+										"serviceEndpoints": [{
+												"service": "Microsoft.Storage",
+												"locations": [
+													"australiasoutheast",
+													"australiaeast"
+												]
+											},
+											{
+												"service": "Microsoft.EventHub",
+												"locations": [
+													"*"
+												]
+											}
+										]
+									}
+								}]
 							}
 						}
 
@@ -1030,7 +1025,7 @@
 							"type": "Microsoft.Network/virtualNetworks",
 							"apiVersion": "2020-05-01",
 							"name": "[parameters('onlineVnetName')]",
-						"location": "[deployment().location]",
+							"location": "[deployment().location]",
 							"properties": {
 								"addressSpace": {
 									"addressPrefixes": [
@@ -1069,7 +1064,7 @@
 							"type": "Microsoft.Network/virtualNetworks",
 							"apiVersion": "2020-05-01",
 							"name": "[parameters('prodVnetName')]",
-						"location": "[deployment().location]",
+							"location": "[deployment().location]",
 							"properties": {
 								"addressSpace": {
 									"addressPrefixes": [
@@ -1108,7 +1103,7 @@
 							"type": "Microsoft.Network/virtualNetworks",
 							"apiVersion": "2020-05-01",
 							"name": "[parameters('uatVnetName')]",
-						"location": "[deployment().location]",
+							"location": "[deployment().location]",
 							"properties": {
 								"addressSpace": {
 									"addressPrefixes": [
@@ -1147,7 +1142,7 @@
 							"type": "Microsoft.Network/virtualNetworks",
 							"apiVersion": "2020-05-01",
 							"name": "[parameters('devVnetName')]",
-						"location": "[deployment().location]",
+							"location": "[deployment().location]",
 							"properties": {
 								"addressSpace": {
 									"addressPrefixes": [
