@@ -903,6 +903,7 @@
            		"resourceGroup": "[variables('rgNameIdentity')]",
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', variables('rgNameIdentity'))]"
+				"NSGdeployment"
 			],
 			
 			"properties": {
