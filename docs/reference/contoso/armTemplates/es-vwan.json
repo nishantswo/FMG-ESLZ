@@ -887,6 +887,36 @@
 							"location": "[deployment().location]",
 							"name": "[variables('rgNameDev')]",
 							"properties": {}
+						},
+						      {
+						    "type": "Microsoft.Resources/deployments",
+						    "apiVersion": "2020-06-01",
+						    "name": "lockDeployment",
+						    "resourceGroup": "[variables('rgNameDev')]",
+						    "dependsOn": [
+							"[resourceId('Microsoft.Resources/resourceGroups/', variables('rgNameDev'))]"
+						    ],
+						    "properties": {
+							"mode": "Incremental",
+							"template": {
+							    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+							    "contentVersion": "1.0.0.0",
+							    "parameters": {},
+							    "variables": {},
+							    "resources": [
+								{
+								    "type": "Microsoft.Authorization/locks",
+								    "apiVersion": "2016-09-01",
+								    "name": "rgLock",
+								    "properties": {
+									"level": "CanNotDelete",
+									"notes": "Resource group and its resources should not be deleted."
+								    }
+								}
+							    ],
+							    "outputs": {}
+							}
+						    }
 						}
 
 					]
