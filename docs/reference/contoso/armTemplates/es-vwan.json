@@ -946,23 +946,22 @@
 			"apiVersion": "2019-10-01",
 			"name": "identityvnetdeployment",
 			"resourceGroup": "[variables('rgNameIdentity')]",
-			"subscriptionId": "[parameters('identitySubscriptionId')]",
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', variables('rgNameIdentity'))]",
 				"NSGdeployment"
 			],
 
 
-			
+			"subscriptionId": "[parameters('identitySubscriptionId')]",
 			"properties": {
 				"mode": "Incremental",
 				"template": {
-					"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
 					"contentVersion": "1.0.0.0",
 					"parameters": {},
 					"resources": [{
-							"apiVersion": "2017-09-01",
-     							"type": "Microsoft.Network/virtualNetworks",
+							"type": "Microsoft.Network/virtualNetworks",
+							"apiVersion": "2020-05-01",
 							"name": "[parameters('identityVnetName')]",
 							"location": "[deployment().location]",
 							"properties": {
@@ -976,7 +975,7 @@
 									"properties": {
 										"addressPrefix": "[parameters('subnet1Prefix')]",
 										"networkSecurityGroup": {
-											"id": "[concat('/subscriptions/', parameters('identityLzSubscriptionId'), '/resourceGroups/', parameters('rgNameIdentity'), '/providers/Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]"
+											"id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
 										},
 										"serviceEndpoints": [{
 												"service": "Microsoft.Storage",
