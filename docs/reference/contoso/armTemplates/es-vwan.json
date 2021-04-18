@@ -1256,7 +1256,7 @@
 					"parameters": {
 					 "tenantId": {
    					   "type": "string",
-    					   "defaultValue": "[subscription().tenantId]",
+    					   "defaultValue": "e47e6989-0297-4281-8a6a-87f8f72c68e3",
     					   "metadata": {
      					   "description": "Specifies the Azure Active Directory tenant ID that should be used for authenticating requests to the key vault. Get it by using Get-AzSubscription cmdlet."
     						  }
