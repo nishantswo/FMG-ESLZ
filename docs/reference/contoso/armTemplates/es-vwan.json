@@ -924,33 +924,7 @@
 									"addressPrefixes": [
 										"[parameters('identityVnetPrefix')]"
 									]
-								},
-								"subnets": [
-          {
-            "name": "subnet1",
-            "properties": {
-              "addressPrefix": "[parameters('subnet1Prefix')]",
-              "serviceEndpoints": [
-                {
-                                    "service": "Microsoft.Storage",
-                                    "locations": [
-                                        "australiasoutheast",
-                                        "australiaeast"
-                                    ]
-                                },
-                                {
-                                    "service": "Microsoft.EventHub",
-                                    "locations": [
-                                        "*"
-                                    ]
-                                }
-              ],
-              "networkSecurityGroup": {
-                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
-              }
-            }
-          }
-        ]
+								}
 							}
 						}
 
