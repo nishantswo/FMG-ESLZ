@@ -16,6 +16,31 @@
 				"description": "Specifies the Azure Active Directory tenant ID that should be used for authenticating requests to the key vault. Get it by using Get-AzSubscription cmdlet."
 			}
 		},
+		"objectId": {
+      "type": "string",
+      "defaultValue": "1e6e96c6-9313-4136-9321-8cfbf5cec36e",
+      "metadata": {
+        "description": "Specifies the object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Get it by using Get-AzADUser or Get-AzADServicePrincipal cmdlets."
+      }
+    },
+    "keysPermissions": {
+      "type": "array",
+      "defaultValue": [
+        "list"
+      ],
+      "metadata": {
+        "description": "Specifies the permissions to keys in the vault. Valid values are: all, encrypt, decrypt, wrapKey, unwrapKey, sign, verify, get, list, create, update, import, delete, backup, restore, recover, and purge."
+      }
+    },
+    "secretsPermissions": {
+      "type": "array",
+      "defaultValue": [
+        "list"
+      ],
+      "metadata": {
+        "description": "Specifies the permissions to secrets in the vault. Valid values are: all, get, list, set, delete, backup, restore, recover, and purge."
+      }
+    },
 		"managementSubscriptionId": {
 			"type": "string",
 			"defaultValue": "7d8bccc8-ddf0-40fb-acf8-61829c21db71",
@@ -1270,9 +1295,16 @@
 								"enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
 								"enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
 								"tenantId": "[parameters('tenantId')]",
-								"accessPolicies": [{
-									"tenantId": "[parameters('tenantId')]"
-								}],
+								"accessPolicies": [
+          {
+            "objectId": "[parameters('objectId')]",
+            "tenantId": "[parameters('tenantId')]",
+            "permissions": {
+              "keys": "[parameters('keysPermissions')]",
+              "secrets": "[parameters('secretsPermissions')]"
+            }
+          }
+        ],
 								"sku": {
 									"name": "[parameters('skuName')]",
 									"family": "A"
