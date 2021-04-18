@@ -211,7 +211,7 @@
 		},
 		"keyVaultName": {
 			"type": "string",
-			"defaultValue": "testkv",
+			"defaultValue": "fmgkvault",
 			"metadata": {
 				"description": "Specifies the name of the key vault."
 			}
