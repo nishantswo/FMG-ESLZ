@@ -1250,6 +1250,7 @@
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"name": "keyvaultdeployment",
+			"location": "[deployment().location]",
 			"resourceGroup": "[variables('rgNameManagement')]",
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', variables('rgNameManagement'))]"
