@@ -1271,9 +1271,7 @@
 								"enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
 								"tenantId": "[parameters('tenantId')]",
 								"accessPolicies": [{
-
 									"tenantId": "[parameters('tenantId')]"
-
 								}],
 								"sku": {
 									"name": "[parameters('skuName')]",
