@@ -1271,7 +1271,7 @@
         "enabledForDeployment": "[parameters('enabledForDeployment')]",
         "enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
         "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
-        "tenantId": "[parameters('tenantId')]",
+        "tenantId": "[subscription().tenantId]",
         "sku": {
           "name": "[parameters('skuName')]",
           "family": "A"
