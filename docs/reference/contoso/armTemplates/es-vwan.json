@@ -893,28 +893,29 @@
 				}
 			}
 		},
-{
+
+
+		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
-			"name": "nsgdeployment",
-			"location": "[deployment().location]",
+			"name": "NSGdeployment",
 			"resourceGroup": "[variables('rgNameIdentity')]",
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', variables('rgNameIdentity'))]"
 			],
+			
 			"properties": {
 				"mode": "Incremental",
 				"template": {
-					"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
 					"contentVersion": "1.0.0.0",
 					"parameters": {},
 					"resources": [{
-      "comments": "Default Network Security Group for template",
-      "type": "Microsoft.Network/networkSecurityGroups",
-      "apiVersion": "2019-08-01",
-      "name": "[parameters('networkSecurityGroupName')]",
-      "location": "[deployment().location]",
-      "properties": {
+							"type": "Microsoft.Network/networkSecurityGroups",
+							"apiVersion": "2020-05-01",
+							"name": "[variables('networkSecurityGroupName')]",
+						"location": "[deployment().location]",
+							"properties": {
         "securityRules": [
           {
             "name": "default-allow-3389",
@@ -931,14 +932,13 @@
           }
         ]
       }
-    }
+						}
+
 
 					]
 				}
 			}
 		},
-
-		
 
 
 		{
