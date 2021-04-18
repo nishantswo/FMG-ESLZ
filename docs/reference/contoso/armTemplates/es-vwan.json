@@ -946,22 +946,23 @@
 			"apiVersion": "2019-10-01",
 			"name": "identityvnetdeployment",
 			"resourceGroup": "[variables('rgNameIdentity')]",
+			"subscriptionId": "[parameters('identitySubscriptionId')]",
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', variables('rgNameIdentity'))]",
 				"NSGdeployment"
 			],
 
 
-			"subscriptionId": "[parameters('identitySubscriptionId')]",
+			
 			"properties": {
 				"mode": "Incremental",
 				"template": {
-					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+					"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
 					"contentVersion": "1.0.0.0",
 					"parameters": {},
 					"resources": [{
-							"type": "Microsoft.Network/virtualNetworks",
-							"apiVersion": "2020-05-01",
+							"apiVersion": "2017-09-01",
+     							"type": "Microsoft.Network/virtualNetworks",
 							"name": "[parameters('identityVnetName')]",
 							"location": "[deployment().location]",
 							"properties": {
