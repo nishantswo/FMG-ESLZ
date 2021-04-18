@@ -53,9 +53,37 @@
 				"description": "dev vnet name"
 			}
 		},
+		"rgNameIdentity": {
+			"type": "string",
+			"defaultValue": "fmgd-identity",
+			"metadata": {
+				"description": "prod vnet name"
+			}
+		},
+		"rgNameOnline": {
+			"type": "string",
+			"defaultValue": "fmgd-online",
+			"metadata": {
+				"description": "prod vnet name"
+			}
+		},
 		"rgNameProd": {
 			"type": "string",
 			"defaultValue": "fmgd-prod",
+			"metadata": {
+				"description": "prod vnet name"
+			}
+		},
+		"rgNameUat": {
+			"type": "string",
+			"defaultValue": "fmgd-uat",
+			"metadata": {
+				"description": "prod vnet name"
+			}
+		},
+		"rgNameDev": {
+			"type": "string",
+			"defaultValue": "fmgd-dev",
 			"metadata": {
 				"description": "prod vnet name"
 			}
