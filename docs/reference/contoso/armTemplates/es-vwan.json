@@ -977,6 +977,9 @@
             "name": "subnet1",
             "properties": {
               "addressPrefix": "[parameters('subnet1Prefix')]",
+	      "networkSecurityGroup": {
+                                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
+                                },
               "serviceEndpoints": [
                 {
                                     "service": "Microsoft.Storage",
@@ -991,10 +994,7 @@
                                         "*"
                                     ]
                                 }
-              ],
-		    "networkSecurityGroup": {
-                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
-              }
+              ]
             }
           }
         ]
