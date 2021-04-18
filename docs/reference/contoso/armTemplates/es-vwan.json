@@ -9,13 +9,13 @@
 				"description": "Provide a prefix (max 10 characters, unique at tenant-scope) for the Management Group hierarchy and other resources created as part of Enterprise-scale."
 			}
 		},
-		 "tenantId": {
-   					   "type": "string",
-    					   "defaultValue": "e47e6989-0297-4281-8a6a-87f8f72c68e3",
-    					   "metadata": {
-     					   "description": "Specifies the Azure Active Directory tenant ID that should be used for authenticating requests to the key vault. Get it by using Get-AzSubscription cmdlet."
-    						  }
-    						},
+		"tenantId": {
+			"type": "string",
+			"defaultValue": "e47e6989-0297-4281-8a6a-87f8f72c68e3",
+			"metadata": {
+				"description": "Specifies the Azure Active Directory tenant ID that should be used for authenticating requests to the key vault. Get it by using Get-AzSubscription cmdlet."
+			}
+		},
 		"managementSubscriptionId": {
 			"type": "string",
 			"defaultValue": "7d8bccc8-ddf0-40fb-acf8-61829c21db71",
@@ -185,56 +185,56 @@
 			}
 		},
 		"keyVaultName": {
-      "type": "string",
-      "defaultValue": "testkv",
-      "metadata": {
-        "description": "Specifies the name of the key vault."
-      }
-    },
-    "enabledForDeployment": {
-      "type": "bool",
-      "defaultValue": true,
-      "allowedValues": [
-        true,
-        false
-      ],
-      "metadata": {
-        "description": "Specifies whether Azure Virtual Machines are permitted to retrieve certificates stored as secrets from the key vault."
-      }
-    },
-    "enabledForDiskEncryption": {
-      "type": "bool",
-      "defaultValue": true,
-      "allowedValues": [
-        true,
-        false
-      ],
-      "metadata": {
-        "description": "Specifies whether Azure Disk Encryption is permitted to retrieve secrets from the vault and unwrap keys."
-      }
-    },
-    "enabledForTemplateDeployment": {
-      "type": "bool",
-      "defaultValue": true,
-      "allowedValues": [
-        true,
-        false
-      ],
-      "metadata": {
-        "description": "Specifies whether Azure Resource Manager is permitted to retrieve secrets from the key vault."
-      }
-    },
-    "skuName": {
-      "type": "string",
-      "defaultValue": "Standard",
-      "allowedValues": [
-        "Standard",
-        "Premium"
-      ],
-      "metadata": {
-        "description": "Specifies whether the key vault is a standard vault or a premium vault."
-      }
-    },
+			"type": "string",
+			"defaultValue": "testkv",
+			"metadata": {
+				"description": "Specifies the name of the key vault."
+			}
+		},
+		"enabledForDeployment": {
+			"type": "bool",
+			"defaultValue": true,
+			"allowedValues": [
+				true,
+				false
+			],
+			"metadata": {
+				"description": "Specifies whether Azure Virtual Machines are permitted to retrieve certificates stored as secrets from the key vault."
+			}
+		},
+		"enabledForDiskEncryption": {
+			"type": "bool",
+			"defaultValue": true,
+			"allowedValues": [
+				true,
+				false
+			],
+			"metadata": {
+				"description": "Specifies whether Azure Disk Encryption is permitted to retrieve secrets from the vault and unwrap keys."
+			}
+		},
+		"enabledForTemplateDeployment": {
+			"type": "bool",
+			"defaultValue": true,
+			"allowedValues": [
+				true,
+				false
+			],
+			"metadata": {
+				"description": "Specifies whether Azure Resource Manager is permitted to retrieve secrets from the key vault."
+			}
+		},
+		"skuName": {
+			"type": "string",
+			"defaultValue": "Standard",
+			"allowedValues": [
+				"Standard",
+				"Premium"
+			],
+			"metadata": {
+				"description": "Specifies whether the key vault is a standard vault or a premium vault."
+			}
+		},
 		"enableLogAnalytics": {
 			"type": "string",
 			"defaultValue": "No",
@@ -946,35 +946,33 @@
 							"name": "[variables('rgNameDev')]",
 							"properties": {}
 						},
-						      {
-						    "type": "Microsoft.Resources/deployments",
-						    "apiVersion": "2020-06-01",
-						    "name": "lockDeployment",
-						    "resourceGroup": "[variables('rgNameDev')]",
-						    "dependsOn": [
-							"[resourceId('Microsoft.Resources/resourceGroups/', variables('rgNameDev'))]"
-						    ],
-						    "properties": {
-							"mode": "Incremental",
-							"template": {
-							    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-							    "contentVersion": "1.0.0.0",
-							    "parameters": {},
-							    "variables": {},
-							    "resources": [
-								{
-								    "type": "Microsoft.Authorization/locks",
-								    "apiVersion": "2016-09-01",
-								    "name": "rgLock",
-								    "properties": {
-									"level": "CanNotDelete",
-									"notes": "Resource group and its resources should not be deleted."
-								    }
+						{
+							"type": "Microsoft.Resources/deployments",
+							"apiVersion": "2020-06-01",
+							"name": "lockDeployment",
+							"resourceGroup": "[variables('rgNameDev')]",
+							"dependsOn": [
+								"[resourceId('Microsoft.Resources/resourceGroups/', variables('rgNameDev'))]"
+							],
+							"properties": {
+								"mode": "Incremental",
+								"template": {
+									"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+									"contentVersion": "1.0.0.0",
+									"parameters": {},
+									"variables": {},
+									"resources": [{
+										"type": "Microsoft.Authorization/locks",
+										"apiVersion": "2016-09-01",
+										"name": "rgLock",
+										"properties": {
+											"level": "CanNotDelete",
+											"notes": "Resource group and its resources should not be deleted."
+										}
+									}],
+									"outputs": {}
 								}
-							    ],
-							    "outputs": {}
 							}
-						    }
 						}
 
 					]
@@ -1063,7 +1061,7 @@
 									"properties": {
 										"addressPrefix": "[parameters('subnet1Prefix')]",
 										"networkSecurityGroup": {
-										
+
 											"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]"
 										},
 										"serviceEndpoints": [{
@@ -1246,7 +1244,7 @@
 				}
 			}
 		},
-		      {
+		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"name": "keyvaultdeployment",
@@ -1255,7 +1253,7 @@
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', variables('rgNameManagement'))]"
 			],
-		
+
 			"properties": {
 				"mode": "Incremental",
 				"template": {
@@ -1263,39 +1261,37 @@
 					"contentVersion": "1.0.0.0",
 					"parameters": {},
 					"resources": [{
-      "type": "Microsoft.KeyVault/vaults",
-      "apiVersion": "2019-09-01",
-      "name": "[parameters('keyVaultName')]",
-     "location": "[deployment().location]",
-      "properties": {
-        "enabledForDeployment": "[parameters('enabledForDeployment')]",
-        "enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
-        "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
-        "tenantId": "[parameters('tenantId')]",
-	"accessPolicies": [
-          {
-         
-            "tenantId": "[parameters('tenantId')]",
-    
-          }
-        ],
-        "sku": {
-          "name": "[parameters('skuName')]",
-          "family": "A"
-        },
-        "networkAcls": {
-          "defaultAction": "Allow",
-          "bypass": "AzureServices"
-        }
-      }
-    }
+							"type": "Microsoft.KeyVault/vaults",
+							"apiVersion": "2019-09-01",
+							"name": "[parameters('keyVaultName')]",
+							"location": "[deployment().location]",
+							"properties": {
+								"enabledForDeployment": "[parameters('enabledForDeployment')]",
+								"enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
+								"enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
+								"tenantId": "[parameters('tenantId')]",
+								"accessPolicies": [{
+
+									"tenantId": "[parameters('tenantId')]"
+
+								}],
+								"sku": {
+									"name": "[parameters('skuName')]",
+									"family": "A"
+								},
+								"networkAcls": {
+									"defaultAction": "Allow",
+									"bypass": "AzureServices"
+								}
+							}
+						}
 
 
 					]
 				}
 			}
 		},
-		
+
 		{
 			"condition": "[and(not(empty(parameters('managementSubscriptionId'))),equals(parameters('enableLogAnalytics'), 'Yes'))]",
 			"type": "Microsoft.Resources/deployments",
