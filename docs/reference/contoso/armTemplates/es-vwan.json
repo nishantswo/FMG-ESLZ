@@ -217,8 +217,6 @@
         "description": "Specifies whether Azure Resource Manager is permitted to retrieve secrets from the key vault."
       }
     },
-   
- 
     "skuName": {
       "type": "string",
       "defaultValue": "Standard",
