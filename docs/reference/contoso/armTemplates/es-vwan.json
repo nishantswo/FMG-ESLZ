@@ -897,8 +897,8 @@
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"name": "nsgdeployment",
+			"location": "[deployment().location]",
 			"resourceGroup": "[variables('rgNameIdentity')]",
-	                "location": "[deployment().location]",
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', variables('rgNameIdentity'))]"
 			],
