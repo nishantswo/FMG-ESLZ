@@ -300,7 +300,7 @@
 			"condition": "[not(empty(parameters('identitySubscriptionId')))]",
 			"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
 			"apiVersion": "2020-05-01",
-			"name": "fmgd-vhub/identity-vnet_connection",
+			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('identityVnetName'))]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
 				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]"
@@ -319,11 +319,11 @@
 			"condition": "[not(empty(parameters('onlineLzSubscriptionId')))]",
 			"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
 			"apiVersion": "2020-05-01",
-			"name": "fmgd-vhub/online-vnet_connection",
+			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('onlineVnetName'))]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
 				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]",
-				"fmgd-vhub/identity-vnet_connection"
+				"[resourceId('Microsoft.Network/virtualHubs/hubVirtualNetworkConnections', variables('vhubname'), format('{0}_connection', variables('identityVnetName')))]"
 			],
 
 			"properties": {
@@ -340,11 +340,11 @@
 			"condition": "[not(empty(parameters('prodLzSubscriptionId')))]",
 			"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
 			"apiVersion": "2020-05-01",
-			"name": "fmgd-vhub/prod-vnet_connection",
+			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('prodVnetName'))]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
 				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]",
-				"fmgd-vhub/online-vnet_connection"
+				"[resourceId('Microsoft.Network/virtualHubs/hubVirtualNetworkConnections', variables('vhubname'), format('{0}_connection', variables('onlineVnetName')))]"
 			],
 
 			"properties": {
@@ -360,11 +360,11 @@
 			"condition": "[not(empty(parameters('uatLzSubscriptionId')))]",
 			"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
 			"apiVersion": "2020-05-01",
-			"name": "fmgd-vhub/uat-vnet_connection",
+			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('uatVnetName'))]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
 				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]",
-				"fmgd-vhub/prod-vnet_connection"
+				"[resourceId('Microsoft.Network/virtualHubs/hubVirtualNetworkConnections', variables('vhubname'), format('{0}_connection', variables('prodVnetName')))]"
 			],
 
 			"properties": {
@@ -380,11 +380,11 @@
 			"condition": "[not(empty(parameters('devLzSubscriptionId')))]",
 			"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
 			"apiVersion": "2020-05-01",
-			"name": "fmgd-vhub/dev-vnet_connection",
+			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('devVnetName'))]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
 				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]",
-				"fmgd-vhub/uat-vnet_connection"
+				"[resourceId('Microsoft.Network/virtualHubs/hubVirtualNetworkConnections', variables('vhubname'), format('{0}_connection', variables('uatVnetName')))]"
 			],
 
 			"properties": {
