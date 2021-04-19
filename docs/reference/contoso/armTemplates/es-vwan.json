@@ -1303,7 +1303,9 @@
 									"vmSize": "[parameters('vmSize')]"
 								},
 								"availabilitySet": {
-									"id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySetName'))]"
+	
+									"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Compute/availabilitySets/', parameters('availabilitySetName'))]"
+									
 								},
 								"osProfile": {
 									"computerName": "[parameters('virtualMachineName')]",
@@ -1338,7 +1340,9 @@
 								},
 								"networkProfile": {
 									"networkInterfaces": [{
-										"id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"
+									
+										"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]"
+										
 									}]
 								}
 							},
