@@ -726,6 +726,7 @@
 			"azOps": "[uri(deployment().properties.templateLink.uri, 'auxiliary/azOpsSetup.json')]",
 			"adps": "[uri(deployment().properties.templateLink.uri, 'auxiliary/CreateADPDC.ps1')]",
 			"adzip": "[uri(deployment().properties.templateLink.uri, 'auxiliary/CreateADPDC.zip')]"
+			
 		},
 		"rgNameIdentity": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-identity')]",
 		"rgNameManagement": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-management')]",
