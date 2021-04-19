@@ -724,7 +724,7 @@
 			"landingZone": "[uri(deployment().properties.templateLink.uri, 'auxiliary/lz.json')]",
 			"identity": "[uri(deployment().properties.templateLink.uri, 'auxiliary/identity.json')]",
 			"azOps": "[uri(deployment().properties.templateLink.uri, 'auxiliary/azOpsSetup.json')]",
-			"adps": "[uri(deployment().properties.templateLink.uri, 'auxiliary/CreateADPDC.ps1')]"
+			"adps": "[uri(deployment().properties.templateLink.uri, 'auxiliary/CreateADPDC.ps1')]",
 			"adzip": "[uri(deployment().properties.templateLink.uri, 'auxiliary/CreateADPDC.zip')]"
 		},
 		"rgNameIdentity": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-identity')]",
