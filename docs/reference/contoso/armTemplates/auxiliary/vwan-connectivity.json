@@ -323,7 +323,7 @@
 			"dependsOn": [
 				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
 				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]",
-				"[resourceId('Microsoft.Network/virtualHubs/hubVirtualNetworkConnections', variables('vhubname'), format('{0}_connection', variables('identityVnetName')))]"
+				"[resourceId('Microsoft.Network/virtualHubs/hubVirtualNetworkConnections', variables('vhubname'), format('{0}_connection', parameters('identityVnetName')))]"
 			],
 
 			"properties": {
@@ -344,7 +344,7 @@
 			"dependsOn": [
 				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
 				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]",
-				"[resourceId('Microsoft.Network/virtualHubs/hubVirtualNetworkConnections', variables('vhubname'), format('{0}_connection', variables('onlineVnetName')))]"
+				"[resourceId('Microsoft.Network/virtualHubs/hubVirtualNetworkConnections', variables('vhubname'), format('{0}_connection', parameters('onlineVnetName')))]"
 			],
 
 			"properties": {
@@ -364,7 +364,7 @@
 			"dependsOn": [
 				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
 				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]",
-				"[resourceId('Microsoft.Network/virtualHubs/hubVirtualNetworkConnections', variables('vhubname'), format('{0}_connection', variables('prodVnetName')))]"
+				"[resourceId('Microsoft.Network/virtualHubs/hubVirtualNetworkConnections', variables('vhubname'), format('{0}_connection', parameters('prodVnetName')))]"
 			],
 
 			"properties": {
@@ -384,7 +384,7 @@
 			"dependsOn": [
 				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
 				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]",
-				"[resourceId('Microsoft.Network/virtualHubs/hubVirtualNetworkConnections', variables('vhubname'), format('{0}_connection', variables('uatVnetName')))]"
+				"[resourceId('Microsoft.Network/virtualHubs/hubVirtualNetworkConnections', variables('vhubname'), format('{0}_connection', parameters('uatVnetName')))]"
 			],
 
 			"properties": {
