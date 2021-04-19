@@ -1322,7 +1322,7 @@
 										"caching": "ReadOnly",
 										"createOption": "FromImage",
 										"managedDisk": {
-											"storageAccountType": "StandardHDD_LRS"
+											"storageAccountType": "StandardSSD_LRS"
 										}
 									},
 									"dataDisks": [{
@@ -1331,7 +1331,7 @@
 										"createOption": "Empty",
 										"diskSizeGB": 20,
 										"managedDisk": {
-											"storageAccountType": "StandardHDD_LRS"
+											"storageAccountType": "StandardSSD_LRS"
 										},
 										"lun": 0
 									}]
