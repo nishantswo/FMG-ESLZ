@@ -1282,8 +1282,7 @@
 										"privateIPAllocationMethod": "Static",
 										"privateIPAddress": "[parameters('DNSServerAddress')]",
 										"subnet": {
-									
-											"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/virtualNetworks/subnets/', parameters('identityVnetName'), '/', 'adds-prod-subnet')]"
+											"id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('identityVnetName'), 'adds-prod-subnet')]"
 										}
 									}
 								}]
