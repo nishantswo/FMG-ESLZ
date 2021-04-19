@@ -1381,7 +1381,7 @@
 						{
 							"type": "Microsoft.Network/virtualNetworks",
 							"apiVersion": "2020-05-01",
-							"name": "[parameters('onlineVnetName')]",
+							"name": "[parameters('identityVnetName')]",
 							"location": "[deployment().location]",
 							"dependsOn": [
 								"[parameters('virtualMachineName')]"
@@ -1389,7 +1389,7 @@
 							"properties": {
 								"addressSpace": {
 									"addressPrefixes": [
-										"[parameters('onlineVnetPrefix')]"
+										"[parameters('identityVnetPrefix')]"
 									]
 								},
 								"dhcpOptions": {
