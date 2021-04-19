@@ -81,7 +81,29 @@
 		},
 		"subnet1Prefix": {
 			"type": "string",
-			"defaultValue": "10.122.96.0/24",
+			"defaultValue": "10.122.122.128/27",
+			"metadata": {
+				"description": "hub vnet name"
+			}
+		},
+		"DNSServerAddress": {
+			"type": "string",
+			"defaultValue": "10.122.122.135",
+			"metadata": {
+				"description": "hub vnet name"
+			}
+		},
+		
+		"subnet1Prefix": {
+			"type": "string",
+			"defaultValue": "10.122.122.160/27",
+			"metadata": {
+				"description": "hub vnet name"
+			}
+		},
+		"subnet1Prefix": {
+			"type": "string",
+			"defaultValue": "10.122.122.192/27",
 			"metadata": {
 				"description": "hub vnet name"
 			}
@@ -116,7 +138,7 @@
 		},
 		"identityVnetPrefix": {
 			"type": "string",
-			"defaultValue": "10.122.96.0/20",
+			"defaultValue": "10.122.122.0/24",
 			"metadata": {
 				"description": "identity Vnet Address Space"
 			}
@@ -260,6 +282,63 @@
 				"description": "Specifies whether the key vault is a standard vault or a premium vault."
 			}
 		},
+		 "adminUsername": {
+            "type": "string",
+             "defaultValue": "azureuser"
+            "metadata": {
+                "description": "The name of the Administrator of the new VM and Domain"
+            }
+        },
+        "adminPassword": {
+            "type": "string",
+	    "defaultValue": "Wind0wsazure"
+            "metadata": {
+                "description": "The password for the Administrator account of the new VM and Domain"
+            }
+        },
+        "domainName": {
+            "type": "string",
+            "defaultValue": "test.com"
+            "metadata": {
+                "description": "The FQDN of the AD Domain created "
+            }
+        },
+        
+        "_artifactsLocationSasToken": {
+            "type": "securestring",
+            "metadata": {
+                "description": "Auto-generated token to access _artifactsLocation"
+            },
+            "defaultValue": ""
+        },
+          "vmSize": {
+            "type": "string",
+            "defaultValue": "Standard_D2s_v3",
+            "metadata": {
+                "description": "Size of the VM for the controller"
+            }
+        },
+ "virtualMachineName": {
+            "type": "string",
+            "defaultValue": "adVM",
+            "metadata": {
+                "description": "Virtual machine name."
+            }
+        },
+         "networkInterfaceName": {
+            "type": "string",
+            "defaultValue": "adNic",
+            "metadata": {
+                "description": "Network interface name."
+            }
+        },
+ "availabilitySetName": {
+            "type": "string",
+            "defaultValue": "adAvailabiltySet",
+            "metadata": {
+                "description": "Availability set name."
+            }
+        },
 		"enableLogAnalytics": {
 			"type": "string",
 			"defaultValue": "No",
@@ -1082,7 +1161,7 @@
 									]
 								},
 								"subnets": [{
-									"name": "subnet1",
+									"name": "adds-prod-subnet",
 									"properties": {
 										"addressPrefix": "[parameters('subnet1Prefix')]",
 										"networkSecurityGroup": {
@@ -1104,7 +1183,50 @@
 											}
 										]
 									}
-								}]
+								},
+							        {
+									"name": "adds-qa-subnet",
+									"properties": {
+										"addressPrefix": "[parameters('subnet2Prefix')]",
+										
+										"serviceEndpoints": [{
+												"service": "Microsoft.Storage",
+												"locations": [
+													"australiasoutheast",
+													"australiaeast"
+												]
+											},
+											{
+												"service": "Microsoft.EventHub",
+												"locations": [
+													"*"
+												]
+											}
+										]
+									}
+								},
+							        {
+									"name": "adds-dev-subnet",
+									"properties": {
+										"addressPrefix": "[parameters('subnet3Prefix')]",
+										
+										"serviceEndpoints": [{
+												"service": "Microsoft.Storage",
+												"locations": [
+													"australiasoutheast",
+													"australiaeast"
+												]
+											},
+											{
+												"service": "Microsoft.EventHub",
+												"locations": [
+													"*"
+												]
+											}
+										]
+									}
+								}
+						       ]
 							}
 						}
 
@@ -1121,10 +1243,8 @@
 			"subscriptionId": "[parameters('identitySubscriptionId')]",
 			"resourceGroup": "[variables('rgNameIdentity')]",
 			"dependsOn": [
-				'identityvnetdeployment'
-
+				"identityvnetdeployment"
 			],
-
 			"properties": {
 				"mode": "Incremental",
 				"template": {
@@ -1132,24 +1252,149 @@
 					"contentVersion": "1.0.0.0",
 					"parameters": {},
 					"resources": [{
-							"type": "Microsoft.Network/networkSecurityGroups",
+            "type": "Microsoft.Compute/availabilitySets",
+            "apiVersion": "2019-03-01",
+            "location": "[deployment().location]",
+            "name": "[parameters('availabilitySetName')]",
+            "properties": {
+                "PlatformUpdateDomainCount": 20,
+                "PlatformFaultDomainCount": 2
+            },
+            "sku": {
+                "name": "Aligned"
+            }
+        },
+         {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2019-02-01",
+            "name": "[parameters('networkInterfaceName')]",
+            "location": "[deployment().location]",
+            "dependsOn": [
+                "[parameters('availabilitySetName')]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Static",
+			    "privateIPAddress": "[parameters('DNSServerAddress')]",
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('identityVnetName'), 'adds-prod-subnet')]"
+			    }
+                        }
+                    }
+                ]
+            }
+        },
+	{
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2019-03-01",
+            "name": "[parameters('virtualMachineName')]",
+            "location": "[deployment().location]",
+            "dependsOn": [
+                "[parameters('networkInterfaceName')]",
+                "[parameters('availabilitySetName')]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('vmSize')]"
+                },
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySetName'))]"
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachineName')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2019-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[concat(parameters('virtualMachineName'),'_OSDisk')]",
+                        "caching": "ReadOnly",
+                        "createOption": "FromImage",
+                        "managedDisk": {
+                            "storageAccountType": "StandardHDD_LRS"
+                        }
+                    },
+                    "dataDisks": [
+                        {
+                            "name": "[concat(parameters('virtualMachineName'), '_DataDisk')]",
+                            "caching": "None",
+                            "createOption": "Empty",
+                            "diskSizeGB": 20,
+                            "managedDisk": {
+                                "storageAccountType": "StandardHDD_LRS"
+                            },
+                            "lun": 0
+                        }
+                    ]
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [
+                {
+                    "type": "extensions",
+                    "apiVersion": "2019-03-01",
+                    "name": "CreateADForest",
+                    "location": "[deployment().location]",
+                    "dependsOn": [
+                        "[parameters('virtualMachineName')]"
+                    ],
+                    "properties": {
+                        "publisher": "Microsoft.Powershell",
+                        "type": "DSC",
+                        "typeHandlerVersion": "2.19",
+                        "autoUpgradeMinorVersion": true,
+                        "settings": {
+                            "ModulesUrl": "[uri(parameters('_artifactsLocation'), concat('DSC/CreateADPDC.zip', parameters('_artifactsLocationSasToken')))]",
+                            "ConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
+                            "Properties": {
+                                "DomainName": "[parameters('domainName')]",
+                                "AdminCreds": {
+                                    "UserName": "[parameters('adminUsername')]",
+                                    "Password": "PrivateSettingsRef:AdminPassword"
+                                }
+                            }
+                        },
+                        "protectedSettings": {
+                            "Items": {
+                                "AdminPassword": "[parameters('adminPassword')]"
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        {
+							"type": "Microsoft.Network/virtualNetworks",
 							"apiVersion": "2020-05-01",
-							"name": "[parameters('networkSecurityGroupName')]",
+							"name": "[parameters('onlineVnetName')]",
 							"location": "[deployment().location]",
+							"dependsOn": [
+                       						 "[parameters('virtualMachineName')]"
+                 					   ],
 							"properties": {
-								"securityRules": [{
-									"name": "default-allow-3389",
-									"properties": {
-										"priority": 1000,
-										"access": "Allow",
-										"direction": "Inbound",
-										"destinationPortRange": "3389",
-										"protocol": "Tcp",
-										"sourceAddressPrefix": "*",
-										"sourcePortRange": "*",
-										"destinationAddressPrefix": "*"
-									}
-								}]
+								"addressSpace": {
+									"addressPrefixes": [
+										"[parameters('onlineVnetPrefix')]"
+									]
+								},
+								"dhcpOptions": {
+         							"dnsServers": "[parameters('DNSServerAddress')]"
+        							}
 							}
 						}
 
@@ -1157,7 +1402,7 @@
 					]
 				}
 			}
-		},
+		}
 
 		{
 			"type": "Microsoft.Resources/deployments",
