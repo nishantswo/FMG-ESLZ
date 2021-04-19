@@ -1113,6 +1113,52 @@
 				}
 			}
 		},
+		      
+		{
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"name": "ADdeployment",
+			"subscriptionId": "[parameters('identitySubscriptionId')]",
+			"resourceGroup": "[variables('rgNameIdentity')]",
+			"dependsOn": [
+				'identityvnetdeployment'
+
+			],
+
+			"properties": {
+				"mode": "Incremental",
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {},
+					"resources": [{
+							"type": "Microsoft.Network/networkSecurityGroups",
+							"apiVersion": "2020-05-01",
+							"name": "[parameters('networkSecurityGroupName')]",
+							"location": "[deployment().location]",
+							"properties": {
+								"securityRules": [{
+									"name": "default-allow-3389",
+									"properties": {
+										"priority": 1000,
+										"access": "Allow",
+										"direction": "Inbound",
+										"destinationPortRange": "3389",
+										"protocol": "Tcp",
+										"sourceAddressPrefix": "*",
+										"sourcePortRange": "*",
+										"destinationAddressPrefix": "*"
+									}
+								}]
+							}
+						}
+
+
+					]
+				}
+			}
+		},
+
 		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
