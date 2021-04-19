@@ -322,7 +322,8 @@
 			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('onlineVnetName'))]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
-				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]"
+				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]",
+				"[concat('Microsoft.Network/virtualHubs/hubVirtualNetworkConnections/',format('{0}/{1}_connection', variables('vhubname'), parameters('identityVnetName')))]"
 			],
 
 			"properties": {
@@ -342,7 +343,8 @@
 			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('prodVnetName'))]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
-				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]"
+				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]",
+				"[concat('Microsoft.Network/virtualHubs/hubVirtualNetworkConnections/',format('{0}/{1}_connection', variables('vhubname'), parameters('onlineVnetName')))]"
 			],
 
 			"properties": {
@@ -361,7 +363,8 @@
 			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('uatVnetName'))]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
-				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]"
+				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]",
+				"[concat('Microsoft.Network/virtualHubs/hubVirtualNetworkConnections/',format('{0}/{1}_connection', variables('vhubname'), parameters('prodVnetName')))]"
 			],
 
 			"properties": {
@@ -380,7 +383,8 @@
 			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('devVnetName'))]",
 			"dependsOn": [
 				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
-				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]"
+				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]",
+				"[concat('Microsoft.Network/virtualHubs/hubVirtualNetworkConnections/',format('{0}/{1}_connection', variables('vhubname'), parameters('uatVnetName')))]"
 			],
 
 			"properties": {
