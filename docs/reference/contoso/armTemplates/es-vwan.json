@@ -23,6 +23,48 @@
 				"description": "Specifies the object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Get it by using Get-AzADUser or Get-AzADServicePrincipal cmdlets."
 			}
 		},
+		 "privateDnsZoneName1": {
+     		 "type": "string",
+      		 "defaultValue": "privatelink.database.windows.net",
+     		 "metadata": {
+     	         "description": "Private DNS zone name"
+    		       }
+    		},
+		"privateDnsZoneName2": {
+     		 "type": "string",
+      		 "defaultValue": "privatelink.blob.core.windows.net",
+     		 "metadata": {
+     	         "description": "Private DNS zone name"
+    		       }
+    		},
+		"privateDnsZoneName3": {
+     		 "type": "string",
+      		 "defaultValue": "privatelink.table.core.windows.net",
+     		 "metadata": {
+     	         "description": "Private DNS zone name"
+    		       }
+    		},
+		"privateDnsZoneName4": {
+     		 "type": "string",
+      		 "defaultValue": "privatelink.queue.core.windows.net",
+     		 "metadata": {
+     	         "description": "Private DNS zone name"
+    		       }
+    		},
+		"privateDnsZoneName5": {
+     		 "type": "string",
+      		 "defaultValue": "privatelink.file.core.windows.net",
+     		 "metadata": {
+     	         "description": "Private DNS zone name"
+    		       }
+    		},
+		"privateDnsZoneName6": {
+     		 "type": "string",
+      		 "defaultValue": "privatelink.vaultcore.azure.net",
+     		 "metadata": {
+     	         "description": "Private DNS zone name"
+    		       }
+    		},
 		"keysPermissions": {
 			"type": "array",
 			"defaultValue": [
@@ -1232,7 +1274,49 @@
 				}
 			}
 		},
+                 {
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"name": "DNSdeployment",
+			"subscriptionId": "[parameters('identitySubscriptionId')]",
+			"resourceGroup": "[variables('rgNameIdentity')]",
+			"dependsOn": [
+				"identityvnetdeployment"
+			],
+			"properties": {
+				"mode": "Incremental",
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {},
+					"resources": [
+						
+						{
+      "type": "Microsoft.Network/privateDnsZones",
+      "apiVersion": "2020-01-01",
+      "name": "[parameters('privateDnsZoneName1')]",
+      "location": "global"
+    },
+    {
+      "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
+      "apiVersion": "2020-01-01",
+      "name": "[concat(parameters('privateDnsZoneName1'), '/', parameters('privateDnsZoneName1'), '-link')]",
+      "location": "global",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZoneName1'))]"
+      ],
+      "properties": {
+        "virtualNetwork": {
+          "id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('identityVnetName'))]"
+        }
+      }
+    }
 
+
+					]
+				}
+			}
+		},
 		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
