@@ -934,6 +934,7 @@
 			},
 			"properties": {}
 		},
+		      
 		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
@@ -1307,7 +1308,8 @@
       ],
       "properties": {
         "virtualNetwork": {
-          "id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('identityVnetName'))]"
+         
+	  "id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/virtualNetworks/', parameters('identityVnetName'))]"
         }
       }
     }
