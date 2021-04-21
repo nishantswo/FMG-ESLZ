@@ -750,9 +750,15 @@
 		}
 	},
 	"variables": {
+		"azPolicyEnvMapping": {
+            "https://management.azure.com/": "auxiliary/policies.json",
+            "https://management.chinacloudapi.cn": "auxiliary/mkPolicies.json",
+            "https://management.azgov.com": "auxiliary/"
+        },
+        "azEnvPolicy": "[variables('azPolicyEnvMapping')[environment().resourceManager]]",
 		"deploymentUris": {
 			"managementGroups": "[uri(deployment().properties.templateLink.uri, 'auxiliary/mgmtGroups.json')]",
-			"policyDefinitions": "[uri(deployment().properties.templateLink.uri, 'auxiliary/policies.json')]",
+			"policyDefinitions": "[concat(uri(deployment().properties.templateLink.uri, variables('azEnvPolicy')))]",
 			"monitoring": "[uri(deployment().properties.templateLink.uri, 'auxiliary/logAnalytics.json')]",
 			"monitoringSolutions": "[uri(deployment().properties.templateLink.uri, 'auxiliary/logAnalyticsSolutions.json')]",
 			"connectivity": "[uri(deployment().properties.templateLink.uri, 'auxiliary/vwan-connectivity.json')]",
@@ -1207,42 +1213,15 @@
 											"networkSecurityGroup": {
 
 												"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]"
-											},
-											"serviceEndpoints": [{
-													"service": "Microsoft.Storage",
-													"locations": [
-														"australiasoutheast",
-														"australiaeast"
-													]
-												},
-												{
-													"service": "Microsoft.EventHub",
-													"locations": [
-														"*"
-													]
-												}
-											]
+											}
+												
 										}
 									},
 									{
 										"name": "adds-qa-subnet",
 										"properties": {
 											"addressPrefix": "[parameters('subnet2Prefix')]",
-
-											"serviceEndpoints": [{
-													"service": "Microsoft.Storage",
-													"locations": [
-														"australiasoutheast",
-														"australiaeast"
-													]
-												},
-												{
-													"service": "Microsoft.EventHub",
-													"locations": [
-														"*"
-													]
-												}
-											]
+												
 										}
 									},
 									{
@@ -1250,19 +1229,7 @@
 										"properties": {
 											"addressPrefix": "[parameters('subnet3Prefix')]",
 
-											"serviceEndpoints": [{
-													"service": "Microsoft.Storage",
-													"locations": [
-														"australiasoutheast",
-														"australiaeast"
-													]
-												},
-												{
-													"service": "Microsoft.EventHub",
-													"locations": [
-														"*"
-													]
-												}
+											
 											]
 										}
 									}
