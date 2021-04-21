@@ -1424,26 +1424,10 @@
 									}
 								}
 							}]
-						},
-						{
-							"type": "Microsoft.Network/virtualNetworks",
-							"apiVersion": "2020-05-01",
-							"name": "[parameters('identityVnetName')]",
-							"location": "[deployment().location]",
-							"dependsOn": [
-								"[parameters('virtualMachineName')]"
-							],
-							"properties": {
-								"addressSpace": {
-									"addressPrefixes": [
-										"[parameters('identityVnetPrefix')]"
-									]
-								},
-								"dhcpOptions": {
-									"dnsServers": "[parameters('DNSServerAddress')]"
-								}
-							}
 						}
+						
+							
+								
 
 
 					]
@@ -1596,7 +1580,7 @@
 							"properties": {
 								"addressSpace": {
 									"addressPrefixes": [
-										"10.122.96.0"
+										"10.122.96.0/21"
 									]
 								},
 								"subnets": [{
