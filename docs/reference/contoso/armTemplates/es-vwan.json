@@ -23,48 +23,48 @@
 				"description": "Specifies the object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Get it by using Get-AzADUser or Get-AzADServicePrincipal cmdlets."
 			}
 		},
-		 "privateDnsZoneName1": {
-     		 "type": "string",
-      		 "defaultValue": "privatelink.database.windows.net",
-     		 "metadata": {
-     	         "description": "Private DNS zone name"
-    		       }
-    		},
+		"privateDnsZoneName1": {
+			"type": "string",
+			"defaultValue": "privatelink.database.windows.net",
+			"metadata": {
+				"description": "Private DNS zone name"
+			}
+		},
 		"privateDnsZoneName2": {
-     		 "type": "string",
-      		 "defaultValue": "privatelink.blob.core.windows.net",
-     		 "metadata": {
-     	         "description": "Private DNS zone name"
-    		       }
-    		},
+			"type": "string",
+			"defaultValue": "privatelink.blob.core.windows.net",
+			"metadata": {
+				"description": "Private DNS zone name"
+			}
+		},
 		"privateDnsZoneName3": {
-     		 "type": "string",
-      		 "defaultValue": "privatelink.table.core.windows.net",
-     		 "metadata": {
-     	         "description": "Private DNS zone name"
-    		       }
-    		},
+			"type": "string",
+			"defaultValue": "privatelink.table.core.windows.net",
+			"metadata": {
+				"description": "Private DNS zone name"
+			}
+		},
 		"privateDnsZoneName4": {
-     		 "type": "string",
-      		 "defaultValue": "privatelink.queue.core.windows.net",
-     		 "metadata": {
-     	         "description": "Private DNS zone name"
-    		       }
-    		},
+			"type": "string",
+			"defaultValue": "privatelink.queue.core.windows.net",
+			"metadata": {
+				"description": "Private DNS zone name"
+			}
+		},
 		"privateDnsZoneName5": {
-     		 "type": "string",
-      		 "defaultValue": "privatelink.file.core.windows.net",
-     		 "metadata": {
-     	         "description": "Private DNS zone name"
-    		       }
-    		},
+			"type": "string",
+			"defaultValue": "privatelink.file.core.windows.net",
+			"metadata": {
+				"description": "Private DNS zone name"
+			}
+		},
 		"privateDnsZoneName6": {
-     		 "type": "string",
-      		 "defaultValue": "privatelink.vaultcore.azure.net",
-     		 "metadata": {
-     	         "description": "Private DNS zone name"
-    		       }
-    		},
+			"type": "string",
+			"defaultValue": "privatelink.vaultcore.azure.net",
+			"metadata": {
+				"description": "Private DNS zone name"
+			}
+		},
 		"keysPermissions": {
 			"type": "array",
 			"defaultValue": [
@@ -751,11 +751,11 @@
 	},
 	"variables": {
 		"azPolicyEnvMapping": {
-            "https://management.azure.com/": "auxiliary/policies.json",
-            "https://management.chinacloudapi.cn": "auxiliary/mkPolicies.json",
-            "https://management.azgov.com": "auxiliary/"
-        },
-        "azEnvPolicy": "[variables('azPolicyEnvMapping')[environment().resourceManager]]",
+			"https://management.azure.com/": "auxiliary/policies.json",
+			"https://management.chinacloudapi.cn": "auxiliary/mkPolicies.json",
+			"https://management.azgov.com": "auxiliary/"
+		},
+		"azEnvPolicy": "[variables('azPolicyEnvMapping')[environment().resourceManager]]",
 		"deploymentUris": {
 			"managementGroups": "[uri(deployment().properties.templateLink.uri, 'auxiliary/mgmtGroups.json')]",
 			"policyDefinitions": "[concat(uri(deployment().properties.templateLink.uri, variables('azEnvPolicy')))]",
@@ -768,7 +768,7 @@
 			"azOps": "[uri(deployment().properties.templateLink.uri, 'auxiliary/azOpsSetup.json')]",
 			"adps": "[uri(deployment().properties.templateLink.uri, 'auxiliary/CreateADPDC.ps1')]",
 			"adzip": "[uri(deployment().properties.templateLink.uri, 'auxiliary/CreateADPDC.zip')]"
-			
+
 		},
 		"rgNameIdentity": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-identity')]",
 		"rgNameManagement": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-management')]",
@@ -940,7 +940,7 @@
 			},
 			"properties": {}
 		},
-		      
+
 		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
@@ -1214,23 +1214,23 @@
 
 												"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]"
 											}
-												
+
 										}
 									},
 									{
 										"name": "adds-qa-subnet",
 										"properties": {
-											"addressPrefix": "[parameters('subnet2Prefix')]",
-												
+											"addressPrefix": "[parameters('subnet2Prefix')]"
+
 										}
 									},
 									{
 										"name": "adds-dev-subnet",
 										"properties": {
-											"addressPrefix": "[parameters('subnet3Prefix')]",
+											"addressPrefix": "[parameters('subnet3Prefix')]"
 
-											
-											]
+
+
 										}
 									}
 								]
@@ -1242,7 +1242,7 @@
 				}
 			}
 		},
-                 {
+		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"name": "DNSdeployment",
@@ -1258,28 +1258,28 @@
 					"contentVersion": "1.0.0.0",
 					"parameters": {},
 					"resources": [
-						
+
 						{
-      "type": "Microsoft.Network/privateDnsZones",
-      "apiVersion": "2020-01-01",
-      "name": "[parameters('privateDnsZoneName1')]",
-      "location": "global"
-    },
-    {
-      "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
-      "apiVersion": "2020-01-01",
-      "name": "[concat(parameters('privateDnsZoneName1'), '/', parameters('privateDnsZoneName1'), '-link')]",
-      "location": "global",
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZoneName1'))]"
-      ],
-      "properties": {
-        "virtualNetwork": {
-         
-	  "id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/virtualNetworks/', parameters('identityVnetName'))]"
-        }
-      }
-    }
+							"type": "Microsoft.Network/privateDnsZones",
+							"apiVersion": "2020-01-01",
+							"name": "[parameters('privateDnsZoneName1')]",
+							"location": "global"
+						},
+						{
+							"type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
+							"apiVersion": "2020-01-01",
+							"name": "[concat(parameters('privateDnsZoneName1'), '/', parameters('privateDnsZoneName1'), '-link')]",
+							"location": "global",
+							"dependsOn": [
+								"[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZoneName1'))]"
+							],
+							"properties": {
+								"virtualNetwork": {
+
+									"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/virtualNetworks/', parameters('identityVnetName'))]"
+								}
+							}
+						}
 
 
 					]
@@ -1329,7 +1329,7 @@
 										"privateIPAllocationMethod": "Static",
 										"privateIPAddress": "[parameters('DNSServerAddress')]",
 										"subnet": {
-				
+
 											"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/virtualNetworks/', parameters('identityVnetName'), '/subnets/', 'adds-prod-subnet')]"
 										}
 									}
@@ -1350,9 +1350,9 @@
 									"vmSize": "[parameters('vmSize')]"
 								},
 								"availabilitySet": {
-	
+
 									"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Compute/availabilitySets/', parameters('availabilitySetName'))]"
-									
+
 								},
 								"osProfile": {
 									"computerName": "[parameters('virtualMachineName')]",
@@ -1387,9 +1387,9 @@
 								},
 								"networkProfile": {
 									"networkInterfaces": [{
-									
+
 										"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]"
-										
+
 									}]
 								}
 							},
@@ -1596,9 +1596,50 @@
 							"properties": {
 								"addressSpace": {
 									"addressPrefixes": [
-										"[parameters('devVnetPrefix')]"
+										"10.122.96.0"
 									]
-								}
+								},
+								"subnets": [{
+										"name": "FrontEnd",
+										"properties": {
+											"addressPrefix": "10.122.98.0/24",
+											
+
+										}
+									},
+									    {
+										"name": "BackEnd",
+										"properties": {
+											"addressPrefix": "10.122.99.0/24",
+											
+
+										}
+									},
+									    {
+										"name": "Data",
+										"properties": {
+											"addressPrefix": "10.122.100.0/24",
+											
+
+										}
+									},
+									{
+										"name": "ase",
+										"properties": {
+											"addressPrefix": "10.122.101.0/24"
+
+										}
+									},
+									{
+										"name": "smi",
+										"properties": {
+											"addressPrefix": "10.122.103.128/27"
+
+
+
+										}
+									}
+								]
 							}
 						}
 
