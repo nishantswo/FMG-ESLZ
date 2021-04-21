@@ -1277,7 +1277,8 @@
 								"virtualNetwork": {
 
 									"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/virtualNetworks/', parameters('identityVnetName'))]"
-								}
+								},
+								"registrationEnabled": false
 							}
 						}
 
