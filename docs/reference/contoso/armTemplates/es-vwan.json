@@ -798,6 +798,7 @@
 			"azOpsDeploymentName": "[take(concat('EntScale-AzOps', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]"
 		}
 	},
+	
 	"resources": [{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
