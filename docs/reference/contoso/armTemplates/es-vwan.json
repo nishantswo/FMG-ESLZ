@@ -1602,24 +1602,24 @@
 								"subnets": [{
 										"name": "FrontEnd",
 										"properties": {
-											"addressPrefix": "10.122.98.0/24",
-											
+											"addressPrefix": "10.122.98.0/24"
+
 
 										}
 									},
-									    {
+									{
 										"name": "BackEnd",
 										"properties": {
-											"addressPrefix": "10.122.99.0/24",
-											
+											"addressPrefix": "10.122.99.0/24"
+
 
 										}
 									},
-									    {
+									{
 										"name": "Data",
 										"properties": {
-											"addressPrefix": "10.122.100.0/24",
-											
+											"addressPrefix": "10.122.100.0/24"
+
 
 										}
 									},
