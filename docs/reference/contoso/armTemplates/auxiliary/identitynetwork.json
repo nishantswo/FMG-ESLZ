@@ -1,0 +1,210 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "topLevelManagementGroupPrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Provide a prefix (max 10 characters, unique at tenant-scope) for the Management Group hierarchy and other resources created as part of Enterprise-scale."
+            }
+        },
+		"identitySubscriptionId": {
+			"type": "string"
+		},
+        "identitySubnetDevName": {
+			"type": "string"
+		},
+		"identitySubnetUatName": {
+			"type": "array"
+		},
+		"identitySubnetProdName": {
+			"type": "array"
+		},
+        "identitySubnetDevPrefix": {
+			"type": "string"
+		},
+		"identitySubnetUatPrefix": {
+			"type": "array"
+		},
+		"identitySubnetProdPrefix": {
+			"type": "array"
+		},
+        "devIdentityNsgName": {
+			"type": "string"
+		},
+		"uatIdentityNsgName": {
+			"type": "array"
+		},
+		"prodIdentityNsgName": {
+			"type": "array"
+		},
+        "primaryregioncode": {
+			"type": "string"
+		},
+		"secondaryregioncode": {
+			"type": "string"
+		},
+		"identityVnetName": {
+			"type": "string"		
+		},
+		"identityVnetPrefix": {
+		    "type": "string"
+		}
+    },
+    "variables": {
+		"nsgIdentityDeployment": "[concat('nsg-deployment-', parameters('identityVnetName'))]",
+        "vneyIdentityDeployment": "[concat('vnet-deployment-', parameters('identityVnetName'))]",
+        "rgNameIdentity": "[concat('rg', '-idy-', parameters('primaryregioncode'))]"
+    },
+    "resources": [
+        {
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"name": "[variables('nsgIdentityDeployment')]",
+			"subscriptionId": "[parameters('identitySubscriptionId')]",
+			"resourceGroup": "[variables('rgNameIdentity')]",
+			"properties": {
+				"mode": "Incremental",
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {},
+					"resources": [{
+							"type": "Microsoft.Network/networkSecurityGroups",
+							"apiVersion": "2020-05-01",
+							"name": "[parameters('devIdentityNsgName')]",
+							"location": "[deployment().location]",
+							"properties": {
+								"securityRules": [{
+									"name": "default-allow-3389",
+									"properties": {
+										"priority": 1000,
+										"access": "Allow",
+										"direction": "Inbound",
+										"destinationPortRange": "3389",
+										"protocol": "Tcp",
+										"sourceAddressPrefix": "*",
+										"sourcePortRange": "*",
+										"destinationAddressPrefix": "*"
+									}
+								}]
+							}
+						},
+                        {
+							"type": "Microsoft.Network/networkSecurityGroups",
+							"apiVersion": "2020-05-01",
+							"name": "[parameters('uatIdentityNsgName')]",
+							"location": "[deployment().location]",
+							"properties": {
+								"securityRules": [{
+									"name": "default-allow-3389",
+									"properties": {
+										"priority": 1000,
+										"access": "Allow",
+										"direction": "Inbound",
+										"destinationPortRange": "3389",
+										"protocol": "Tcp",
+										"sourceAddressPrefix": "*",
+										"sourcePortRange": "*",
+										"destinationAddressPrefix": "*"
+									}
+								}]
+							}
+						},
+                        {
+							"type": "Microsoft.Network/networkSecurityGroups",
+							"apiVersion": "2020-05-01",
+							"name": "[parameters('prodIdentityNsgName')]",
+							"location": "[deployment().location]",
+							"properties": {
+								"securityRules": [{
+									"name": "default-allow-3389",
+									"properties": {
+										"priority": 1000,
+										"access": "Allow",
+										"direction": "Inbound",
+										"destinationPortRange": "3389",
+										"protocol": "Tcp",
+										"sourceAddressPrefix": "*",
+										"sourcePortRange": "*",
+										"destinationAddressPrefix": "*"
+									}
+								}]
+							}
+						}
+
+
+					]
+				}
+			}
+		},
+        {
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"name": "[concat('vnet-deployment-', parameters('identityVnetName'))]",
+			"resourceGroup": "[variables('rgNameIdentity')]",
+			"dependsOn": [
+				"[variables('nsgIdentityDeployment')]"
+			],
+			"subscriptionId": "[parameters('identitySubscriptionId')]",
+			"properties": {
+				"mode": "Incremental",
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {},
+					"resources": [{
+							"type": "Microsoft.Network/virtualNetworks",
+							"apiVersion": "2020-05-01",
+							"name": "[parameters('identityVnetName')]",
+							"location": "[deployment().location]",
+							"properties": {
+								"addressSpace": {
+									"addressPrefixes": [
+										"[parameters('identityVnetPrefix')]"
+									]
+								},
+								"subnets": [{
+										"name": "[parameters('identitySubnetProdName')]",
+										"properties": {
+											"addressPrefix": "[parameters('identitySubnetProdPrefix')]",
+											"networkSecurityGroup": {
+												"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/networkSecurityGroups/', parameters('prodIdentityNsgName'))]"
+											}
+
+										}
+									},
+									{
+										"name": "[parameters('identitySubnetUatName')]",
+										"properties": {
+											"addressPrefix": "[parameters('identitySubnetUatPrefix')]",
+                                            "networkSecurityGroup": {
+												"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/networkSecurityGroups/', parameters('uatIdentityNsgName'))]"
+											}
+
+										}
+									},
+									{
+										"name": "[parameters('identitySubnetDevName')]",
+										"properties": {
+											"addressPrefix": "[parameters('identitySubnetDevPrefix')]",
+                                            "networkSecurityGroup": {
+												"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/networkSecurityGroups/', parameters('devIdentityNsgName'))]"
+											}
+
+
+
+										}
+									}
+								]
+							}
+						}
+
+
+					]
+				}
+			}
+		}
+    ],
+    "outputs": {}
+}
