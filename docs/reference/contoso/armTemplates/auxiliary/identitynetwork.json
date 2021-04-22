@@ -81,8 +81,8 @@
 		"ADDeployment": "[concat('ad-deployment-', parameters('identityVnetName'))]",
         "rgNameIdentity": "[concat('rg', '-idy-', parameters('primaryregioncode'))]",
 		"deploymentUris": {
-			"adps": "[uri(deployment().properties.templateLink.uri, 'auxiliary/CreateADPDC.ps1')]",
-			"adzip": "[uri(deployment().properties.templateLink.uri, 'auxiliary/CreateADPDC.zip')]"
+			"adps": "[uri(deployment().properties.templateLink.uri, 'CreateADPDC.ps1')]",
+			"adzip": "[uri(deployment().properties.templateLink.uri, 'CreateADPDC.zip')]"
 
 		}
     },
