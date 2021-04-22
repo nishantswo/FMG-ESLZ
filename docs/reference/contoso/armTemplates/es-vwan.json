@@ -273,6 +273,13 @@
 				"description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first dev landing zones."
 			}
 		},
+		"sbxLzSubscriptionId": {
+			"type": "array",
+			"defaultValue": ["47d60737-c43c-48d2-bdb5-8b851d533075"],
+			"metadata": {
+				"description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first sbx landing zones."
+			}
+		},
 		"keyVaultName": {
 			"type": "string",
 			"defaultValue": "fmg-kvault",
@@ -692,6 +699,18 @@
 				"No"
 			]
 		},
+		"primaryregioncode": {
+			"type": "string",
+			"defaultValue": "ase"
+		},
+		"secondaryregioncode": {
+			"type": "string",
+			"defaultValue": "ae"
+		},
+		"app": {
+			"type": "string",
+			"defaultValue": "sharepoint"
+		},
 		"location": {
 			"type": "string",
 			"defaultValue": "[deployment().location]"
@@ -770,18 +789,22 @@
 			"adzip": "[uri(deployment().properties.templateLink.uri, 'auxiliary/CreateADPDC.zip')]"
 
 		},
-		"rgNameIdentity": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-identity')]",
-		"rgNameManagement": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-management')]",
-		"rgNameOnline": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-online')]",
-		"rgNameProd": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-prod')]",
-		"rgNameUat": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-uat')]",
-		"rgNameDev": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-dev')]",
+		"rgNameIdentity": "[concat('rg', '-idy', parameters('primaryregioncode'))]",
+		"rgNameManagement": "[concat('rg', '-mgmt', parameters('primaryregioncode'))]",
+		"rgNamecldshellStgpri": "[concat('rg', '-cldshellStg', parameters('primaryregioncode'))]",
+		"rgNamecldshellStgsec": "[concat('rg', '-cldshellStg', parameters('secondaryregioncode'))]",
+		"rgNameOnline": "[concat('rg-', parameters('app'), '-online')]",
+		"rgNameProd": "[concat('rg-', parameters('app'), '-prod')]",
+		"rgNameUat": "[concat('rg-', parameters('app'), '-uat')]",
+		"rgNameDev": "[concat('rg-', parameters('app'), '-dev')]",
+		"rgNamesbx": "[concat('rg-', parameters('app'), '-sbx')]",
 		"moveSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-management', '/', parameters('managementSubscriptionId'))]",
 		"noSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-management', '/', 'na')]",
 		"noOnlineLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-online', '/', 'nalz')]",
 		"noProdLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-prod', '/', 'nalz')]",
 		"noUatLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-uat', '/', 'nalz')]",
 		"noDevLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-dev', '/', 'nalz')]",
+		"noSbxLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-sbx', '/', 'nalz')]",
 		"connectivityMoveSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-connectivity', '/', parameters('connectivitySubscriptionId'))]",
 		"noConnectivitySubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-connectivity', '/', 'naconn')]",
 		"identityMoveSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-identity', '/', parameters('identitySubscriptionId'))]",
@@ -940,7 +963,20 @@
 			},
 			"properties": {}
 		},
-
+		{
+			"condition": "[not(empty(parameters('sbxLzSubscriptionId')))]",
+			"type": "Microsoft.Management/managementGroups/subscriptions",
+			"apiVersion": "2020-05-01",
+			"name": "[if(not(empty(parameters('sbxLzSubscriptionId'))), concat(parameters('enterpriseScaleCompanyPrefix'), '-sbx', '/', parameters('sbxLzSubscriptionId')[copyIndex()]), variables('noSbxLzSubscription'))]",
+			"dependsOn": [
+				"[variables('deploymentNames').mgmtGroupDeploymentName]"
+			],
+			"copy": {
+				"name": "onlineLzMove",
+				"count": "[length(parameters('sbxLzSubscriptionId'))]"
+			},
+			"properties": {}
+		},
 		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
@@ -1129,7 +1165,62 @@
 				}
 			}
 		},
+		{
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"location": "[deployment().location]",
+			"name": "[variables('rgNameSbx')]",
+			"copy": {
+				"name": "rgCopy",
+				"count": "[if(not(empty(parameters('sbxLzSubscriptionId'))), length(parameters('sbxLzSubscriptionId')), 1)]"
+			},
+			"subscriptionId": "[if(not(empty(parameters('sbxLzSubscriptionId'))), parameters('sbxLzSubscriptionId')[copyIndex()], '')]",
+			"properties": {
+				"mode": "Incremental",
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {},
+					"resources": [{
+							"type": "Microsoft.Resources/resourceGroups",
+							"apiVersion": "2019-10-01",
+							"location": "[deployment().location]",
+							"name": "[variables('rgNameSbx')]",
+							"properties": {}
+						},
+						{
+							"type": "Microsoft.Resources/deployments",
+							"apiVersion": "2020-06-01",
+							"name": "lockDeployment",
+							"resourceGroup": "[variables('rgNameSbx')]",
+							"dependsOn": [
+								"[resourceId('Microsoft.Resources/resourceGroups/', variables('rgNameSbx'))]"
+							],
+							"properties": {
+								"mode": "Incremental",
+								"template": {
+									"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+									"contentVersion": "1.0.0.0",
+									"parameters": {},
+									"variables": {},
+									"resources": [{
+										"type": "Microsoft.Authorization/locks",
+										"apiVersion": "2016-09-01",
+										"name": "rgLock",
+										"properties": {
+											"level": "CanNotDelete",
+											"notes": "Resource group and its resources should not be deleted."
+										}
+									}],
+									"outputs": {}
+								}
+							}
+						}
 
+					]
+				}
+			}
+		},
 
 		{
 			"type": "Microsoft.Resources/deployments",
@@ -1998,6 +2089,12 @@
 					},
 					"location": {
 						"value": "[parameters('location')]"
+					},
+					"primaryregioncode": {
+						"value": "[parameters('primaryregioncode')]"
+					},
+					"secondaryregioncode": {
+						"value": "[parameters('secondaryregioncode')]"
 					},
 					"connectivitySubscriptionId": {
 						"value": "[parameters('connectivitySubscriptionId')]"
