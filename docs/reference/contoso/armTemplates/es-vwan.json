@@ -1218,7 +1218,7 @@
 		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
-			"name": "AD-deployment",
+			"name": "ADdeployment",
 			"subscriptionId": "[parameters('identitySubscriptionId')]",
 			"resourceGroup": "[variables('rgNameIdentity')]",
 			"dependsOn": [
