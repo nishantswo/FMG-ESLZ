@@ -1058,8 +1058,7 @@
 			"subscriptionId": "[parameters('identitySubscriptionId')]",
 			"resourceGroup": "[variables('rgNameIdentity')]",
 			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', variables('rgNameIdentity'))]"
-
+				"[variables('deploymentNames').resourceGroupDeploymentName]"
 			],
 
 			"properties": {
@@ -1103,7 +1102,7 @@
 			"name": "identityvnetdeployment",
 			"resourceGroup": "[variables('rgNameIdentity')]",
 			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', variables('rgNameIdentity'))]",
+				"[variables('deploymentNames').resourceGroupDeploymentName]",
 				"NSGdeployment"
 			],
 
@@ -1362,7 +1361,7 @@
 			"name": "onlinevnetdeployment",
 			"resourceGroup": "[variables('rgNameOnline')]",
 			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', variables('rgNameOnline'))]"
+				"[variables('deploymentNames').resourceGroupDeploymentName]"
 			],
 			"copy": {
 				"name": "vnCopy",
@@ -1401,7 +1400,7 @@
 			"name": "prodvnetdeployment",
 			"resourceGroup": "[variables('rgNameProd')]",
 			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', variables('rgNameProd'))]"
+				"[variables('deploymentNames').resourceGroupDeploymentName]"
 			],
 			"copy": {
 				"name": "vnCopy",
@@ -1440,7 +1439,7 @@
 			"name": "uatvnetdeployment",
 			"resourceGroup": "[variables('rgNameUat')]",
 			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', variables('rgNameUat'))]"
+				"[variables('deploymentNames').resourceGroupDeploymentName]"
 			],
 			"copy": {
 				"name": "vnCopy",
@@ -1479,7 +1478,7 @@
 			"name": "devvnetdeployment",
 			"resourceGroup": "[variables('rgNameDev')]",
 			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', variables('rgNameDev'))]"
+				"[variables('deploymentNames').resourceGroupDeploymentName]"
 			],
 			"copy": {
 				"name": "vnCopy",
@@ -1560,7 +1559,7 @@
 			"subscriptionId": "[parameters('managementSubscriptionId')]",
 			"resourceGroup": "[variables('rgNameManagement')]",
 			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', variables('rgNameManagement'))]"
+				"[variables('deploymentNames').resourceGroupDeploymentName]"
 			],
 
 			"properties": {
