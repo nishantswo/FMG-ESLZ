@@ -272,7 +272,7 @@
 
 			"properties": {
 			      "remoteVirtualNetwork": {
-							"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', parameters('rgNameIdentity'), '/providers/Microsoft.Network/virtualNetworks/', parameters('identityVnetName'))]"
+							"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/virtualNetworks/', parameters('identityVnetName'))]"
 							},
 							"allowHubToRemoteVnetTransit": true,
 							"allowRemoteVnetToUseHubVnetGateways": true,
@@ -292,7 +292,7 @@
 
 			"properties": {
 			      "remoteVirtualNetwork": {
-							"id": "[concat('/subscriptions/', if(not(empty(parameters('onlineLzSubscriptionId'))), parameters('onlineLzSubscriptionId')[copyIndex()], ''), '/resourceGroups/', parameters('rgNameOnline'), '/providers/Microsoft.Network/virtualNetworks/', parameters('onlineVnetName'))]"
+							"id": "[concat('/subscriptions/', if(not(empty(parameters('onlineLzSubscriptionId'))), parameters('onlineLzSubscriptionId')[copyIndex()], ''), '/resourceGroups/', variables('rgNameOnline'), '/providers/Microsoft.Network/virtualNetworks/', parameters('onlineVnetName'))]"
 							},
 							"allowHubToRemoteVnetTransit": true,
 							"allowRemoteVnetToUseHubVnetGateways": true,
@@ -313,7 +313,7 @@
 
 			"properties": {
 			      "remoteVirtualNetwork": {
-							"id": "[concat('/subscriptions/', if(not(empty(parameters('prodLzSubscriptionId'))), parameters('prodLzSubscriptionId')[copyIndex()], ''), '/resourceGroups/', parameters('rgNameProd'), '/providers/Microsoft.Network/virtualNetworks/', parameters('prodVnetName'))]"
+							"id": "[concat('/subscriptions/', if(not(empty(parameters('prodLzSubscriptionId'))), parameters('prodLzSubscriptionId')[copyIndex()], ''), '/resourceGroups/', variables('rgNameProd'), '/providers/Microsoft.Network/virtualNetworks/', parameters('prodVnetName'))]"
 							},
 							"allowHubToRemoteVnetTransit": true,
 							"allowRemoteVnetToUseHubVnetGateways": true,
@@ -333,7 +333,7 @@
 
 			"properties": {
 			      "remoteVirtualNetwork": {
-							"id": "[concat('/subscriptions/', if(not(empty(parameters('uatLzSubscriptionId'))), parameters('uatLzSubscriptionId')[copyIndex()], ''), '/resourceGroups/', parameters('rgNameUat'), '/providers/Microsoft.Network/virtualNetworks/', parameters('uatVnetName'))]"
+							"id": "[concat('/subscriptions/', if(not(empty(parameters('uatLzSubscriptionId'))), parameters('uatLzSubscriptionId')[copyIndex()], ''), '/resourceGroups/', variables('rgNameUat'), '/providers/Microsoft.Network/virtualNetworks/', parameters('uatVnetName'))]"
 							},
 							"allowHubToRemoteVnetTransit": true,
 							"allowRemoteVnetToUseHubVnetGateways": true,
@@ -353,7 +353,7 @@
 
 			"properties": {
 			      "remoteVirtualNetwork": {
-							"id": "[concat('/subscriptions/', if(not(empty(parameters('devLzSubscriptionId'))), parameters('devLzSubscriptionId')[copyIndex()], ''), '/resourceGroups/', parameters('rgNameDev'), '/providers/Microsoft.Network/virtualNetworks/', parameters('devVnetName'))]"
+							"id": "[concat('/subscriptions/', if(not(empty(parameters('devLzSubscriptionId'))), parameters('devLzSubscriptionId')[copyIndex()], ''), '/resourceGroups/', variables('rgNameDev'), '/providers/Microsoft.Network/virtualNetworks/', parameters('devVnetName'))]"
 							},
 							"allowHubToRemoteVnetTransit": true,
 							"allowRemoteVnetToUseHubVnetGateways": true,
