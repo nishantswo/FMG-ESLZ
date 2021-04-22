@@ -376,7 +376,7 @@
 		},
 		"virtualMachineName": {
 			"type": "string",
-			"defaultValue": "ad-VM",
+			"defaultValue": "adVM",
 			"metadata": {
 				"description": "Virtual machine name."
 			}
@@ -842,7 +842,7 @@
 			"monitoringDeploymentName": "[take(concat('EntScale-Monitoring', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"monitoringSolutionsDeploymentName": "[take(concat('EntScale-Solutions', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"diagAndSecDeploymentName": "[take(concat('EntScale-DiagSec', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
-			"connectivityDeploymentName": "[take(concat('EntScale-conn', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
+			"connectivityDeploymentName": "[take(concat('EntScale-connec', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"lzDeploymentName": "[take(concat('EntScale-LZ', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"identityDeploymentName": "[take(concat('EntScale-ID', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"azOpsDeploymentName": "[take(concat('EntScale-AzOps', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]"
@@ -866,6 +866,128 @@
 				}
 			}
 		},
+		{
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"location": "[deployment().location]",
+			"name": "policy",
+            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'))]",
+			"dependsOn": [
+				"[variables('deploymentNames').mgmtGroupDeploymentName]"
+			],
+			
+			"properties": {
+				"mode": "Incremental",
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {},
+					"resources": [
+						{
+      "type": "Microsoft.Authorization/policyDefinitions",
+      "name": "Deny-Public-Endpoints-Storage-def",
+      "apiVersion": "2018-03-01",
+      "properties": {
+        "policyType": "Custom",
+        "displayName": "Deny-Public-Endpoints-Storage",
+        "description": "This policy defines a white list of role deifnitions that can be used in IAM",
+        "mode": "all",
+        "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Storage/storageAccounts"
+        },
+        {
+          "field": "Microsoft.Storage/storageAccounts/networkAcls.defaultAction",
+          "notequals": "Deny"
+        }
+      ]
+    },
+    "then": {
+      "effect": "Deny"
+    }
+  }
+      }
+    },
+	{
+      "type": "Microsoft.Authorization/policyDefinitions",
+      "name": "Deny-PrivateDNSZone-PrivateLink-def",
+      "apiVersion": "2018-03-01",
+      "properties": {
+        "policyType": "Custom",
+        "displayName": "Deny-PrivateDNSZone-PrivateLink",
+        "description": "This policy defines a white list of role deifnitions that can be used in IAM",
+        "mode": "all",
+        "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Network/privateDnsZones"
+        },
+        {
+          "field": "name",
+          "like": "privatelink*"
+        }
+      ]
+    },
+    "then": {
+      "effect": "Deny"
+    }
+  }
+      }
+    },
+	{
+      "type": "Microsoft.Authorization/policyDefinitions",
+      "name": "Deny-Unattached-Disks-def",
+      "apiVersion": "2018-03-01",
+      "properties": {
+        "policyType": "Custom",
+        "displayName": "Deny-Unattached-Disks",
+        "description": "This policy defines a white list of role deifnitions that can be used in IAM",
+        "mode": "all",
+        "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Compute/disks"
+        },
+        {
+          "field": "Microsoft.Compute/disks/diskState",
+          "equals": "Unattached"
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  },
+  "parameters": {
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Effect",
+        "description": "Enable or disable the execution of the policy"
+      },
+      "allowedValues": [
+        "Audit",
+        "Disabled"
+      ],
+      "defaultValue": "Audit"
+    }
+  }
+      }
+    }
+
+					]
+				}
+			}
+		},
+
+
 		{
 
 			"type": "Microsoft.Resources/deployments",
