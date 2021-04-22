@@ -388,9 +388,23 @@
 				"description": "Network interface name."
 			}
 		},
-		"availabilitySetName": {
+		"adProdAvailabilitySetName": {
 			"type": "string",
-			"defaultValue": "adAvailabiltySet",
+			"defaultValue": "avail-prod-identity-ase",
+			"metadata": {
+				"description": "Availability set name."
+			}
+		},
+		"adUatAvailabilitySetName": {
+			"type": "string",
+			"defaultValue": "avail-uat-identity-ase",
+			"metadata": {
+				"description": "Availability set name."
+			}
+		},
+		"adDevAvailabilitySetName": {
+			"type": "string",
+			"defaultValue": "avail-dev-identity-ase",
 			"metadata": {
 				"description": "Availability set name."
 			}
@@ -1073,6 +1087,9 @@
 			"apiVersion": "2019-10-01",
 			"name": "[variables('deploymentNames').identityNetworkDeploymentName]",
 			"location": "[deployment().location]",
+			"dependsOn": [
+				"[variables('deploymentNames').resourceGroupDeploymentName]"
+			],
 			"properties": {
 				"mode": "Incremental",
 				"templateLink": {
@@ -1124,210 +1141,36 @@
 					},
 					"identityVnetPrefix": {
 						"value": "[parameters('identityVnetPrefix')]"
-					}
+					},
+					"adProdAvailabilitySetName": {
+						"value": "[parameters('adProdAvailabilitySetName')]"
+					},
+					"networkInterfaceName": {
+						"value": "[parameters('networkInterfaceName')]"
+					},
+					"DNSServerAddress": {
+						"value": "[parameters('DNSServerAddress')]"
+					},
+					"virtualMachineName": {
+						"value": "[parameters('virtualMachineName')]"
+					},
+					"vmSize": {
+						"value": "[parameters('vmSize')]"
+					},
+					"adminUsername": {
+						"value": "[parameters('adminUsername')]"
+					},
+					"adminPassword": {
+						"value": "[parameters('adminPassword')]"		
+					},
+					"domainName": {
+						"value": "[parameters('domainName')]"
+			}
 				}
 			}
 		},
-
 		
-
-
-	
-	
-			
-		{
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2019-10-01",
-			"name": "DNSdeployment",
-			"subscriptionId": "[parameters('identitySubscriptionId')]",
-			"resourceGroup": "[variables('rgNameIdentity')]",
-			//"dependsOn": [
-			//	"identityvnetdeployment"
-		//	],
-			"properties": {
-				"mode": "Incremental",
-				"template": {
-					"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-					"contentVersion": "1.0.0.0",
-					"parameters": {},
-					"resources": [
-
-						{
-							"type": "Microsoft.Network/privateDnsZones",
-							"apiVersion": "2020-01-01",
-							"name": "[parameters('privateDnsZoneName1')]",
-							"location": "global"
-						},
-						{
-							"type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
-							"apiVersion": "2020-01-01",
-							"name": "[concat(parameters('privateDnsZoneName1'), '/', parameters('privateDnsZoneName1'), '-link')]",
-							"location": "global",
-							"dependsOn": [
-								"[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZoneName1'))]"
-							],
-							"properties": {
-								"virtualNetwork": {
-
-									"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/virtualNetworks/', parameters('identityVnetName'))]"
-								},
-								"registrationEnabled": false
-							}
-						}
-
-
-					]
-				}
-			}
-		},
-		{
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2019-10-01",
-			"name": "AD-deployment",
-			"subscriptionId": "[parameters('identitySubscriptionId')]",
-			"resourceGroup": "[variables('rgNameIdentity')]",
-		//	"dependsOn": [
-			//	"identityvnetdeployment"
-			//],
-			"properties": {
-				"mode": "Incremental",
-				"template": {
-					"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-					"contentVersion": "1.0.0.0",
-					"parameters": {},
-					"resources": [{
-							"type": "Microsoft.Compute/availabilitySets",
-							"apiVersion": "2019-03-01",
-							"location": "[deployment().location]",
-							"name": "[parameters('availabilitySetName')]",
-							"properties": {
-								"PlatformUpdateDomainCount": 20,
-								"PlatformFaultDomainCount": 2
-							},
-							"sku": {
-								"name": "Aligned"
-							}
-						},
-						{
-							"type": "Microsoft.Network/networkInterfaces",
-							"apiVersion": "2019-02-01",
-							"name": "[parameters('networkInterfaceName')]",
-							"location": "[deployment().location]",
-							"dependsOn": [
-								"[parameters('availabilitySetName')]"
-							],
-							"properties": {
-								"ipConfigurations": [{
-									"name": "ipconfig1",
-									"properties": {
-										"privateIPAllocationMethod": "Static",
-										"privateIPAddress": "[parameters('DNSServerAddress')]",
-										"subnet": {
-
-											"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/virtualNetworks/', parameters('identityVnetName'), '/subnets/', 'adds-prod-subnet')]"
-										}
-									}
-								}]
-							}
-						},
-						{
-							"type": "Microsoft.Compute/virtualMachines",
-							"apiVersion": "2019-03-01",
-							"name": "[parameters('virtualMachineName')]",
-							"location": "[deployment().location]",
-							"dependsOn": [
-								"[parameters('networkInterfaceName')]",
-								"[parameters('availabilitySetName')]"
-							],
-							"properties": {
-								"hardwareProfile": {
-									"vmSize": "[parameters('vmSize')]"
-								},
-								"availabilitySet": {
-
-									"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Compute/availabilitySets/', parameters('availabilitySetName'))]"
-
-								},
-								"osProfile": {
-									"computerName": "[parameters('virtualMachineName')]",
-									"adminUsername": "[parameters('adminUsername')]",
-									"adminPassword": "[parameters('adminPassword')]"
-								},
-								"storageProfile": {
-									"imageReference": {
-										"publisher": "MicrosoftWindowsServer",
-										"offer": "WindowsServer",
-										"sku": "2019-Datacenter",
-										"version": "latest"
-									},
-									"osDisk": {
-										"name": "[concat(parameters('virtualMachineName'),'_OSDisk')]",
-										"caching": "ReadOnly",
-										"createOption": "FromImage",
-										"managedDisk": {
-											"storageAccountType": "StandardSSD_LRS"
-										}
-									},
-									"dataDisks": [{
-										"name": "[concat(parameters('virtualMachineName'), '_DataDisk')]",
-										"caching": "None",
-										"createOption": "Empty",
-										"diskSizeGB": 20,
-										"managedDisk": {
-											"storageAccountType": "StandardSSD_LRS"
-										},
-										"lun": 0
-									}]
-								},
-								"networkProfile": {
-									"networkInterfaces": [{
-
-										"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]"
-
-									}]
-								}
-							},
-							"resources": [{
-								"type": "extensions",
-								"apiVersion": "2019-03-01",
-								"name": "CreateADForest",
-								"location": "[deployment().location]",
-								"dependsOn": [
-									"[parameters('virtualMachineName')]"
-								],
-								"properties": {
-									"publisher": "Microsoft.Powershell",
-									"type": "DSC",
-									"typeHandlerVersion": "2.19",
-									"autoUpgradeMinorVersion": true,
-									"settings": {
-										"ModulesUrl": "[variables('deploymentUris').adzip]",
-										"ConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
-										"Properties": {
-											"DomainName": "[parameters('domainName')]",
-											"AdminCreds": {
-												"UserName": "[parameters('adminUsername')]",
-												"Password": "PrivateSettingsRef:AdminPassword"
-											}
-										}
-									},
-									"protectedSettings": {
-										"Items": {
-											"AdminPassword": "[parameters('adminPassword')]"
-										}
-									}
-								}
-							}]
-						}
-						
-							
-								
-
-
-					]
-				}
-			}
-		},
+		
 
 		{
 			"type": "Microsoft.Resources/deployments",
@@ -1882,6 +1725,24 @@
 					},
 					"addressPrefix": {
 						"value": "[parameters('addressPrefix')]"
+					},
+					"privateDnsZoneName1": {
+						"value": "[parameters('privateDnsZoneName1')]"
+					},	
+					"identityVnetName": {
+						"value": "[parameters('identityVnetName')]"
+					},	
+					"onlineVnetName": {
+						"value": "[parameters('onlineVnetName')]"
+					},
+					"prodVnetName": {
+						"value": "[parameters('prodVnetName')]"
+					},
+					"uatVnetName": {
+						"value": "[parameters('uatVnetName')]"
+					},
+					"devVnetName": {
+						"value": "[parameters('devVnetName')]"
 					},
 					"enableVpnGw": {
 						"value": "[parameters('enableVpnGw')]"
