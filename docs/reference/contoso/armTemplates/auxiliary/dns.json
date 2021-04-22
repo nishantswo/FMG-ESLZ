@@ -1,0 +1,102 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"topLevelManagementGroupPrefix": {
+			"type": "string",
+			"metadata": {
+				"description": "Provide a prefix (max 10 characters, unique at tenant-scope) for the Management Group hierarchy and other resources created as part of Enterprise-scale."
+			}
+		},
+		"identitySubscriptionId": {
+			"type": "string"
+		},
+		"privateDnsZoneName1": {
+			"type": "string"
+		},
+		"onlineLzSubscriptionId": {
+			"type": "array"
+		},
+		"prodLzSubscriptionId": {
+			"type": "array"
+		},
+		"uatLzSubscriptionId": {
+			"type": "array"
+		},
+		"devLzSubscriptionId": {
+			"type": "array"
+		},
+		"sbxLzSubscriptionId": {
+			"type": "array"
+		},
+		"primaryregioncode": {
+			"type": "string"
+		},
+		"secondaryregioncode": {
+			"type": "string"
+		},
+		"app": {
+			"type": "string"
+		},
+		"identityVnetName": {
+			"type": "string"
+		}
+	},
+	"variables": {
+		"rgNameIdentity": "[concat('rg', '-idy-', parameters('primaryregioncode'))]",
+		"rgNameManagement": "[concat('rg', '-mgmt-', parameters('primaryregioncode'))]",
+		"rgNameOnline": "[concat('rg-', parameters('app'), '-online')]",
+		"rgNameProd": "[concat('rg-', parameters('app'), '-prod')]",
+		"rgNameUat": "[concat('rg-', parameters('app'), '-uat')]",
+		"rgNameDev": "[concat('rg-', parameters('app'), '-dev')]",
+		"rgNamesbx": "[concat('rg-', parameters('app'), '-sbx')]"
+	},
+	"resources": [{
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"name": "[concat('Ent-Scale', '-DNSZones')]",
+			"subscriptionId": "[parameters('identitySubscriptionId')]",
+			"resourceGroup": "[variables('rgNameIdentity')]",
+			"dependsOn": [
+				"identityvnetdeployment"
+			],
+			"properties": {
+				"mode": "Incremental",
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {},
+					"resources": [
+
+						{
+							"type": "Microsoft.Network/privateDnsZones",
+							"apiVersion": "2020-01-01",
+							"name": "[parameters('privateDnsZoneName1')]",
+							"location": "global"
+						},
+						{
+							"type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
+							"apiVersion": "2020-01-01",
+							"name": "[concat(parameters('privateDnsZoneName1'), '/', parameters('privateDnsZoneName1'), '-link')]",
+							"location": "global",
+							"dependsOn": [
+								"[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZoneName1'))]"
+							],
+							"properties": {
+								"virtualNetwork": {
+
+									"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/virtualNetworks/', parameters('identityVnetName'))]"
+								},
+								"registrationEnabled": false
+							}
+						}
+
+
+					]
+				}
+			}
+		}
+
+	],
+	"outputs": {}
+}
