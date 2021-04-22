@@ -216,10 +216,10 @@
 							"type": "Microsoft.Resources/deployments",
 							"apiVersion": "2020-06-01",
 							"name": "lockDeployment",
-							"resourceGroup": "[variables('rgNameDev')]",
+							"resourceGroup": "rg-sharepoint-dev0",
 							 
 							"dependsOn": [
-								"[resourceId('Microsoft.Resources/resourceGroups/', variables('rgNameDev'))]"
+								"[resourceId('Microsoft.Resources/resourceGroups/', 'rg-sharepoint-dev0')]"
 							],
 							"properties": {
 								"mode": "Incremental",
