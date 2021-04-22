@@ -1773,6 +1773,9 @@
 					},
 					"devLzSubscriptionId": {
 						"value": "[parameters('devLzSubscriptionId')]"
+					},
+					"app": {
+						"value": "[parameters('app')]"
 					}
 				}
 			}
