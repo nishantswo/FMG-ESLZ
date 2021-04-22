@@ -135,28 +135,7 @@
 						"name": "[variables('rgName')]",
 						"properties": {}
 					},
-					{
-							"type": "Microsoft.Network/privateDnsZones",
-							"apiVersion": "2020-01-01",
-							"name": "[parameters('privateDnsZoneName1')]",
-							"location": "global"
-					},
-					{
-							"type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
-							"apiVersion": "2020-01-01",
-							"name": "[concat(parameters('privateDnsZoneName1'), '/', parameters('privateDnsZoneName1'), '-link')]",
-							"location": "global",
-							"dependsOn": [
-								"[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZoneName1'))]"
-							],
-							"properties": {
-								"virtualNetwork": {
-
-									"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/virtualNetworks/', parameters('identityVnetName'))]"
-								},
-								"registrationEnabled": false
-							}
-						},
+					
 					{
 						"type": "Microsoft.Resources/deployments",
 						"apiVersion": "2019-10-01",
