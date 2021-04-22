@@ -11,6 +11,9 @@
 		"identitySubscriptionId": {
 			"type": "string"
 		},
+        "managementSubscriptionId": {
+			"type": "string"
+		},
 		"onlineLzSubscriptionId": {
 			"type": "array"
 		},
@@ -21,6 +24,9 @@
 			"type": "array"
 		},
 		"devLzSubscriptionId": {
+			"type": "array"
+		},
+        "sbxLzSubscriptionId": {
 			"type": "array"
 		}
     },
