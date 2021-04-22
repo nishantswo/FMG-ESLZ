@@ -242,7 +242,7 @@
 			"subscriptionId": "[parameters('identitySubscriptionId')]",
 			"resourceGroup": "[variables('rgNameIdentity')]",
 			"dependsOn": [
-				"identityvnetdeployment"
+				"[variables('vnetIdentityDeployment')]"
 			],
 			"properties": {
 				"mode": "Incremental",
