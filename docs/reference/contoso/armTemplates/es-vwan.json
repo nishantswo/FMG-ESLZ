@@ -884,6 +884,9 @@
 					"secondaryregioncode": {
 						"value": "[parameters('secondaryregioncode')]"
 					},
+					"app": {
+						"value": "[parameters('app')]"
+					}
 				},
 				"variables": {
 					"rgNameIdentity": {
