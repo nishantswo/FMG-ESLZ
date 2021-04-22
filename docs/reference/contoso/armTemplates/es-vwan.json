@@ -800,6 +800,7 @@
 			"managementGroups": "[uri(deployment().properties.templateLink.uri, 'auxiliary/mgmtGroups.json')]",
 			"resourceGroups": "[uri(deployment().properties.templateLink.uri, 'auxiliary/rg.json')]",
 			"identitynetwork": "[uri(deployment().properties.templateLink.uri, 'auxiliary/identitynetwork.json')]",
+			"dns": "[uri(deployment().properties.templateLink.uri, 'auxiliary/dns.json')]",
 			"policyDefinitions": "[concat(uri(deployment().properties.templateLink.uri, variables('azEnvPolicy')))]",
 			"monitoring": "[uri(deployment().properties.templateLink.uri, 'auxiliary/logAnalytics.json')]",
 			"monitoringSolutions": "[uri(deployment().properties.templateLink.uri, 'auxiliary/logAnalyticsSolutions.json')]",
@@ -836,6 +837,7 @@
 			"mgmtGroupDeploymentName": "[take(concat('EntScale-Mgs', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"resourceGroupDeploymentName": "[take(concat('EntScale-Rgs', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"identityNetworkDeploymentName": "[take(concat('EntScale-Idy-Network', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
+			"dnsDeploymentName": "[take(concat('EntScale-Dns', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"policyDeploymentName": "[take(concat('EntScale-Policy', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"monitoringDeploymentName": "[take(concat('EntScale-Monitoring', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"monitoringSolutionsDeploymentName": "[take(concat('EntScale-Solutions', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
@@ -1773,6 +1775,46 @@
 					},
 					"devLzSubscriptionId": {
 						"value": "[parameters('devLzSubscriptionId')]"
+					},
+					"app": {
+						"value": "[parameters('app')]"
+					}
+				}
+			}
+		},
+		{
+
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"name": "[variables('deploymentNames').dnsDeploymentName]",
+			"location": "[deployment().location]",
+			"dependsOn": [
+				"[variables('deploymentNames').connectivityDeploymentName]"
+			],
+			"properties": {
+				"mode": "Incremental",
+				"templateLink": {
+					"contentVersion": "1.0.0.0",
+					"uri": "[variables('deploymentUris').dns]"
+				},
+				"parameters": {
+					"topLevelManagementGroupPrefix": {
+						"value": "[parameters('enterpriseScaleCompanyPrefix')]"
+					},
+					"identitySubscriptionId": {
+						"value": "[parameters('identitySubscriptionId')]"
+					},
+					"primaryregioncode": {
+						"value": "[parameters('primaryregioncode')]"
+					},
+					"secondaryregioncode": {
+						"value": "[parameters('secondaryregioncode')]"
+					},
+					"identityVnetName": {
+						"value": "[parameters('identityVnetName')]"
+					},
+					"privateDnsZoneName1": {
+						"value": "[parameters('privateDnsZoneName1')]"
 					},
 					"app": {
 						"value": "[parameters('app')]"
