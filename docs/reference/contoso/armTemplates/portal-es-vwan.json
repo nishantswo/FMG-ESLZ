@@ -1046,7 +1046,7 @@
                         "visible": true,
                         "options": {
                             "icon": "Info",
-                            "text": "You can optionally provide subscriptions for your first landing zones for 'online' 'prod' 'uat' & 'dev' and assign recommended policies that will ensure workloads will be secure, monitored, and protected according to best practices.",
+                            "text": "You can optionally provide subscriptions for your first landing zones for 'online' 'prod' 'uat' 'dev' & 'sbx' and assign recommended policies that will ensure workloads will be secure, monitored, and protected according to best practices.",
                             "uri": "https://github.com/Azure/Enterprise-Scale/blob/main/docs/Deploy/ES-schema.md"
                         }
                     },
@@ -1191,6 +1191,42 @@
                         "visible": true,
                         "constraints": {
                             "allowedValues": "[map(steps('lzGoalState').lzDevSubsApi.value, (sub) => parse(concat('{\"label\":\"', sub.displayName, '\",\"description\":\"', sub.subscriptionId, '\",\"value\":\"', toLower(sub.subscriptionId), '\"}')) )]",
+                            "required": false
+                        }
+                    },
+                    {
+                        "name": "sbxText",
+                        "type": "Microsoft.Common.TextBlock",
+                        "visible": "[equals(steps('esGoalState').esLogAnalytics, 'Yes')]",
+                        "options": {
+                            "text": "Select the subscriptions you want to move to sandbox management group.",
+                            "link": {
+                                "label": "Learn more",
+                                "uri": "https://docs.microsoft.com/azure/azure-monitor/insights/solutions"
+                            }
+                        }
+                    },
+                    {
+                        "name": "lzSbxSubsApi",
+                        "type": "Microsoft.Solutions.ArmApiControl",
+                        "request": {
+                            "method": "GET",
+                            "path": "subscriptions?api-version=2020-01-01"
+                        }
+                    },
+                    {
+                        "name": "esSbxLzSub",
+                        "type": "Microsoft.Common.DropDown",
+                        "label": "Sandbox landing zone subscriptions (optional)",
+                        "toolTip": "",
+                        "multiselect": true,
+                        "selectAll": true,
+                        "filter": true,
+                        "filterPlaceholder": "Filter items ...",
+                        "multiLine": true,
+                        "visible": true,
+                        "constraints": {
+                            "allowedValues": "[map(steps('lzGoalState').lzSbxSubsApi.value, (sub) => parse(concat('{\"label\":\"', sub.displayName, '\",\"description\":\"', sub.subscriptionId, '\",\"value\":\"', toLower(sub.subscriptionId), '\"}')) )]",
                             "required": false
                         }
                     },
@@ -1501,8 +1537,9 @@
             "identitySubscriptionId": "[if(or(not(equals(steps('esIdentityGoalState').esIdentitySub, steps('esGoalState').esMgmtSub)), not(equals(steps('esIdentityGoalState').esIdentitySub, steps('esConnectivityGoalState').esConnectivitySub))), steps('esIdentityGoalState').esIdentitySub, '')]",
             "onlineLzSubscriptionId": "[if(or(not(contains(steps('lzGoalState').esOnlineLzSub, steps('esGoalState').esMgmtSub)), not(contains(steps('lzGoalState').esOnlineLzSub, steps('esConnectivityGoalState').esConnectivitySub))), steps('lzGoalState').esOnlineLzSub, '')]",
             "prodLzSubscriptionId": "[if(or(not(contains(steps('lzGoalState').esProdLzSub, steps('esGoalState').esMgmtSub)), not(contains(steps('lzGoalState').esProdLzSub, steps('esConnectivityGoalState').esConnectivitySub))), steps('lzGoalState').esProdLzSub, '')]",
-			"uatLzSubscriptionId": "[if(or(not(contains(steps('lzGoalState').esUatLzSub, steps('esGoalState').esMgmtSub)), not(contains(steps('lzGoalState').esUatLzSub, steps('esConnectivityGoalState').esConnectivitySub))), steps('lzGoalState').esUatLzSub, '')]",
-			"devLzSubscriptionId": "[if(or(not(contains(steps('lzGoalState').esDevLzSub, steps('esGoalState').esMgmtSub)), not(contains(steps('lzGoalState').esDevLzSub, steps('esConnectivityGoalState').esConnectivitySub))), steps('lzGoalState').esDevLzSub, '')]",
+	    "uatLzSubscriptionId": "[if(or(not(contains(steps('lzGoalState').esUatLzSub, steps('esGoalState').esMgmtSub)), not(contains(steps('lzGoalState').esUatLzSub, steps('esConnectivityGoalState').esConnectivitySub))), steps('lzGoalState').esUatLzSub, '')]",
+            "devLzSubscriptionId": "[if(or(not(contains(steps('lzGoalState').esDevLzSub, steps('esGoalState').esMgmtSub)), not(contains(steps('lzGoalState').esDevLzSub, steps('esConnectivityGoalState').esConnectivitySub))), steps('lzGoalState').esDevLzSub, '')]",
+            "sbxLzSubscriptionId": "[if(or(not(contains(steps('lzGoalState').esSbxLzSub, steps('esGoalState').esMgmtSub)), not(contains(steps('lzGoalState').esSbxLzSub, steps('esConnectivityGoalState').esConnectivitySub))), steps('lzGoalState').esSbxLzSub, '')]",
             "enableLogAnalytics": "[steps('esGoalState').esLogAnalytics]",
             "denyRdpForIdentity": "[steps('esIdentityGoalState').esIdDenyRdp]",
             "denySubnetWithoutNsgForIdentity": "[steps('esIdentityGoalState').esIdDenySubnetNsg]",
