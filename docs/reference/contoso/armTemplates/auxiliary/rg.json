@@ -122,7 +122,7 @@
 							"type": "Microsoft.Resources/resourceGroups",
 							"apiVersion": "2019-10-01",
 							"location": "[deployment().location]",
-							"name": "[variables('rgNameOnline')]",
+							"name": "[concat(variables('rgNameOnline'), copyIndex(1))]",
 							"properties": {}
 						}
 
@@ -135,7 +135,7 @@
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"location": "[deployment().location]",
-			"name": "[variables('rgNameProd')]",
+			"name": "[concat(variables('rgNameProd'), copyIndex())]",
 			"copy": {
 				"name": "rgCopy",
 				"count": "[if(not(empty(parameters('prodLzSubscriptionId'))), length(parameters('prodLzSubscriptionId')), 1)]"
@@ -151,7 +151,7 @@
 							"type": "Microsoft.Resources/resourceGroups",
 							"apiVersion": "2019-10-01",
 							"location": "[deployment().location]",
-							"name": "[variables('rgNameProd')]",
+							"name": "[concat(variables('rgNameProd'), copyIndex())]",
 							"properties": {}
 						}
 
@@ -164,7 +164,7 @@
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"location": "[deployment().location]",
-			"name": "[variables('rgNameUat')]",
+			"name": "[concat(variables('rgNameUat'), copyIndex())]",
 			"copy": {
 				"name": "rgCopy",
 				"count": "[if(not(empty(parameters('uatLzSubscriptionId'))), length(parameters('uatLzSubscriptionId')), 1)]"
@@ -180,7 +180,7 @@
 							"type": "Microsoft.Resources/resourceGroups",
 							"apiVersion": "2019-10-01",
 							"location": "[deployment().location]",
-							"name": "[variables('rgNameUat')]",
+							"name": "[concat(variables('rgNameUat'), copyIndex())]",
 							"properties": {}
 						}
 
@@ -193,7 +193,7 @@
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"location": "[deployment().location]",
-			"name": "[variables('rgNameDev')]",
+			"name": "[concat(variables('rgNameDev'), copyIndex())]",
 			"copy": {
 				"name": "rgCopy",
 				"count": "[if(not(empty(parameters('devLzSubscriptionId'))), length(parameters('devLzSubscriptionId')), 1)]"
@@ -209,16 +209,16 @@
 							"type": "Microsoft.Resources/resourceGroups",
 							"apiVersion": "2019-10-01",
 							"location": "[deployment().location]",
-							"name": "[variables('rgNameDev')]",
+							"name": "[concat(variables('rgNameDev'), copyIndex())]",
 							"properties": {}
 						},
 						{
 							"type": "Microsoft.Resources/deployments",
 							"apiVersion": "2020-06-01",
 							"name": "lockDeployment",
-							"resourceGroup": "[variables('rgNameDev')]",
+							"resourceGroup": "[variables('rgNameDev')[copyIndex()]]",
 							"dependsOn": [
-								"[resourceId('Microsoft.Resources/resourceGroups/', variables('rgNameDev'))]"
+								"[resourceId('Microsoft.Resources/resourceGroups/', variables('rgNameDev')[copyIndex()])]"
 							],
 							"properties": {
 								"mode": "Incremental",
@@ -250,7 +250,7 @@
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"location": "[deployment().location]",
-			"name": "[variables('rgNameSbx')]",
+			"name": "[concat(variables('rgNameSbx'), copyIndex())]",
 			"copy": {
 				"name": "rgCopy",
 				"count": "[if(not(empty(parameters('sbxLzSubscriptionId'))), length(parameters('sbxLzSubscriptionId')), 1)]"
@@ -266,36 +266,8 @@
 							"type": "Microsoft.Resources/resourceGroups",
 							"apiVersion": "2019-10-01",
 							"location": "[deployment().location]",
-							"name": "[variables('rgNameSbx')]",
+							"name": "[concat(variables('rgNameSbx'), copyIndex())]",
 							"properties": {}
-						},
-						{
-							"type": "Microsoft.Resources/deployments",
-							"apiVersion": "2020-06-01",
-							"name": "lockDeployment",
-							"resourceGroup": "[variables('rgNameSbx')]",
-							"dependsOn": [
-								"[resourceId('Microsoft.Resources/resourceGroups/', variables('rgNameSbx'))]"
-							],
-							"properties": {
-								"mode": "Incremental",
-								"template": {
-									"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-									"contentVersion": "1.0.0.0",
-									"parameters": {},
-									"variables": {},
-									"resources": [{
-										"type": "Microsoft.Authorization/locks",
-										"apiVersion": "2016-09-01",
-										"name": "rgLock",
-										"properties": {
-											"level": "CanNotDelete",
-											"notes": "Resource group and its resources should not be deleted."
-										}
-									}],
-									"outputs": {}
-								}
-							}
 						}
 
 					]
