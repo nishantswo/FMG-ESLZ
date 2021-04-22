@@ -31,16 +31,24 @@
 		}
     },
     "variables": {
-        "rgNameIdentity": "",
-		"rgNameManagement": "",
-		"rgNamecldshellStgpri": "",
-		"rgNamecldshellStgsec": "",
-		"rgNameOnline": "",
-		"rgNameProd": "",
-		"rgNameUat": "",
-		"rgNameDev": "",
-		"rgNamesbx": ""
-              
+        "rgNameIdentity": {
+        },
+		"rgNameManagement": {
+        },
+		"rgNamecldshellStgpri": {
+        },
+		"rgNamecldshellStgsec": {
+        },
+		"rgNameOnline": {
+        },
+		"rgNameProd": {
+        },
+		"rgNameUat": {
+        },
+        "rgNameDev": {
+        },
+		"rgNamesbx": {
+        }         
     },
     "resources": [
         {
