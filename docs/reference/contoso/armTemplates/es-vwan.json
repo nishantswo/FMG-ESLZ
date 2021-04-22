@@ -107,45 +107,9 @@
 				"description": "Provide the subscription id of an existing, empty subscription you want to dedicate for identity."
 			}
 		},
-		"identityVnetName": {
-			"type": "string",
-			"defaultValue": "identity-vnet",
-			"metadata": {
-				"description": "hub vnet name"
-			}
-		},
-		"networkSecurityGroupName": {
-			"type": "string",
-			"defaultValue": "identitysub-nsg",
-			"metadata": {
-				"description": "hub vnet name"
-			}
-		},
-		"subnet1Prefix": {
-			"type": "string",
-			"defaultValue": "10.122.122.128/27",
-			"metadata": {
-				"description": "hub vnet name"
-			}
-		},
 		"DNSServerAddress": {
 			"type": "string",
 			"defaultValue": "10.122.122.135",
-			"metadata": {
-				"description": "hub vnet name"
-			}
-		},
-
-		"subnet2Prefix": {
-			"type": "string",
-			"defaultValue": "10.122.122.160/27",
-			"metadata": {
-				"description": "hub vnet name"
-			}
-		},
-		"subnet3Prefix": {
-			"type": "string",
-			"defaultValue": "10.122.122.192/27",
 			"metadata": {
 				"description": "hub vnet name"
 			}
@@ -176,6 +140,49 @@
 			"defaultValue": "dev-vnet",
 			"metadata": {
 				"description": "dev vnet name"
+			}
+		},
+		 "identitySubnetDevName": {
+			"type": "string",
+			"defaultValue": "sn-dev-idy-ae"
+		},
+		"identitySubnetUatName": {
+			"type": "string",
+			"defaultValue": "sn-uat-idy-ae"
+		},
+		"identitySubnetProdName": {
+			"type": "string",
+			"defaultValue": "sn-prod-idy-ae"
+		},
+        "identitySubnetDevPrefix": {
+			"type": "string",
+			"defaultValue": "10.122.122.192/27"
+		},
+		"identitySubnetUatPrefix": {
+			"type": "string",
+			"defaultValue": "10.122.122.160/27"
+		},
+		"identitySubnetProdPrefix": {
+			"type": "string",
+			"defaultValue": "10.122.122.128/27"
+		},
+		"devIdentityNsgName": {
+			"type": "string",
+			"defaultValue": "nsg-sn-dev-idy-ae"
+		},
+		"uatIdentityNsgName": {
+			"type": "string",
+			"defaultValue": "nsg-sn-uat-idy-ae"
+		},
+		"prodIdentityNsgName": {
+			"type": "string",
+			"defaultValue": "nsg-sn-prod-idy-ae"
+		},
+		"identityVnetName": {
+			"type": "string",
+			"defaultValue": "vnet-identity-ae",
+			"metadata": {
+				"description": "hub vnet name"
 			}
 		},
 		"identityVnetPrefix": {
@@ -778,6 +785,7 @@
 		"deploymentUris": {
 			"managementGroups": "[uri(deployment().properties.templateLink.uri, 'auxiliary/mgmtGroups.json')]",
 			"resourceGroups": "[uri(deployment().properties.templateLink.uri, 'auxiliary/rg.json')]",
+			"identitynetwork": "[uri(deployment().properties.templateLink.uri, 'auxiliary/identitynetwork.json')]",
 			"policyDefinitions": "[concat(uri(deployment().properties.templateLink.uri, variables('azEnvPolicy')))]",
 			"monitoring": "[uri(deployment().properties.templateLink.uri, 'auxiliary/logAnalytics.json')]",
 			"monitoringSolutions": "[uri(deployment().properties.templateLink.uri, 'auxiliary/logAnalyticsSolutions.json')]",
@@ -813,6 +821,7 @@
 		"deploymentNames": {
 			"mgmtGroupDeploymentName": "[take(concat('EntScale-Mgs', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"resourceGroupDeploymentName": "[take(concat('EntScale-Rgs', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
+			"identityNetworkDeploymentName": "[take(concat('EntScale-Idy-Network', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"policyDeploymentName": "[take(concat('EntScale-Policy', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"monitoringDeploymentName": "[take(concat('EntScale-Monitoring', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"monitoringSolutionsDeploymentName": "[take(concat('EntScale-Solutions', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
@@ -1058,51 +1067,69 @@
 			},
 			"properties": {}
 		},
-		
-
 		{
+
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
-			"name": "NSGdeployment",
-			"subscriptionId": "[parameters('identitySubscriptionId')]",
-			"resourceGroup": "[variables('rgNameIdentity')]",
-			"dependsOn": [
-				"[variables('deploymentNames').resourceGroupDeploymentName]"
-			],
-
+			"name": "[variables('deploymentNames').identityNetworkDeploymentName]",
+			"location": "[deployment().location]",
 			"properties": {
 				"mode": "Incremental",
-				"template": {
-					"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+				"templateLink": {
 					"contentVersion": "1.0.0.0",
-					"parameters": {},
-					"resources": [{
-							"type": "Microsoft.Network/networkSecurityGroups",
-							"apiVersion": "2020-05-01",
-							"name": "[parameters('networkSecurityGroupName')]",
-							"location": "[deployment().location]",
-							"properties": {
-								"securityRules": [{
-									"name": "default-allow-3389",
-									"properties": {
-										"priority": 1000,
-										"access": "Allow",
-										"direction": "Inbound",
-										"destinationPortRange": "3389",
-										"protocol": "Tcp",
-										"sourceAddressPrefix": "*",
-										"sourcePortRange": "*",
-										"destinationAddressPrefix": "*"
-									}
-								}]
-							}
-						}
-
-
-					]
+					"uri": "[variables('deploymentUris').identitynetwork]"
+				},
+				"parameters": {
+					"topLevelManagementGroupPrefix": {
+						"value": "[parameters('enterpriseScaleCompanyPrefix')]"
+					},
+					"identitySubscriptionId": {
+						"value": "[parameters('identitySubscriptionId')]"
+					},
+					"primaryregioncode": {
+						"value": "[parameters('primaryregioncode')]"
+					},
+					"secondaryregioncode": {
+						"value": "[parameters('secondaryregioncode')]"
+					},
+					"identitySubnetDevName": {
+						"value": "[parameters('identitySubnetDevName')]"
+					},
+					"identitySubnetUatName": {
+						"value": "[parameters('identitySubnetUatName')]"
+					},
+					"identitySubnetProdName": {
+						"value": "[parameters('identitySubnetProdName')]"
+					},
+					"identitySubnetDevPrefix": {
+						"value": "[parameters('identitySubnetDevPrefix')]"
+					},
+					"identitySubnetUatPrefix": {
+						"value": "[parameters('identitySubnetUatPrefix')]"
+					},
+					"identitySubnetProdPrefix": {
+						"value": "[parameters('identitySubnetProdPrefix')]"
+					},
+					"devIdentityNsgName": {
+						"value": "[parameters('devIdentityNsgName')]"
+					},
+					"uatIdentityNsgName": {
+						"value": "[parameters('uatIdentityNsgName')]"
+					},
+					"prodIdentityNsgName": {
+						"value": "[parameters('prodIdentityNsgName')]"
+					},
+					"identityVnetName": {
+						"value": "[parameters('identityVnetName')]"
+					},
+					"identityVnetPrefix": {
+						"value": "[parameters('identityVnetPrefix')]"
+					}
 				}
 			}
 		},
+
+		
 
 
 		{
@@ -1218,7 +1245,7 @@
 		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
-			"name": "ADdeployment",
+			"name": "AD-deployment",
 			"subscriptionId": "[parameters('identitySubscriptionId')]",
 			"resourceGroup": "[variables('rgNameIdentity')]",
 			"dependsOn": [
