@@ -877,7 +877,13 @@
 					},
 					"sbxLzSubscriptionId": {
 						"value": "[parameters('sbxLzSubscriptionId')]"
-					}
+					},
+					"primaryregioncode": {
+						"value": "[parameters('primaryregioncode')]"
+					},
+					"secondaryregioncode": {
+						"value": "[parameters('secondaryregioncode')]"
+					},
 				},
 				"variables": {
 					"rgNameIdentity": {
