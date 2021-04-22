@@ -15,28 +15,28 @@
 			"type": "string"
 		},
 		"identitySubnetUatName": {
-			"type": "array"
+			"type": "string"
 		},
 		"identitySubnetProdName": {
-			"type": "array"
+			"type": "string"
 		},
         "identitySubnetDevPrefix": {
 			"type": "string"
 		},
 		"identitySubnetUatPrefix": {
-			"type": "array"
+			"type": "string"
 		},
 		"identitySubnetProdPrefix": {
-			"type": "array"
+			"type": "string"
 		},
         "devIdentityNsgName": {
 			"type": "string"
 		},
 		"uatIdentityNsgName": {
-			"type": "array"
+			"type": "string"
 		},
 		"prodIdentityNsgName": {
-			"type": "array"
+			"type": "string"
 		},
         "primaryregioncode": {
 			"type": "string"
