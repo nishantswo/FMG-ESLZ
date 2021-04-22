@@ -3,7 +3,11 @@
 	"contentVersion": "1.0.0.0",
 	"parameters": {
 		"topLevelManagementGroupPrefix": {
-			"type": "string"
+			"type": "string",
+			"maxLength": 10,
+			"metadata": {
+				"description": "Provide a prefix (max 10 characters, unique at tenant-scope) for the Management Group hierarchy and other resources created as part of Enterprise-scale."
+			}
 		},
 		"addressPrefix": {
 			"type": "string",
@@ -13,23 +17,76 @@
 			},
 			"defaultValue": "192.168.0.0/24"
 		},
-		"privateDnsZoneName1": {
-			"type": "string"
-		},	
 		"identityVnetName": {
-			"type": "string"
-		},	
+			"type": "string",
+			"defaultValue": "identity-vnet",
+			"metadata": {
+				"description": "hub vnet name"
+			}
+		},
+		
 		"onlineVnetName": {
-			"type": "string"
+			"type": "string",
+			"defaultValue": "online-vnet",
+			"metadata": {
+				"description": "online vnet name"
+			}
 		},
 		"prodVnetName": {
-			"type": "string"
+			"type": "string",
+			"defaultValue": "prod-vnet",
+			"metadata": {
+				"description": "prod vnet name"
+			}
 		},
 		"uatVnetName": {
-			"type": "string"
+			"type": "string",
+			"defaultValue": "uat-vnet",
+			"metadata": {
+				"description": "uat vnet name"
+			}
 		},
 		"devVnetName": {
-			"type": "string"
+			"type": "string",
+			"defaultValue": "dev-vnet",
+			"metadata": {
+				"description": "dev vnet name"
+			}
+		},
+		"rgNameIdentity": {
+			"type": "string",
+			"defaultValue": "fmgd-identity",
+			"metadata": {
+				"description": "prod vnet name"
+			}
+		},
+		"rgNameOnline": {
+			"type": "string",
+			"defaultValue": "fmgd-online",
+			"metadata": {
+				"description": "prod vnet name"
+			}
+		},
+		"rgNameProd": {
+			"type": "string",
+			"defaultValue": "fmgd-prod",
+			"metadata": {
+				"description": "prod vnet name"
+			}
+		},
+		"rgNameUat": {
+			"type": "string",
+			"defaultValue": "fmgd-uat",
+			"metadata": {
+				"description": "prod vnet name"
+			}
+		},
+		"rgNameDev": {
+			"type": "string",
+			"defaultValue": "fmgd-dev",
+			"metadata": {
+				"description": "prod vnet name"
+			}
 		},
 		"location": {
 			"type": "string",
@@ -94,7 +151,8 @@
 		},
 		"devLzSubscriptionId": {
 			"type": "array"
-		}	
+		}
+		
 	},
 	"variables": {
 		"vWanName": "[concat(parameters('topLevelManagementGroupPrefix'), '-vwan-', parameters('location'))]",
@@ -102,7 +160,6 @@
 		"erGwName": "[concat(parameters('topLevelManagementGroupPrefix'), '-ergw-', parameters('location'))]",
 		"rgName": "[concat('rg', '-conn-', parameters('primaryregioncode'))]",
 		"rgName2": "[concat('rg', '-conn-', parameters('secondaryregioncode'))]",
-		"rgNameIdentity": "[concat('rg', '-idy-', parameters('primaryregioncode'))]",
 		"vHubName": "[concat(parameters('topLevelManagementGroupPrefix'), '-vhub-', parameters('location'))]",
 		"azFwName": "[concat(parameters('topLevelManagementGroupPrefix'), '-fw-', parameters('location'))]",
 		"vWanSku": "Standard",
@@ -120,7 +177,7 @@
 		"subscriptionId": "[parameters('connectivitySubscriptionId')]",
 		   "copy": {
 				"name": "hubCopy",
-				"count": "[if(not(empty(parameters('connectivitySubscriptionId'))), length(parameters('connectivitySubscriptionId')), 1)]"
+				"count": "[if(not(empty(parameters('prodLzSubscriptionId'))), length(parameters('prodLzSubscriptionId')), 1)]"
 			},
 		"properties": {
 			"mode": "Incremental",
@@ -135,7 +192,6 @@
 						"name": "[variables('rgName')]",
 						"properties": {}
 					},
-					
 					{
 						"type": "Microsoft.Resources/deployments",
 						"apiVersion": "2019-10-01",
