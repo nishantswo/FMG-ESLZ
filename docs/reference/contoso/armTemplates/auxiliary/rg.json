@@ -106,7 +106,7 @@
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"location": "[deployment().location]",
-			"name": "[variables('rgNameOnline')]",
+			"name": "[concat(variables('rgNameOnline'), copyIndex())]",
 			"copy": {
 				"name": "rgCopy",
 				"count": "[if(not(empty(parameters('onlineLzSubscriptionId'))), length(parameters('onlineLzSubscriptionId')), 1)]"
