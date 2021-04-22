@@ -1132,80 +1132,18 @@
 		
 
 
-		{
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2019-10-01",
-			"name": "identityvnetdeployment",
-			"resourceGroup": "[variables('rgNameIdentity')]",
-			"dependsOn": [
-				"[variables('deploymentNames').resourceGroupDeploymentName]",
-				"NSGdeployment"
-			],
-
-
-			"subscriptionId": "[parameters('identitySubscriptionId')]",
-			"properties": {
-				"mode": "Incremental",
-				"template": {
-					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-					"contentVersion": "1.0.0.0",
-					"parameters": {},
-					"resources": [{
-							"type": "Microsoft.Network/virtualNetworks",
-							"apiVersion": "2020-05-01",
-							"name": "[parameters('identityVnetName')]",
-							"location": "[deployment().location]",
-							"properties": {
-								"addressSpace": {
-									"addressPrefixes": [
-										"[parameters('identityVnetPrefix')]"
-									]
-								},
-								"subnets": [{
-										"name": "adds-prod-subnet",
-										"properties": {
-											"addressPrefix": "[parameters('subnet1Prefix')]",
-											"networkSecurityGroup": {
-
-												"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]"
-											}
-
-										}
-									},
-									{
-										"name": "adds-qa-subnet",
-										"properties": {
-											"addressPrefix": "[parameters('subnet2Prefix')]"
-
-										}
-									},
-									{
-										"name": "adds-dev-subnet",
-										"properties": {
-											"addressPrefix": "[parameters('subnet3Prefix')]"
-
-
-
-										}
-									}
-								]
-							}
-						}
-
-
-					]
-				}
-			}
-		},
+	
+	
+			
 		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"name": "DNSdeployment",
 			"subscriptionId": "[parameters('identitySubscriptionId')]",
 			"resourceGroup": "[variables('rgNameIdentity')]",
-			"dependsOn": [
-				"identityvnetdeployment"
-			],
+			//"dependsOn": [
+			//	"identityvnetdeployment"
+		//	],
 			"properties": {
 				"mode": "Incremental",
 				"template": {
@@ -1248,9 +1186,9 @@
 			"name": "AD-deployment",
 			"subscriptionId": "[parameters('identitySubscriptionId')]",
 			"resourceGroup": "[variables('rgNameIdentity')]",
-			"dependsOn": [
-				"identityvnetdeployment"
-			],
+		//	"dependsOn": [
+			//	"identityvnetdeployment"
+			//],
 			"properties": {
 				"mode": "Incremental",
 				"template": {
