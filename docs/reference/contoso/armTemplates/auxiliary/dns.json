@@ -42,9 +42,6 @@
 			"name": "[concat('Ent-Scale', '-DNSZones')]",
 			"subscriptionId": "[parameters('identitySubscriptionId')]",
 			"resourceGroup": "[variables('rgNameIdentity')]",
-			"dependsOn": [
-				"identityvnetdeployment"
-			],
 			"properties": {
 				"mode": "Incremental",
 				"template": {
