@@ -216,9 +216,10 @@
 							"type": "Microsoft.Resources/deployments",
 							"apiVersion": "2020-06-01",
 							"name": "lockDeployment",
-							"resourceGroup": "[variables('rgNameDev')[copyIndex()]]",
+							"resourceGroup": "[variables('rgNameDev')]",
+							 
 							"dependsOn": [
-								"[resourceId('Microsoft.Resources/resourceGroups/', variables('rgNameDev')[copyIndex()])]"
+								"[resourceId('Microsoft.Resources/resourceGroups/', variables('rgNameDev'))]"
 							],
 							"properties": {
 								"mode": "Incremental",
