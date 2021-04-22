@@ -14,21 +14,6 @@
 		"privateDnsZoneName1": {
 			"type": "string"
 		},
-		"onlineLzSubscriptionId": {
-			"type": "array"
-		},
-		"prodLzSubscriptionId": {
-			"type": "array"
-		},
-		"uatLzSubscriptionId": {
-			"type": "array"
-		},
-		"devLzSubscriptionId": {
-			"type": "array"
-		},
-		"sbxLzSubscriptionId": {
-			"type": "array"
-		},
 		"primaryregioncode": {
 			"type": "string"
 		},
