@@ -1,17 +1,143 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "topLevelManagementGroupPrefix": {
-            "type": "string",
-            "metadata": {
-                "description": "Provide a prefix (max 10 characters, unique at tenant-scope) for the Management Group hierarchy and other resources created as part of Enterprise-scale."
-            }
-        },
-		"identitySubscriptionId": {
+	"$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"topLevelManagementGroupPrefix": {
+			"type": "string",
+			"maxLength": 10,
+			"metadata": {
+				"description": "Provide a prefix (max 10 characters, unique at tenant-scope) for the Management Group hierarchy and other resources created as part of Enterprise-scale."
+			}
+		},
+		"addressPrefix": {
+			"type": "string",
+			"metadata": {
+				"displayName": "addressPrefix",
+				"description": "Address prefix of the VHUB"
+			},
+			"defaultValue": "192.168.0.0/24"
+		},
+		"identityVnetName": {
+			"type": "string",
+			"defaultValue": "identity-vnet",
+			"metadata": {
+				"description": "hub vnet name"
+			}
+		},
+		
+		"onlineVnetName": {
+			"type": "string",
+			"defaultValue": "online-vnet",
+			"metadata": {
+				"description": "online vnet name"
+			}
+		},
+		"prodVnetName": {
+			"type": "string",
+			"defaultValue": "prod-vnet",
+			"metadata": {
+				"description": "prod vnet name"
+			}
+		},
+		"uatVnetName": {
+			"type": "string",
+			"defaultValue": "uat-vnet",
+			"metadata": {
+				"description": "uat vnet name"
+			}
+		},
+		"devVnetName": {
+			"type": "string",
+			"defaultValue": "dev-vnet",
+			"metadata": {
+				"description": "dev vnet name"
+			}
+		},
+		"rgNameIdentity": {
+			"type": "string",
+			"defaultValue": "fmgd-identity",
+			"metadata": {
+				"description": "prod vnet name"
+			}
+		},
+		"rgNameOnline": {
+			"type": "string",
+			"defaultValue": "fmgd-online",
+			"metadata": {
+				"description": "prod vnet name"
+			}
+		},
+		"rgNameProd": {
+			"type": "string",
+			"defaultValue": "fmgd-prod",
+			"metadata": {
+				"description": "prod vnet name"
+			}
+		},
+		"rgNameUat": {
+			"type": "string",
+			"defaultValue": "fmgd-uat",
+			"metadata": {
+				"description": "prod vnet name"
+			}
+		},
+		"rgNameDev": {
+			"type": "string",
+			"defaultValue": "fmgd-dev",
+			"metadata": {
+				"description": "prod vnet name"
+			}
+		},
+		"location": {
+			"type": "string",
+			"metadata": {
+				"displayName": "location",
+				"description": "Location of the VHUB"
+			},
+			"defaultValue": "[deployment().location]"
+		},
+		"enableVwan": {
+			"type": "string",
+			"allowedValues": [
+				"Yes",
+				"No"
+			],
+			"defaultValue": "No"
+		},
+		"enableAzFw": {
+			"type": "string",
+			"allowedValues": [
+				"Yes",
+				"No"
+			],
+			"defaultValue": "No"
+		},
+		"enableVpnGw": {
+			"type": "string",
+			"allowedValues": [
+				"Yes",
+				"No"
+			],
+			"defaultValue": "No"
+		},
+		"enableErGw": {
+			"type": "string",
+			"allowedValues": [
+				"Yes",
+				"No"
+			],
+			"defaultValue": "No"
+		},
+		"primaryregioncode": {
 			"type": "string"
 		},
-        "managementSubscriptionId": {
+		"secondaryregioncode": {
+			"type": "string"
+		},
+		"connectivitySubscriptionId": {
+			"type": "string"
+		},
+		"identitySubscriptionId": {
 			"type": "string"
 		},
 		"onlineLzSubscriptionId": {
@@ -25,275 +151,270 @@
 		},
 		"devLzSubscriptionId": {
 			"type": "array"
-		},
-        "sbxLzSubscriptionId": {
-			"type": "array"
 		}
-    },
-    "variables": {
-        "rgNameIdentity": "",
-		"rgNameManagement": "",
-		"rgNamecldshellStgpri": "",
-		"rgNamecldshellStgsec": "",
-		"rgNameOnline": "",
-		"rgNameProd": "",
-		"rgNameUat": "",
-		"rgNameDev": "",
-		"rgNamesbx": ""
-              
-    },
-    "resources": [
-        {
-			"condition": "[not(empty(parameters('identitySubscriptionId')))]",
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2019-10-01",
-			"location": "[deployment().location]",
-			"name": "[variables('rgNameIdentity')]",
-			"subscriptionId": "[parameters('identitySubscriptionId')]",
-			"properties": {
-				"mode": "Incremental",
-				"template": {
-					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-					"contentVersion": "1.0.0.0",
-					"parameters": {},
-					"resources": [{
-							"type": "Microsoft.Resources/resourceGroups",
-							"apiVersion": "2019-10-01",
-							"location": "[deployment().location]",
-							"name": "[variables('rgNameIdentity')]",
-							"properties": {}
-						}
-
-					]
-				}
-			}
-		},
-        {   
-			"condition": "[not(empty(parameters('managementSubscriptionId')))]",
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2019-10-01",
-			"location": "[deployment().location]",
-			"name": "[variables('rgNameManagement')]",
-			"subscriptionId": "[parameters('managementSubscriptionId')]",
-			"properties": {
-				"mode": "Incremental",
-				"template": {
-					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-					"contentVersion": "1.0.0.0",
-					"parameters": {},
-					"resources": [{
-							"type": "Microsoft.Resources/resourceGroups",
-							"apiVersion": "2019-10-01",
-							"location": "[deployment().location]",
-							"name": "[variables('rgNameManagement')]",
-							"properties": {}
-						}
-
-					]
-				}
-			}
-		},
-		{
-			"condition": "[not(empty(parameters('onlineLzSubscriptionId')))]",
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2019-10-01",
-			"location": "[deployment().location]",
-			"name": "[variables('rgNameOnline')]",
-			"copy": {
-				"name": "rgCopy",
-				"count": "[if(not(empty(parameters('onlineLzSubscriptionId'))), length(parameters('onlineLzSubscriptionId')), 1)]"
-			},
-			"subscriptionId": "[if(not(empty(parameters('onlineLzSubscriptionId'))), parameters('onlineLzSubscriptionId')[copyIndex()], '')]",
-			"properties": {
-				"mode": "Incremental",
-				"template": {
-					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-					"contentVersion": "1.0.0.0",
-					"parameters": {},
-					"resources": [{
-							"type": "Microsoft.Resources/resourceGroups",
-							"apiVersion": "2019-10-01",
-							"location": "[deployment().location]",
-							"name": "[variables('rgNameOnline')]",
-							"properties": {}
-						}
-
-					]
-				}
-			}
-		},
-		{
-			"condition": "[not(empty(parameters('prodLzSubscriptionId')))]",
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2019-10-01",
-			"location": "[deployment().location]",
-			"name": "[variables('rgNameProd')]",
-			"copy": {
-				"name": "rgCopy",
+		
+	},
+	"variables": {
+		"vWanName": "[concat(parameters('topLevelManagementGroupPrefix'), '-vwan-', parameters('location'))]",
+		"vpngwname": "[concat(parameters('topLevelManagementGroupPrefix'), '-vpngw-', parameters('location'))]",
+		"erGwName": "[concat(parameters('topLevelManagementGroupPrefix'), '-ergw-', parameters('location'))]",
+		"rgName": "[concat('rg', '-conn', parameters('primaryregioncode'))]",
+		"rgName2": "[concat('rg', '-conn', parameters('secondaryregioncode'))]",
+		"vHubName": "[concat(parameters('topLevelManagementGroupPrefix'), '-vhub-', parameters('location'))]",
+		"azFwName": "[concat(parameters('topLevelManagementGroupPrefix'), '-fw-', parameters('location'))]",
+		"vWanSku": "Standard",
+		"vwanresourceid": "[concat('/subscriptions/', parameters('connectivitySubscriptionId'), '/resourceGroups/' ,variables('rgName'),'/providers/Microsoft.Network/virtualWans/', variables('vwanname'))]",
+		"vwanhub": "[concat('/subscriptions/', parameters('connectivitySubscriptionId'), '/resourceGroups/', variables('rgName'),'/providers/Microsoft.Network/virtualHubs/', variables('vhubname'))]",
+		"vhubsku": "Standard",
+		"vpnbgpasn": 65515,
+		"resourceDeploymentName": "[take(concat(deployment().name, '-vwan'), 64)]"
+	},
+	"resources": [{
+		"type": "Microsoft.Resources/deployments",
+		"apiVersion": "2019-10-01",
+		"location": "[deployment().location]",
+		"name": "[concat('Ent-Scale', '-connectivitySub')]",
+		"subscriptionId": "[parameters('connectivitySubscriptionId')]",
+		   "copy": {
+				"name": "hubCopy",
 				"count": "[if(not(empty(parameters('prodLzSubscriptionId'))), length(parameters('prodLzSubscriptionId')), 1)]"
 			},
-			"subscriptionId": "[if(not(empty(parameters('prodLzSubscriptionId'))), parameters('prodLzSubscriptionId')[copyIndex()], '')]",
-			"properties": {
-				"mode": "Incremental",
-				"template": {
-					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-					"contentVersion": "1.0.0.0",
-					"parameters": {},
-					"resources": [{
-							"type": "Microsoft.Resources/resourceGroups",
-							"apiVersion": "2019-10-01",
-							"location": "[deployment().location]",
-							"name": "[variables('rgNameProd')]",
-							"properties": {}
-						}
+		"properties": {
+			"mode": "Incremental",
+			"template": {
+				"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+				"contentVersion": "1.0.0.0",
+				"parameters": {},
+				"resources": [{
+						"type": "Microsoft.Resources/resourceGroups",
+						"apiVersion": "2019-10-01",
+						"location": "[deployment().location]",
+						"name": "[variables('rgName')]",
+						"properties": {}
+					},
+					{
+						"type": "Microsoft.Resources/deployments",
+						"apiVersion": "2019-10-01",
+						"name": "[variables('resourceDeploymentName')]",
+						"resourceGroup": "[variables('rgName')]",
+						"dependsOn": [
+							"[concat('Microsoft.Resources/resourceGroups/', variables('rgName'))]"
+						],
+								     
+						"properties": {
+							"mode": "Incremental",
+							"template": {
+								"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+								"contentVersion": "1.0.0.0",
+								"parameters": {},
+								"resources": [{
+										"type": "Microsoft.Network/virtualWans",
+										"apiVersion": "2020-05-01",
+										"name": "[variables('vWanName')]",
+										"location": "[parameters('location')]",
+										"properties": {
+											"virtualHubs": [],
+											"vpnSites": [],
+											"type": "[variables('vwansku')]"
+										}
+									},
+									{
+										"condition": "[and(equals(parameters('enableVwan'), 'Yes'), not(empty(parameters('addressPrefix'))))]",
+										"type": "Microsoft.Network/virtualHubs",
+										"apiVersion": "2020-05-01",
+										"location": "[parameters('location')]",
+										"name": "[variables('vhubname')]",
+										"dependsOn": [
+											"[concat('Microsoft.Network/virtualWans/', variables('vWanName'))]"
+										],
+										"properties": {
+											"virtualWan": {
+												"id": "[variables('vwanresourceid')]"
+											},
+											"addressPrefix": "[parameters('addressPrefix')]",
+											"sku": "[variables('vhubsku')]"
+										}
+									},
+									{
+										"condition": "[and(equals(parameters('enableVwan'), 'Yes'), equals(parameters('enableVpnGw'), 'Yes'))]",
+										"type": "Microsoft.Network/vpnGateways",
+										"apiVersion": "2020-05-01",
+										"location": "[parameters('location')]",
+										"name": "[variables('vpngwname')]",
+										"dependsOn": [
+											"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]"
+										],
+										"properties": {
+											"virtualHub": {
+												"id": "[variables('vwanhub')]"
+											},
+											"bgpSettings": {
+												"asn": "[variables('vpnbgpasn')]"
+											},
+											"vpnGatewayScaleUnit": 1
+										}
+									},
+									{
+										"condition": "[and(equals(parameters('enableVwan'), 'Yes'), equals(parameters('enableErGw'), 'Yes'))]",
+										"type": "Microsoft.Network/expressRouteGateways",
+										"apiVersion": "2020-05-01",
+										"location": "[parameters('location')]",
+										"name": "[variables('ergwname')]",
+										"dependsOn": [
+											"[concat('Microsoft.Network/virtualHubs/', variables('vhubname'))]"
+										],
+										"properties": {
+											"virtualHub": {
+												"id": "[variables('vwanhub')]"
+											},
+											"autoScaleConfiguration": {
+												"bounds": {
+													"min": 1,
+													"max": 1
+												}
+											}
+										}
+									},
+									{
+										"condition": "[equals(parameters('enableAzFw'), 'Yes')]",
+										"apiVersion": "2020-05-01",
+										"type": "Microsoft.Network/azureFirewalls",
+										"name": "[variables('azfwname')]",
+										"location": "[parameters('location')]",
+										"dependsOn": [
+											"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]"
+										],
+										"properties": {
+											"sku": {
+												"Name": "AZFW_Hub",
+												"Tier": "Standard"
+											},
+											"hubIPAddresses": {
+												"publicIPs": {
+													"addresses": "[json('[]')]",
+													"count": 1
+												}
+											},
+											"virtualHub": {
+												"id": "[variables('vwanhub')]"
+											},
+											"firewallPolicy": {
+												"id": "[json('null')]"
+											}
+										}
+									},
+									 {
+			"condition": "[not(empty(parameters('identitySubscriptionId')))]",
+			"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
+			"apiVersion": "2020-05-01",
+			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('identityVnetName'))]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
+				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]"
+			],
 
-					]
-				}
+			"properties": {
+			      "remoteVirtualNetwork": {
+							"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', parameters('rgNameIdentity'), '/providers/Microsoft.Network/virtualNetworks/', parameters('identityVnetName'))]"
+							},
+							"allowHubToRemoteVnetTransit": true,
+							"allowRemoteVnetToUseHubVnetGateways": true,
+							"enableInternetSecurity": true
 			}
 		},
-		{
+									      {
+			"condition": "[not(empty(parameters('onlineLzSubscriptionId')))]",
+			"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
+			"apiVersion": "2020-05-01",
+			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('onlineVnetName'))]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
+				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]",
+				"[resourceId('Microsoft.Network/virtualHubs/hubVirtualNetworkConnections', variables('vhubname'), format('{0}_connection', parameters('identityVnetName')))]"
+			],
+
+			"properties": {
+			      "remoteVirtualNetwork": {
+							"id": "[concat('/subscriptions/', if(not(empty(parameters('onlineLzSubscriptionId'))), parameters('onlineLzSubscriptionId')[copyIndex()], ''), '/resourceGroups/', parameters('rgNameOnline'), '/providers/Microsoft.Network/virtualNetworks/', parameters('onlineVnetName'))]"
+							},
+							"allowHubToRemoteVnetTransit": true,
+							"allowRemoteVnetToUseHubVnetGateways": true,
+							"enableInternetSecurity": true
+			}
+		},
+									     
+									      {
+			"condition": "[not(empty(parameters('prodLzSubscriptionId')))]",
+			"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
+			"apiVersion": "2020-05-01",
+			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('prodVnetName'))]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
+				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]",
+				"[resourceId('Microsoft.Network/virtualHubs/hubVirtualNetworkConnections', variables('vhubname'), format('{0}_connection', parameters('onlineVnetName')))]"
+			],
+
+			"properties": {
+			      "remoteVirtualNetwork": {
+							"id": "[concat('/subscriptions/', if(not(empty(parameters('prodLzSubscriptionId'))), parameters('prodLzSubscriptionId')[copyIndex()], ''), '/resourceGroups/', parameters('rgNameProd'), '/providers/Microsoft.Network/virtualNetworks/', parameters('prodVnetName'))]"
+							},
+							"allowHubToRemoteVnetTransit": true,
+							"allowRemoteVnetToUseHubVnetGateways": true,
+							"enableInternetSecurity": true
+			}
+		},
+									         {
 			"condition": "[not(empty(parameters('uatLzSubscriptionId')))]",
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2019-10-01",
-			"location": "[deployment().location]",
-			"name": "[variables('rgNameUat')]",
-			"copy": {
-				"name": "rgCopy",
-				"count": "[if(not(empty(parameters('uatLzSubscriptionId'))), length(parameters('uatLzSubscriptionId')), 1)]"
-			},
-			"subscriptionId": "[if(not(empty(parameters('uatLzSubscriptionId'))), parameters('uatLzSubscriptionId')[copyIndex()], '')]",
-			"properties": {
-				"mode": "Incremental",
-				"template": {
-					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-					"contentVersion": "1.0.0.0",
-					"parameters": {},
-					"resources": [{
-							"type": "Microsoft.Resources/resourceGroups",
-							"apiVersion": "2019-10-01",
-							"location": "[deployment().location]",
-							"name": "[variables('rgNameUat')]",
-							"properties": {}
-						}
+			"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
+			"apiVersion": "2020-05-01",
+			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('uatVnetName'))]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
+				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]",
+				"[resourceId('Microsoft.Network/virtualHubs/hubVirtualNetworkConnections', variables('vhubname'), format('{0}_connection', parameters('prodVnetName')))]"
+			],
 
-					]
-				}
+			"properties": {
+			      "remoteVirtualNetwork": {
+							"id": "[concat('/subscriptions/', if(not(empty(parameters('uatLzSubscriptionId'))), parameters('uatLzSubscriptionId')[copyIndex()], ''), '/resourceGroups/', parameters('rgNameUat'), '/providers/Microsoft.Network/virtualNetworks/', parameters('uatVnetName'))]"
+							},
+							"allowHubToRemoteVnetTransit": true,
+							"allowRemoteVnetToUseHubVnetGateways": true,
+							"enableInternetSecurity": true
 			}
 		},
-		{
+									         {
 			"condition": "[not(empty(parameters('devLzSubscriptionId')))]",
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2019-10-01",
-			"location": "[deployment().location]",
-			"name": "[variables('rgNameDev')]",
-			"copy": {
-				"name": "rgCopy",
-				"count": "[if(not(empty(parameters('devLzSubscriptionId'))), length(parameters('devLzSubscriptionId')), 1)]"
-			},
-			"subscriptionId": "[if(not(empty(parameters('devLzSubscriptionId'))), parameters('devLzSubscriptionId')[copyIndex()], '')]",
-			"properties": {
-				"mode": "Incremental",
-				"template": {
-					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-					"contentVersion": "1.0.0.0",
-					"parameters": {},
-					"resources": [{
-							"type": "Microsoft.Resources/resourceGroups",
-							"apiVersion": "2019-10-01",
-							"location": "[deployment().location]",
-							"name": "[variables('rgNameDev')]",
-							"properties": {}
-						},
-						{
-							"type": "Microsoft.Resources/deployments",
-							"apiVersion": "2020-06-01",
-							"name": "lockDeployment",
-							"resourceGroup": "[variables('rgNameDev')]",
-							"dependsOn": [
-								"[resourceId('Microsoft.Resources/resourceGroups/', variables('rgNameDev'))]"
-							],
-							"properties": {
-								"mode": "Incremental",
-								"template": {
-									"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-									"contentVersion": "1.0.0.0",
-									"parameters": {},
-									"variables": {},
-									"resources": [{
-										"type": "Microsoft.Authorization/locks",
-										"apiVersion": "2016-09-01",
-										"name": "rgLock",
-										"properties": {
-											"level": "CanNotDelete",
-											"notes": "Resource group and its resources should not be deleted."
-										}
-									}],
-									"outputs": {}
-								}
-							}
-						}
+			"type": "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections",
+			"apiVersion": "2020-05-01",
+			"name": "[format('{0}/{1}_connection', variables('vhubname'), parameters('devVnetName'))]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/virtualHubs/',variables('vhubname'))]",
+				"[concat('Microsoft.Network/vpnGateways/',variables('vpngwname'))]",
+				"[resourceId('Microsoft.Network/virtualHubs/hubVirtualNetworkConnections', variables('vhubname'), format('{0}_connection', parameters('uatVnetName')))]"
+			],
 
-					]
-				}
-			}
-		},
-		{
-			"condition": "[not(empty(parameters('sbxLzSubscriptionId')))]",
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2019-10-01",
-			"location": "[deployment().location]",
-			"name": "[variables('rgNameSbx')]",
-			"copy": {
-				"name": "rgCopy",
-				"count": "[if(not(empty(parameters('sbxLzSubscriptionId'))), length(parameters('sbxLzSubscriptionId')), 1)]"
-			},
-			"subscriptionId": "[if(not(empty(parameters('sbxLzSubscriptionId'))), parameters('sbxLzSubscriptionId')[copyIndex()], '')]",
 			"properties": {
-				"mode": "Incremental",
-				"template": {
-					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-					"contentVersion": "1.0.0.0",
-					"parameters": {},
-					"resources": [{
-							"type": "Microsoft.Resources/resourceGroups",
-							"apiVersion": "2019-10-01",
-							"location": "[deployment().location]",
-							"name": "[variables('rgNameSbx')]",
-							"properties": {}
-						},
-						{
-							"type": "Microsoft.Resources/deployments",
-							"apiVersion": "2020-06-01",
-							"name": "lockDeployment",
-							"resourceGroup": "[variables('rgNameSbx')]",
-							"dependsOn": [
-								"[resourceId('Microsoft.Resources/resourceGroups/', variables('rgNameSbx'))]"
-							],
-							"properties": {
-								"mode": "Incremental",
-								"template": {
-									"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-									"contentVersion": "1.0.0.0",
-									"parameters": {},
-									"variables": {},
-									"resources": [{
-										"type": "Microsoft.Authorization/locks",
-										"apiVersion": "2016-09-01",
-										"name": "rgLock",
-										"properties": {
-											"level": "CanNotDelete",
-											"notes": "Resource group and its resources should not be deleted."
-										}
-									}],
-									"outputs": {}
-								}
-							}
-						}
-
-					]
-				}
+			      "remoteVirtualNetwork": {
+							"id": "[concat('/subscriptions/', if(not(empty(parameters('devLzSubscriptionId'))), parameters('devLzSubscriptionId')[copyIndex()], ''), '/resourceGroups/', parameters('rgNameDev'), '/providers/Microsoft.Network/virtualNetworks/', parameters('devVnetName'))]"
+							},
+							"allowHubToRemoteVnetTransit": true,
+							"allowRemoteVnetToUseHubVnetGateways": true,
+							"enableInternetSecurity": true
 			}
 		}
-    ],
-    "outputs": {}
+								
+							
+									      
+								]
+							}
+						}
+					
+						
+						
+					}
+				]
+			}
+		}
+	}]
 }
