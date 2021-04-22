@@ -18,75 +18,21 @@
 			"defaultValue": "192.168.0.0/24"
 		},
 		"identityVnetName": {
-			"type": "string",
-			"defaultValue": "identity-vnet",
-			"metadata": {
-				"description": "hub vnet name"
-			}
+			"type": "string"
+			
 		},
 		
 		"onlineVnetName": {
-			"type": "string",
-			"defaultValue": "online-vnet",
-			"metadata": {
-				"description": "online vnet name"
-			}
+			"type": "string"
 		},
 		"prodVnetName": {
-			"type": "string",
-			"defaultValue": "prod-vnet",
-			"metadata": {
-				"description": "prod vnet name"
-			}
+			"type": "string"
 		},
 		"uatVnetName": {
-			"type": "string",
-			"defaultValue": "uat-vnet",
-			"metadata": {
-				"description": "uat vnet name"
-			}
+			"type": "string"
 		},
 		"devVnetName": {
-			"type": "string",
-			"defaultValue": "dev-vnet",
-			"metadata": {
-				"description": "dev vnet name"
-			}
-		},
-		"rgNameIdentity": {
-			"type": "string",
-			"defaultValue": "fmgd-identity",
-			"metadata": {
-				"description": "prod vnet name"
-			}
-		},
-		"rgNameOnline": {
-			"type": "string",
-			"defaultValue": "fmgd-online",
-			"metadata": {
-				"description": "prod vnet name"
-			}
-		},
-		"rgNameProd": {
-			"type": "string",
-			"defaultValue": "fmgd-prod",
-			"metadata": {
-				"description": "prod vnet name"
-			}
-		},
-		"rgNameUat": {
-			"type": "string",
-			"defaultValue": "fmgd-uat",
-			"metadata": {
-				"description": "prod vnet name"
-			}
-		},
-		"rgNameDev": {
-			"type": "string",
-			"defaultValue": "fmgd-dev",
-			"metadata": {
-				"description": "prod vnet name"
-			}
+			"type": "string"
 		},
 		"location": {
 			"type": "string",
@@ -159,6 +105,15 @@
 		"vpngwname": "[concat(parameters('topLevelManagementGroupPrefix'), '-vpngw-', parameters('location'))]",
 		"erGwName": "[concat(parameters('topLevelManagementGroupPrefix'), '-ergw-', parameters('location'))]",
 		"rgName": "[concat('rg', '-conn-', parameters('primaryregioncode'))]",
+		"rgNameIdentity": "[concat('rg', '-idy-', parameters('primaryregioncode'))]",
+		"rgNameManagement": "[concat('rg', '-mgmt-', parameters('primaryregioncode'))]",
+		"rgNamecldshellStgpri": "[concat('rg', '-cldshellStg-', parameters('primaryregioncode'))]",
+		"rgNamecldshellStgsec": "[concat('rg', '-cldshellStg-', parameters('secondaryregioncode'))]",
+		"rgNameOnline": "[concat('rg-', parameters('app'), '-online')]",
+		"rgNameProd": "[concat('rg-', parameters('app'), '-prod')]",
+		"rgNameUat": "[concat('rg-', parameters('app'), '-uat')]",
+		"rgNameDev": "[concat('rg-', parameters('app'), '-dev')]",
+		"rgNamesbx": "[concat('rg-', parameters('app'), '-sbx')]",
 		"rgName2": "[concat('rg', '-conn-', parameters('secondaryregioncode'))]",
 		"vHubName": "[concat(parameters('topLevelManagementGroupPrefix'), '-vhub-', parameters('location'))]",
 		"azFwName": "[concat(parameters('topLevelManagementGroupPrefix'), '-fw-', parameters('location'))]",
