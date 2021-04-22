@@ -275,8 +275,7 @@
 								"ipConfigurations": [{
 									"name": "ipconfig1",
 									"properties": {
-										"privateIPAllocationMethod": "Static",
-										"privateIPAddress": "[parameters('DNSServerAddress')]",
+										"privateIPAllocationMethod": "Dynamic",
 										"subnet": {
 
 											"id": "[concat('/subscriptions/', parameters('identitySubscriptionId'), '/resourceGroups/', variables('rgNameIdentity'), '/providers/Microsoft.Network/virtualNetworks/', parameters('identityVnetName'), '/subnets/', parameters('identitySubnetProdName'))]"
