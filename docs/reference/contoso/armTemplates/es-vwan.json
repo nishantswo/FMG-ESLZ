@@ -376,7 +376,7 @@
 		},
 		"virtualMachineName": {
 			"type": "string",
-			"defaultValue": "adVM",
+			"defaultValue": "ad-VM",
 			"metadata": {
 				"description": "Virtual machine name."
 			}
