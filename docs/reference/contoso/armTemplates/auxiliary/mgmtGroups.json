@@ -25,7 +25,8 @@
                 "online",
 				"prod",
                 "uat",
-				"dev"
+				"dev",
+                "sbx"
             ],
             "metadata": {
                 "description": "These are the landing zone management groups."
