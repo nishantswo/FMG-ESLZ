@@ -97,8 +97,10 @@
 		},
 		"devLzSubscriptionId": {
 			"type": "array"
-		}
-		
+		},
+		"app": {
+			"type": "string"
+		}	
 	},
 	"variables": {
 		"vWanName": "[concat(parameters('topLevelManagementGroupPrefix'), '-vwan-', parameters('location'))]",
