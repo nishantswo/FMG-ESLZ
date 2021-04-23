@@ -104,31 +104,8 @@
 				}
 			}
 		},
-		{
-			"condition": "[not(empty(parameters('connectivitySubscriptionId')))]",
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2019-10-01",
-			"location": "[deployment().location]",
-			"name": "[variables('rgNameConnectivity')]",
-			"subscriptionId": "[parameters('connectivitySubscriptionId')]",
-			"properties": {
-				"mode": "Incremental",
-				"template": {
-					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-					"contentVersion": "1.0.0.0",
-					"parameters": {},
-					"resources": [{
-							"type": "Microsoft.Resources/resourceGroups",
-							"apiVersion": "2019-10-01",
-							"location": "[deployment().location]",
-							"name": "[variables('rgNameConnectivity')]",
-							"properties": {}
-						}
-
-					]
-				}
-			}
-		},
+		
+		
 		{
 			"condition": "[not(empty(parameters('identitySubscriptionId')))]",
 			"type": "Microsoft.Resources/deployments",
