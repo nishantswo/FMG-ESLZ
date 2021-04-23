@@ -922,6 +922,9 @@
 					"identitySubscriptionId": {
 						"value": "[parameters('identitySubscriptionId')]"
 					},
+					"connectivitySubscriptionId": {
+						"value": "[parameters('identitySubscriptionId')]"
+					},
 					"sbxLzSubscriptionId": {
 						"value": "[parameters('sbxLzSubscriptionId')]"
 					},
