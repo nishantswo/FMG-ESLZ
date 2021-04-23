@@ -130,7 +130,7 @@
 		"type": "Microsoft.Resources/deployments",
 		"apiVersion": "2019-10-01",
 		"location": "[deployment().location]",
-		"name": "[concat('EntScale', '-connectivity')]",
+		"name": "[concat('Ent-Scale', '-connectivitySub')]",
 		"subscriptionId": "[parameters('connectivitySubscriptionId')]",
 		   "copy": {
 				"name": "hubCopy",
@@ -142,13 +142,7 @@
 				"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
 				"contentVersion": "1.0.0.0",
 				"parameters": {},
-				"resources": [{
-						"type": "Microsoft.Resources/resourceGroups",
-						"apiVersion": "2019-10-01",
-						"location": "[deployment().location]",
-						"name": "[variables('rgName')]",
-						"properties": {}
-					},
+				"resources": [
 					{
 						"type": "Microsoft.Resources/deployments",
 						"apiVersion": "2019-10-01",
@@ -353,7 +347,7 @@
 
 			"properties": {
 			      "remoteVirtualNetwork": {
-							"id": "[concat('/subscriptions/', if(not(empty(parameters('devLzSubscriptionId'))), parameters('devLzSubscriptionId')[copyIndex()], ''), '/resourceGroups/', variables('rgNameDev'), '/providers/Microsoft.Network/virtualNetworks/', parameters('devVnetName'))]"
+							"id": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '-uat', '/providers/Microsoft.Authorization/policyDefinitions/Deny-Private-DNS-Zones')]"
 							},
 							"allowHubToRemoteVnetTransit": true,
 							"allowRemoteVnetToUseHubVnetGateways": true,
