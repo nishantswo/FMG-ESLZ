@@ -1,17 +1,20 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "topLevelManagementGroupPrefix": {
-            "type": "string",
-            "metadata": {
-                "description": "Provide a prefix (max 10 characters, unique at tenant-scope) for the Management Group hierarchy and other resources created as part of Enterprise-scale."
-            }
-        },
+	"$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"topLevelManagementGroupPrefix": {
+			"type": "string",
+			"metadata": {
+				"description": "Provide a prefix (max 10 characters, unique at tenant-scope) for the Management Group hierarchy and other resources created as part of Enterprise-scale."
+			}
+		},
 		"identitySubscriptionId": {
 			"type": "string"
 		},
-        "managementSubscriptionId": {
+		"managementSubscriptionId": {
+			"type": "string"
+		},
+		"connectivitySubscriptionId": {
 			"type": "string"
 		},
 		"onlineLzSubscriptionId": {
@@ -26,20 +29,21 @@
 		"devLzSubscriptionId": {
 			"type": "array"
 		},
-        "sbxLzSubscriptionId": {
+		"sbxLzSubscriptionId": {
 			"type": "array"
 		},
-        "primaryregioncode": {
+		"primaryregioncode": {
 			"type": "string"
 		},
 		"secondaryregioncode": {
 			"type": "string"
 		},
-        "app": {
+		"app": {
 			"type": "string"
 		}
-    },
-    "variables": {
+	},
+	"variables": {
+		"rgNameConnectivity": "[concat('rg', '-conn-', parameters('primaryregioncode'))]",
 		"rgNameIdentity": "[concat('rg', '-idy-', parameters('primaryregioncode'))]",
 		"rgNameManagement": "[concat('rg', '-mgmt-', parameters('primaryregioncode'))]",
 		"rgNamecldshellStgpri": "[concat('rg', '-cldshellStg-', parameters('primaryregioncode'))]",
@@ -48,11 +52,10 @@
 		"rgNameProd": "[concat('rg-', parameters('app'), '-prod')]",
 		"rgNameUat": "[concat('rg-', parameters('app'), '-uat')]",
 		"rgNameDev": "[concat('rg-', parameters('app'), '-dev')]",
-		"rgNamesbx": "[concat('rg-', parameters('app'), '-sbx')]",
-    },
-    "resources": [
-		{
-		
+		"rgNamesbx": "[concat('rg-', parameters('app'), '-sbx')]"
+	},
+	"resources": [{
+
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"location": "[deployment().location]",
@@ -77,7 +80,7 @@
 			}
 		},
 		{
-		
+
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"location": "[deployment().location]",
@@ -101,7 +104,32 @@
 				}
 			}
 		},
-        {
+		{
+			"condition": "[not(empty(parameters('connectivitySubscriptionId')))]",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"location": "[deployment().location]",
+			"name": "[variables('rgNameConnectivity')]",
+			"subscriptionId": "[parameters('connectivitySubscriptionId')]",
+			"properties": {
+				"mode": "Incremental",
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {},
+					"resources": [{
+							"type": "Microsoft.Resources/resourceGroups",
+							"apiVersion": "2019-10-01",
+							"location": "[deployment().location]",
+							"name": "[variables('rgNameConnectivity')]",
+							"properties": {}
+						}
+
+					]
+				}
+			}
+		},
+		{
 			"condition": "[not(empty(parameters('identitySubscriptionId')))]",
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
@@ -126,7 +154,7 @@
 				}
 			}
 		},
-        {   
+		{
 			"condition": "[not(empty(parameters('managementSubscriptionId')))]",
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
@@ -324,6 +352,6 @@
 				}
 			}
 		}
-    ],
-    "outputs": {}
+	],
+	"outputs": {}
 }
