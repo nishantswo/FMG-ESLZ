@@ -1,0 +1,109 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"enterpriseScaleCompanyPrefix": {
+			"type": "string",
+			"metadata": {
+				"description": "Target Management Group"
+			}
+		}
+	},
+	"variables": {
+		"mgscope": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'))]",
+		"mgscopeconnectivity": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '-connectivity')]",
+		"mgscopemanagement": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '-management')]",
+		"mgscopeidentity": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '-identity')]",
+		"mgscopeonline": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '-online')]",
+		"mgscopeprod": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '-prod')]",
+		"mgscopeuat": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '-uat')]",
+		"mgscopedev": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '-dev')]",
+		"mgscopeplatform": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '-platform')]",
+		"mgscopelandingzones": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '-landingzones')]",
+		"mgscopesandboxes": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '-sandboxes')]"
+
+	},
+	"resources": [{
+			"type": "Microsoft.Authorization/policyAssignments",
+			"name": "Deny-Private-DNS-Zones-Creation",
+			"apiVersion": "2019-09-01",
+			"properties": {
+				"scope": "[variables('mgscopelandingzones')]",
+				"policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '/providers/Microsoft.Authorization/policyDefinitions/Deny-Private-DNS-Zones')]"
+			}
+		},
+		{
+			"type": "Microsoft.Authorization/policyAssignments",
+			"name": "Deny-Private-DNS-Zones-Creation",
+			"apiVersion": "2019-09-01",
+			"properties": {
+				"scope": "[variables('mgscopemanagement')]",
+				"policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '/providers/Microsoft.Authorization/policyDefinitions/Deny-Private-DNS-Zones')]"
+			}
+		},
+		{
+			"type": "Microsoft.Authorization/policyAssignments",
+			"name": "Deny-Private-DNS-Zones-Creation",
+			"apiVersion": "2019-09-01",
+			"properties": {
+				"scope": "[variables('mgscopeidentity')]",
+				"policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '/providers/Microsoft.Authorization/policyDefinitions/Deny-Private-DNS-Zones')]"
+			}
+		},
+		{
+			"type": "Microsoft.Authorization/policyAssignments",
+			"name": "Deny-PublicIP-Creation",
+			"apiVersion": "2019-09-01",
+			"properties": {
+				"scope": "[variables('mgscopeidentity')]",
+				"policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '/providers/Microsoft.Authorization/policyDefinitions/Deny-PublicIP')]"
+			}
+		},
+		{
+			"type": "Microsoft.Authorization/policyAssignments",
+			"name": "Deny-PublicIP-Creation",
+			"apiVersion": "2019-09-01",
+			"properties": {
+				"scope": "[variables('mgscopemanagement')]",
+				"policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '/providers/Microsoft.Authorization/policyDefinitions/Deny-PublicIP')]"
+			}
+		},
+		{
+			"type": "Microsoft.Authorization/policyAssignments",
+			"name": "Deny-PublicIP-Creation",
+			"apiVersion": "2019-09-01",
+			"properties": {
+				"scope": "[variables('mgscopeprod')]",
+				"policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '/providers/Microsoft.Authorization/policyDefinitions/Deny-PublicIP')]"
+			}
+		},
+		{
+			"type": "Microsoft.Authorization/policyAssignments",
+			"name": "Deny-PublicIP-Creation",
+			"apiVersion": "2019-09-01",
+			"properties": {
+				"scope": "[variables('mgscopedev')]",
+				"policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '/providers/Microsoft.Authorization/policyDefinitions/Deny-PublicIP')]"
+			}
+		},
+		{
+			"type": "Microsoft.Authorization/policyAssignments",
+			"name": "Deny-PublicIP-Creation",
+			"apiVersion": "2019-09-01",
+			"properties": {
+				"scope": "[variables('mgscopeuat')]",
+				"policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '/providers/Microsoft.Authorization/policyDefinitions/Deny-PublicIP')]"
+			}
+		},
+		{
+			"type": "Microsoft.Authorization/policyAssignments",
+			"name": "enable-nsg-flowlogs",
+			"apiVersion": "2019-09-01",
+			"properties": {
+				"scope": "[variables('mgscope')]",
+				"policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '/providers/Microsoft.Authorization/policyDefinitions/Deploy-Nsg-FlowLogs-to-LA')]"
+			}
+		}
+
+	]
+}
