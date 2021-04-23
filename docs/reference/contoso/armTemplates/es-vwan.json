@@ -287,6 +287,14 @@
 				"description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first sbx landing zones."
 			}
 		},
+		
+		"automationAccountName": {
+			"type": "string",
+			"defaultValue": "fmg-automation-account",
+			"metadata": {
+				"description": "Specifies the name of the key vault."
+			}
+		},
 		"keyVaultName": {
 			"type": "string",
 			"defaultValue": "fmg-kvault",
@@ -801,6 +809,7 @@
 			"resourceGroups": "[uri(deployment().properties.templateLink.uri, 'auxiliary/rg.json')]",
 			"identitynetwork": "[uri(deployment().properties.templateLink.uri, 'auxiliary/identitynetwork.json')]",
 			"dns": "[uri(deployment().properties.templateLink.uri, 'auxiliary/dns.json')]",
+			"policyAssignments": "[uri(deployment().properties.templateLink.uri, 'auxiliary/custompolicy.json')]",
 			"policyDefinitions": "[concat(uri(deployment().properties.templateLink.uri, variables('azEnvPolicy')))]",
 			"monitoring": "[uri(deployment().properties.templateLink.uri, 'auxiliary/logAnalytics.json')]",
 			"monitoringSolutions": "[uri(deployment().properties.templateLink.uri, 'auxiliary/logAnalyticsSolutions.json')]",
@@ -838,11 +847,12 @@
 			"resourceGroupDeploymentName": "[take(concat('EntScale-Rgs', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"identityNetworkDeploymentName": "[take(concat('EntScale-Idy-Network', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"dnsDeploymentName": "[take(concat('EntScale-Dns', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
+			"policyAssignmentName": "[take(concat('EntScale-custpolicy', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"policyDeploymentName": "[take(concat('EntScale-Policy', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"monitoringDeploymentName": "[take(concat('EntScale-Monitoring', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"monitoringSolutionsDeploymentName": "[take(concat('EntScale-Solutions', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"diagAndSecDeploymentName": "[take(concat('EntScale-DiagSec', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
-			"connectivityDeploymentName": "[take(concat('EntScale-connect', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
+			"connectivityDeploymentName": "[take(concat('EntScale-connec', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"lzDeploymentName": "[take(concat('EntScale-LZ', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"identityDeploymentName": "[take(concat('EntScale-ID', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"azOpsDeploymentName": "[take(concat('EntScale-AzOps', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]"
@@ -867,127 +877,17 @@
 			}
 		},
 		{
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2019-10-01",
+
+			"type": "Microsoft.Automation/automationAccounts",
+			"apiVersion": "2020-01-13-preview",
+			"name": "[parameters('automationAccountName')]",
 			"location": "[deployment().location]",
-			"name": "policy",
-            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'))]",
-			"dependsOn": [
-				"[variables('deploymentNames').mgmtGroupDeploymentName]"
-			],
-			
 			"properties": {
-				"mode": "Incremental",
-				"template": {
-					"$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-					"contentVersion": "1.0.0.0",
-					"parameters": {},
-					"resources": [
-						{
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "name": "Deny-Public-Endpoints-Storage-def",
-      "apiVersion": "2018-03-01",
-      "properties": {
-        "policyType": "Custom",
-        "displayName": "Deny-Public-Endpoints-Storage",
-        "description": "This policy defines a white list of role deifnitions that can be used in IAM",
-        "mode": "all",
-        "policyRule": {
-    "if": {
-      "allOf": [
-        {
-          "field": "type",
-          "equals": "Microsoft.Storage/storageAccounts"
-        },
-        {
-          "field": "Microsoft.Storage/storageAccounts/networkAcls.defaultAction",
-          "notequals": "Deny"
-        }
-      ]
-    },
-    "then": {
-      "effect": "Deny"
-    }
-  }
-      }
-    },
-	{
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "name": "Deny-PrivateDNSZone-PrivateLink-def",
-      "apiVersion": "2018-03-01",
-      "properties": {
-        "policyType": "Custom",
-        "displayName": "Deny-PrivateDNSZone-PrivateLink",
-        "description": "This policy defines a white list of role deifnitions that can be used in IAM",
-        "mode": "all",
-        "policyRule": {
-    "if": {
-      "allOf": [
-        {
-          "field": "type",
-          "equals": "Microsoft.Network/privateDnsZones"
-        },
-        {
-          "field": "name",
-          "like": "privatelink*"
-        }
-      ]
-    },
-    "then": {
-      "effect": "Deny"
-    }
-  }
-      }
-    },
-	{
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "name": "Deny-Unattached-Disks-def",
-      "apiVersion": "2018-03-01",
-      "properties": {
-        "policyType": "Custom",
-        "displayName": "Deny-Unattached-Disks",
-        "description": "This policy defines a white list of role deifnitions that can be used in IAM",
-        "mode": "all",
-        "policyRule": {
-    "if": {
-      "allOf": [
-        {
-          "field": "type",
-          "equals": "Microsoft.Compute/disks"
-        },
-        {
-          "field": "Microsoft.Compute/disks/diskState",
-          "equals": "Unattached"
-        }
-      ]
-    },
-    "then": {
-      "effect": "[parameters('effect')]"
-    }
-  },
-  "parameters": {
-    "effect": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Effect",
-        "description": "Enable or disable the execution of the policy"
-      },
-      "allowedValues": [
-        "Audit",
-        "Disabled"
-      ],
-      "defaultValue": "Audit"
-    }
-  }
-      }
-    }
-
-					]
-				}
-			}
+				"sku": {
+				"name": "Basic"
+        		}
+      		}
 		},
-
-
 		{
 
 			"type": "Microsoft.Resources/deployments",
@@ -1084,6 +984,24 @@
 				},
 				"parameters": {
 					"topLevelManagementGroupPrefix": {
+						"value": "[parameters('enterpriseScaleCompanyPrefix')]"
+					}
+				}
+			}
+		},
+		{
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"name": "[variables('deploymentNames').policyAssignmentName]",
+			"location": "[deployment().location]",
+			"properties": {
+				"mode": "Incremental",
+				"templateLink": {
+					"contentVersion": "1.0.0.0",
+					"uri": "[variables('deploymentUris').policyAssignments]"
+				},
+				"parameters": {
+					"enterpriseScaleCompanyPrefix": {
 						"value": "[parameters('enterpriseScaleCompanyPrefix')]"
 					}
 				}
