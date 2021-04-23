@@ -25,7 +25,7 @@
 	},
 	"resources": [{
 			"type": "Microsoft.Authorization/policyAssignments",
-			"name": "Deny-Private-DNS-Zones-Creation",
+			"name": "Deny-Private-DNS-Zones-Creation-lz",
 			"apiVersion": "2019-09-01",
 			"properties": {
 				"scope": "[variables('mgscopelandingzones')]",
@@ -34,7 +34,7 @@
 		},
 		{
 			"type": "Microsoft.Authorization/policyAssignments",
-			"name": "Deny-Private-DNS-Zones-Creation",
+			"name": "Deny-Private-DNS-Zones-Creation-mgmt",
 			"apiVersion": "2019-09-01",
 			"properties": {
 				"scope": "[variables('mgscopemanagement')]",
@@ -43,7 +43,7 @@
 		},
 		{
 			"type": "Microsoft.Authorization/policyAssignments",
-			"name": "Deny-Private-DNS-Zones-Creation",
+			"name": "Deny-Private-DNS-Zones-Creation-idy",
 			"apiVersion": "2019-09-01",
 			"properties": {
 				"scope": "[variables('mgscopeidentity')]",
@@ -52,7 +52,7 @@
 		},
 		{
 			"type": "Microsoft.Authorization/policyAssignments",
-			"name": "Deny-PublicIP-Creation",
+			"name": "Deny-PublicIP-Creation-idy",
 			"apiVersion": "2019-09-01",
 			"properties": {
 				"scope": "[variables('mgscopeidentity')]",
@@ -61,7 +61,7 @@
 		},
 		{
 			"type": "Microsoft.Authorization/policyAssignments",
-			"name": "Deny-PublicIP-Creation",
+			"name": "Deny-PublicIP-Creation-mgmt",
 			"apiVersion": "2019-09-01",
 			"properties": {
 				"scope": "[variables('mgscopemanagement')]",
@@ -70,7 +70,7 @@
 		},
 		{
 			"type": "Microsoft.Authorization/policyAssignments",
-			"name": "Deny-PublicIP-Creation",
+			"name": "Deny-PublicIP-Creation-prod",
 			"apiVersion": "2019-09-01",
 			"properties": {
 				"scope": "[variables('mgscopeprod')]",
@@ -79,7 +79,7 @@
 		},
 		{
 			"type": "Microsoft.Authorization/policyAssignments",
-			"name": "Deny-PublicIP-Creation",
+			"name": "Deny-PublicIP-Creation-dev",
 			"apiVersion": "2019-09-01",
 			"properties": {
 				"scope": "[variables('mgscopedev')]",
@@ -88,7 +88,7 @@
 		},
 		{
 			"type": "Microsoft.Authorization/policyAssignments",
-			"name": "Deny-PublicIP-Creation",
+			"name": "Deny-PublicIP-Creation-uat",
 			"apiVersion": "2019-09-01",
 			"properties": {
 				"scope": "[variables('mgscopeuat')]",
