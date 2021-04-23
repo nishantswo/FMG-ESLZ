@@ -297,7 +297,7 @@
 		},
 		"keyVaultName": {
 			"type": "string",
-			"defaultValue": "fmg-kvault",
+			"defaultValue": "fmgd-kvault",
 			"metadata": {
 				"description": "Specifies the name of the key vault."
 			}
@@ -384,14 +384,14 @@
 		},
 		"virtualMachineName": {
 			"type": "string",
-			"defaultValue": "adVM1",
+			"defaultValue": "adVM2",
 			"metadata": {
 				"description": "Virtual machine name."
 			}
 		},
 		"networkInterfaceName": {
 			"type": "string",
-			"defaultValue": "adNic",
+			"defaultValue": "adNic2",
 			"metadata": {
 				"description": "Network interface name."
 			}
@@ -876,6 +876,18 @@
 				}
 			}
 		},
+		      {
+
+			"type": "Microsoft.Automation/automationAccounts",
+			"apiVersion": "2020-01-13-preview",
+			"name": "[parameters('automationAccountName')]",
+			"location": "[deployment().location]",
+			"properties": {
+				"sku": {
+				"name": "Basic"
+        		}
+      		}
+		},
 		{
 
 			"type": "Microsoft.Resources/deployments",
@@ -975,6 +987,24 @@
 				},
 				"parameters": {
 					"topLevelManagementGroupPrefix": {
+						"value": "[parameters('enterpriseScaleCompanyPrefix')]"
+					}
+				}
+			}
+		},
+		      {
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"name": "[variables('deploymentNames').policyAssignmentName]",
+			"location": "[deployment().location]",
+			"properties": {
+				"mode": "Incremental",
+				"templateLink": {
+					"contentVersion": "1.0.0.0",
+					"uri": "[variables('deploymentUris').policyAssignments]"
+				},
+				"parameters": {
+					"enterpriseScaleCompanyPrefix": {
 						"value": "[parameters('enterpriseScaleCompanyPrefix')]"
 					}
 				}
