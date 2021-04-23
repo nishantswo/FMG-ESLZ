@@ -94,15 +94,6 @@
 				"scope": "[variables('mgscopeuat')]",
 				"policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '/providers/Microsoft.Authorization/policyDefinitions/Deny-PublicIP')]"
 			}
-		},
-		{
-			"type": "Microsoft.Authorization/policyAssignments",
-			"name": "enable-nsg-flowlogs",
-			"apiVersion": "2019-09-01",
-			"properties": {
-				"scope": "[variables('mgscope')]",
-				"policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '/providers/Microsoft.Authorization/policyDefinitions/Deploy-Nsg-FlowLogs-to-LA')]"
-			}
 		}
 
 	]
