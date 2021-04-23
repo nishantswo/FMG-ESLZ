@@ -876,18 +876,7 @@
 				}
 			}
 		},
-		      {
-
-			"type": "Microsoft.Automation/automationAccounts",
-			"apiVersion": "2020-01-13-preview",
-			"name": "[parameters('automationAccountName')]",
-			"location": "[deployment().location]",
-			"properties": {
-				"sku": {
-				"name": "Basic"
-        		}
-      		}
-		},
+		    
 		{
 
 			"type": "Microsoft.Resources/deployments",
