@@ -130,7 +130,7 @@
 		"type": "Microsoft.Resources/deployments",
 		"apiVersion": "2019-10-01",
 		"location": "[deployment().location]",
-		"name": "[concat('Ent-Scale', '-connectivity')]",
+		"name": "[concat('EntScale', '-connectivity')]",
 		"subscriptionId": "[parameters('connectivitySubscriptionId')]",
 		   "copy": {
 				"name": "hubCopy",
