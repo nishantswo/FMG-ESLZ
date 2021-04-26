@@ -1,0 +1,49 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "input": {
+      "value": {
+        "Identity": {
+          "principalId": "ff89f886-8fa5-42a5-841d-f29f8a1e2678",
+          "tenantId": "e47e6989-0297-4281-8a6a-87f8f72c68e3",
+          "type": "SystemAssigned"
+        },
+        "Location": "australiasoutheast",
+        "Name": "VNet-to-corp",
+        "PolicyAssignmentId": "/subscriptions/00427000-3587-4a3b-9817-803373c88774/providers/Microsoft.Authorization/policyAssignments/VNet-to-corp",
+        "Properties": {
+          "Description": "Connect-Vnet-to-hub",
+          "DisplayName": "Connect-Vnet-to-hub",
+          "NotScopes": null,
+          "Parameters": {
+            "hubResourceId": {
+              "value": "/subscriptions/0e4d1e00-5638-4667-ba48-357115eb32a1/resourceGroups/fmgd-connectivity/providers/Microsoft.Network/virtualNetworks/fmgd-hub-australiasoutheast"
+            },
+            "vNetCidrRange": {
+              "value": "192.168.100.0/24"
+            },
+            "vNetLocation": {
+              "value": "australiasoutheast"
+            },
+            "vNetName": {
+              "value": "corp-vnet-00427000-3587-4a3b-9817-803373c88774"
+            },
+            "vNetRgName": {
+              "value": "corp-rg-vnet-00427000-3587-4a3b-9817-803373c88774"
+            }
+          },
+          "PolicyDefinitionId": "/providers/Microsoft.Management/managementGroups/fmgd/providers/Microsoft.Authorization/policyDefinitions/Deploy-VNET-HubSpoke",
+          "Scope": "/subscriptions/00427000-3587-4a3b-9817-803373c88774"
+        },
+        "ResourceId": "/subscriptions/00427000-3587-4a3b-9817-803373c88774/providers/Microsoft.Authorization/policyAssignments/VNet-to-corp",
+        "ResourceName": "VNet-to-corp",
+        "ResourceType": "Microsoft.Authorization/policyAssignments",
+        "Sku": {
+          "name": "A0",
+          "tier": "Free"
+        }
+      }
+    }
+  }
+}

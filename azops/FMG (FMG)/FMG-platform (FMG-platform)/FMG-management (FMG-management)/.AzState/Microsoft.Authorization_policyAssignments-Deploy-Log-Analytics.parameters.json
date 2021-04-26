@@ -1,0 +1,52 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "input": {
+      "value": {
+        "Identity": {
+          "principalId": "7b223de4-d6a9-43a4-b0ea-7c44ecd474f0",
+          "tenantId": "e47e6989-0297-4281-8a6a-87f8f72c68e3",
+          "type": "SystemAssigned"
+        },
+        "Location": "australiasoutheast",
+        "Name": "Deploy-Log-Analytics",
+        "PolicyAssignmentId": "/providers/Microsoft.Management/managementGroups/FMG-management/providers/Microsoft.Authorization/policyAssignments/Deploy-Log-Analytics",
+        "Properties": {
+          "Description": "Deploy-Log-Analytics",
+          "DisplayName": "Deploy-Log-Analytics",
+          "NotScopes": null,
+          "Parameters": {
+            "automationAccountName": {
+              "value": "FMG-a-7d8bccc8-ddf0-40fb-acf8-61829c21db71"
+            },
+            "automationRegion": {
+              "value": "australiasoutheast"
+            },
+            "retentionInDays": {
+              "value": "30"
+            },
+            "rgName": {
+              "value": "FMG-mgmt"
+            },
+            "workspaceName": {
+              "value": "FMG-la-7d8bccc8-ddf0-40fb-acf8-61829c21db71"
+            },
+            "workspaceRegion": {
+              "value": "australiasoutheast"
+            }
+          },
+          "PolicyDefinitionId": "/providers/Microsoft.Management/managementGroups/FMG/providers/Microsoft.Authorization/policyDefinitions/Deploy-Log-Analytics",
+          "Scope": "/providers/Microsoft.Management/managementGroups/FMG-management"
+        },
+        "ResourceId": "/providers/Microsoft.Management/managementGroups/FMG-management/providers/Microsoft.Authorization/policyAssignments/Deploy-Log-Analytics",
+        "ResourceName": "Deploy-Log-Analytics",
+        "ResourceType": "Microsoft.Authorization/policyAssignments",
+        "Sku": {
+          "name": "A0",
+          "tier": "Free"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "input": {
+      "value": {
+        "Identity": {
+          "principalId": "10f361a1-249d-4c03-a34b-1a078d11ec1d",
+          "tenantId": "e47e6989-0297-4281-8a6a-87f8f72c68e3",
+          "type": "SystemAssigned"
+        },
+        "Location": "australiasoutheast",
+        "Name": "Deploy-SQL-DB-Auditing",
+        "PolicyAssignmentId": "/providers/Microsoft.Management/managementGroups/FMG-landingzones/providers/Microsoft.Authorization/policyAssignments/Deploy-SQL-DB-Auditing",
+        "Properties": {
+          "Description": "Deploy-SQL-Audit",
+          "DisplayName": "Deploy-SQL-Audit",
+          "NotScopes": null,
+          "Parameters": null,
+          "PolicyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a6fb4358-5bf4-4ad7-ba82-2cd2f41ce5e9",
+          "Scope": "/providers/Microsoft.Management/managementGroups/FMG-landingzones"
+        },
+        "ResourceId": "/providers/Microsoft.Management/managementGroups/FMG-landingzones/providers/Microsoft.Authorization/policyAssignments/Deploy-SQL-DB-Auditing",
+        "ResourceName": "Deploy-SQL-DB-Auditing",
+        "ResourceType": "Microsoft.Authorization/policyAssignments",
+        "Sku": {
+          "name": "A0",
+          "tier": "Free"
+        }
+      }
+    }
+  }
+}

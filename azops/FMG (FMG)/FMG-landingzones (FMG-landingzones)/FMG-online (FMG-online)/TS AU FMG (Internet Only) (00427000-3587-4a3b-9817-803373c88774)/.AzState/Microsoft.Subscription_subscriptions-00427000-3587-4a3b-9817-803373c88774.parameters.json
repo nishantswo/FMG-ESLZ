@@ -1,0 +1,15 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "input": {
+      "value": {
+        "Type": "/subscriptions",
+        "Id": "/subscriptions/00427000-3587-4a3b-9817-803373c88774",
+        "Name": "00427000-3587-4a3b-9817-803373c88774",
+        "DisplayName": "TS AU FMG (Internet Only)",
+        "Children": null
+      }
+    }
+  }
+}

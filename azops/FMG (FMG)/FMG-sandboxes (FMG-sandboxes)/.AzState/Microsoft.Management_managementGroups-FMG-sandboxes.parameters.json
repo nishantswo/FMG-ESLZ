@@ -1,0 +1,29 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "input": {
+      "value": {
+        "Id": "/providers/Microsoft.Management/managementGroups/FMG-sandboxes",
+        "Type": "/providers/Microsoft.Management/managementGroups",
+        "Name": "FMG-sandboxes",
+        "TenantId": "e47e6989-0297-4281-8a6a-87f8f72c68e3",
+        "DisplayName": "FMG-sandboxes",
+        "UpdatedTime": "2021-04-23T06:15:16.4682071Z",
+        "UpdatedBy": "1e6e96c6-9313-4136-9321-8cfbf5cec36e",
+        "ParentId": "/providers/Microsoft.Management/managementGroups/FMG",
+        "ParentName": "FMG",
+        "ParentDisplayName": "FMG",
+        "Children": [
+          {
+            "Type": "/subscriptions",
+            "Id": "/subscriptions/47d60737-c43c-48d2-bdb5-8b851d533075",
+            "Name": "47d60737-c43c-48d2-bdb5-8b851d533075",
+            "DisplayName": "TS AU FMG (Sandbox)",
+            "Children": null
+          }
+        ]
+      }
+    }
+  }
+}

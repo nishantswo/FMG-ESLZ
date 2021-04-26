@@ -1,0 +1,15 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "input": {
+      "value": {
+        "Type": "/subscriptions",
+        "Id": "/subscriptions/ccf951dc-2860-42f1-9e1a-5adf65d9220f",
+        "Name": "ccf951dc-2860-42f1-9e1a-5adf65d9220f",
+        "DisplayName": "TS AU FMG (Identity)",
+        "Children": null
+      }
+    }
+  }
+}

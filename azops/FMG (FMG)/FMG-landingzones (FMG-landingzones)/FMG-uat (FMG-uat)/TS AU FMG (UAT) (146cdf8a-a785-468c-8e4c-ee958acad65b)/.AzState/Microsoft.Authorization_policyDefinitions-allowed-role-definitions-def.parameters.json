@@ -1,0 +1,39 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "input": {
+      "value": {
+        "Name": "allowed-role-definitions-def",
+        "ResourceId": "/subscriptions/146cdf8a-a785-468c-8e4c-ee958acad65b/providers/Microsoft.Authorization/policyDefinitions/allowed-role-definitions-def",
+        "ResourceName": "allowed-role-definitions-def",
+        "ResourceType": "Microsoft.Authorization/policyDefinitions",
+        "SubscriptionId": "146cdf8a-a785-468c-8e4c-ee958acad65b",
+        "PolicyDefinitionId": "/subscriptions/146cdf8a-a785-468c-8e4c-ee958acad65b/providers/Microsoft.Authorization/policyDefinitions/allowed-role-definitions-def",
+        "Properties": {
+          "Description": "This policy defines a white list of role deifnitions that can be used in IAM",
+          "DisplayName": "Allowed Role Definitions",
+          "Mode": "All",
+          "Parameters": null,
+          "PolicyRule": {
+            "if": {
+              "allOf": [
+                {
+                  "field": "type",
+                  "equals": "Microsoft.Storage/storageAccounts"
+                },
+                {
+                  "field": "Microsoft.Storage/storageAccounts/networkAcls.defaultAction",
+                  "notequals": "Deny"
+                }
+              ]
+            },
+            "then": {
+              "effect": "Deny"
+            }
+          }
+        }
+      }
+    }
+  }
+}

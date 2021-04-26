@@ -1,0 +1,39 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "input": {
+      "value": {
+        "Name": "2339b874-d39b-4ddf-8a0b-ebc3a5e12fef",
+        "ResourceId": "/subscriptions/ccf951dc-2860-42f1-9e1a-5adf65d9220f/providers/Microsoft.Authorization/policyDefinitions/2339b874-d39b-4ddf-8a0b-ebc3a5e12fef",
+        "ResourceName": "2339b874-d39b-4ddf-8a0b-ebc3a5e12fef",
+        "ResourceType": "Microsoft.Authorization/policyDefinitions",
+        "SubscriptionId": "ccf951dc-2860-42f1-9e1a-5adf65d9220f",
+        "PolicyDefinitionId": "/subscriptions/ccf951dc-2860-42f1-9e1a-5adf65d9220f/providers/Microsoft.Authorization/policyDefinitions/2339b874-d39b-4ddf-8a0b-ebc3a5e12fef",
+        "Properties": {
+          "Description": null,
+          "DisplayName": "deny-storage",
+          "Mode": "All",
+          "Parameters": {},
+          "PolicyRule": {
+            "if": {
+              "allOf": [
+                {
+                  "field": "type",
+                  "equals": "Microsoft.Storage/storageAccounts"
+                },
+                {
+                  "field": "Microsoft.Storage/storageAccounts/networkAcls.defaultAction",
+                  "notequals": "Deny"
+                }
+              ]
+            },
+            "then": {
+              "effect": "Deny"
+            }
+          }
+        }
+      }
+    }
+  }
+}
