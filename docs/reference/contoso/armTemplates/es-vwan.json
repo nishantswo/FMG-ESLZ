@@ -11,7 +11,7 @@
 		},
 		"GitHubFetcherWebServiceURI" :{
   "type": "string",
-  "defaultValue": "https://githubprivrepofilefetcher.azurewebsites.net/api/httptrigger1?",
+  "defaultValue": "https://githubprivrepofilefetcher.azurewebsites.net/api/githubprivrepofilefetcher?",
   "metadata": {
     "description": "The GitHub Private Repository File Fetcher Web Service URI"
   }
@@ -25,7 +25,7 @@
 },
 "_GitHubAccessToken": {
   "type": "securestring"
-}
+},
 		"tenantId": {
 			"type": "string",
 			"defaultValue": "e47e6989-0297-4281-8a6a-87f8f72c68e3",
