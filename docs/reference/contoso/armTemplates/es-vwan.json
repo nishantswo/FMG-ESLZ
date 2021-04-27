@@ -23,9 +23,7 @@
     "description": "The base URI where artifacts required by this template are located"
   }
 },
-"_GitHubAccessToken": {
-  "type": "securestring"
-},
+
 		"tenantId": {
 			"type": "string",
 			"defaultValue": "e47e6989-0297-4281-8a6a-87f8f72c68e3",
@@ -970,6 +968,7 @@
                     },
                     "hubResourceId" : {
                         "value": "/subscriptions/0e4d1e00-5638-4667-ba48-357115eb32a1/resourceGroups/rg-conn-ase/providers/Microsoft.Network/virtualNetworks/test-vnet-conn"
+						          /subscriptions/0e4d1e00-5638-4667-ba48-357115eb32a1/resourceGroups/rg-conn-ase/providers/Microsoft.Network/virtualNetworks/test-vnet-conn
                     }
 
 
