@@ -79,11 +79,12 @@
             "denyRdp": "Deny-RDP-from-internet",
             "denyPip": "Deny-Public-IP",
             "deployVmBackup": "Deploy-VM-Backup",
-            "deployIdentityVnet": "Deploy-Identity-Vnet"
+            "deployIdentityVnet": "Deploy-Identity-Vnet3"
         },
         "rbacOwner": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
         "roleAssignmentNames": {
-            "deployVmBackup": "[guid(concat(parameters('toplevelManagementGroupPrefix'), 'identity', variables('policyAssignmentNames').deployVmBackup))]"
+            "deployVmBackup": "[guid(concat(parameters('toplevelManagementGroupPrefix'), 'identity', variables('policyAssignmentNames').deployVmBackup))]",
+            "deployIdentityVnet": "[guid(concat(parameters('toplevelManagementGroupPrefix'), 'identity', variables('policyAssignmentNames').deployIdentityVnet))]"
         }
         //"blankTemplateEscaped": "{\"$schema\":\"https://schema.management.azure.com/schemas/2019-08-01/tenantDeploymentTemplate.json#\",\"contentVersion\":\"1.0.0.0\",\"parameters\":{},\"variables\":{},\"resources\":[],\"outputs\":{}}"
     },
@@ -125,6 +126,21 @@
             }
         },
         {
+            // Conditionally create roleAssignment for VM Backup policy
+            "condition": "[equals(parameters('enableVnetDeploymentForIdentity'), 'Yes')]",
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2019-04-01-preview",
+            "name": "[variables('roleAssignmentNames').deployIdentityVnet]",
+            "dependsOn": [
+                "[variables('policyAssignmentNames').deployIdentityVnet]"
+            ],
+            "properties": {
+                "principalType": "ServicePrincipal",
+                "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacOwner'))]",
+                "principalId": "[if(equals(parameters('enableVnetDeploymentForIdentity'), 'Yes'), toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').deployIdentityVnet), '2018-05-01', 'Full' ).identity.principalId), 'na')]"
+            }
+        },
+        {
             // Conditionally enable policy to enforce VM Backup
             "condition": "[equals(parameters('enableVmBackupForIdentity'), 'Yes')]",
             "type": "Microsoft.Authorization/policyAssignments",
@@ -157,6 +173,7 @@
                 "principalId": "[if(equals(parameters('enableVmBackupForIdentity'), 'Yes'), toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').deployVmBackup), '2018-05-01', 'Full' ).identity.principalId), 'na')]"
             }
         },
+        
         {
             // Conditionally assign policy to prevent public IP addresses
             "condition": "[equals(parameters('denyPipForIdentity'), 'Yes')]",
