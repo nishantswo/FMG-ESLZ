@@ -67,6 +67,7 @@
     },
     "variables": {
         "scope": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '-identity')]",
+        "scope2": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '-connectivity')]",
         "policyDefinitions": {
             "denySubnetWithoutNsg": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policyDefinitions/Deny-Subnet-Without-Nsg')]",
             "denyPip": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policyDefinitions/Deny-PublicIP')]",
@@ -144,7 +145,6 @@
 			"condition": "[equals(parameters('enableVnetDeploymentForIdentity'), 'Yes')]",
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-05-01",
-			"scope": "[concat('Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '-connectivity')]",
 			"name": "connectivityroleassignment",
 			"dependsOn": [
 				"[variables('roleAssignmentNames').deployIdentityVnet]"
@@ -160,6 +160,7 @@
             "type": "Microsoft.Authorization/roleAssignments",
             "apiVersion": "2020-04-01-preview",
             "name": "connectivityrole",
+            "scope": "[variables('scope2')]",
             "dependsOn": [
                 "[variables('roleAssignmentNames').deployIdentityVnet]"
             ],
