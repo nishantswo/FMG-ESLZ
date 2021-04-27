@@ -143,7 +143,7 @@
         {   // Conditionally create roleAssignment for VM Backup policy
             "condition": "[equals(parameters('enableVnetDeploymentForIdentity'), 'Yes')]",
             "type": "Microsoft.Authorization/roleAssignments",
-            "apiVersion": "2021-04-01",
+            "apiVersion": "2020-04-01-preview",
             "name": "connectivityroleassignment",
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '-connectivity')]",
             "dependsOn": [
