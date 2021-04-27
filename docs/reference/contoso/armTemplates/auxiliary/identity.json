@@ -106,16 +106,16 @@
                 "scope": "[variables('scope')]",
                 "parameters" : {
                     "vNetName" : {
-                        "value": "rgvnet"
+                        "value": "rgvnetid"
                     },
                     "vNetRgName" : {
-                        "value": "rg"
+                        "value": "rgid"
                     },
                     "vNetLocation" : {
                         "value": "australiasoutheast"
                     },
                     "vNetCidrRange" : {
-                        "value": "100.10.0.0/24"
+                        "value": "192.10.0.0/24"
                     },
                     "hubResourceId" : {
                         "value": "/subscriptions/0e4d1e00-5638-4667-ba48-357115eb32a1/resourceGroups/rg-conn-ase/providers/Microsoft.Network/virtualNetworks/test-vnet-conn"
