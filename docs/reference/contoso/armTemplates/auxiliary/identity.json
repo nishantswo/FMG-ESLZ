@@ -67,6 +67,7 @@
     },
     "variables": {
         "scope": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '-identity')]",
+        "scopeconn": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '-connectivity')]",
         "policyDefinitions": {
             "denySubnetWithoutNsg": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policyDefinitions/Deny-Subnet-Without-Nsg')]",
             "denyPip": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policyDefinitions/Deny-PublicIP')]",
@@ -79,17 +80,18 @@
             "denyRdp": "Deny-RDP-from-internet",
             "denyPip": "Deny-Public-IP",
             "deployVmBackup": "Deploy-VM-Backup",
-            "deployIdentityVnet": "Deploy-Identity-Vnet"
+            "deployIdentityVnet": "Deploy-Identity-Vnet2"
         },
         "rbacOwner": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
         "roleAssignmentNames": {
-            "deployVmBackup": "[guid(concat(parameters('toplevelManagementGroupPrefix'), 'identity', variables('policyAssignmentNames').deployVmBackup))]"
+            "deployIdentityVnet": "[guid(concat(parameters('toplevelManagementGroupPrefix'), 'identity', variables('policyAssignmentNames').deployIdentityVnet))]",
+            "deployConnectivityVnet": "[guid(concat(parameters('toplevelManagementGroupPrefix'), 'connectivity', variables('policyAssignmentNames').deployIdentityVnet))]"
         }
         //"blankTemplateEscaped": "{\"$schema\":\"https://schema.management.azure.com/schemas/2019-08-01/tenantDeploymentTemplate.json#\",\"contentVersion\":\"1.0.0.0\",\"parameters\":{},\"variables\":{},\"resources\":[],\"outputs\":{}}"
     },
     "resources": [
          {
-            // Conditionally enable policy to enforce VM Backup
+            // Conditionally enable policy to implement Identity Vnet
             "condition": "[equals(parameters('enableVnetDeploymentForIdentity'), 'Yes')]",
             "type": "Microsoft.Authorization/policyAssignments",
             "apiVersion": "2018-05-01",
@@ -100,7 +102,7 @@
             },
             "properties": {
                 "description": "Deploy-Identity-Vnet",
-                "displayName": "Deploy-Identity-Vnet",
+                "displayName": "Deploy-Identity-Vnet3",
                 "policyDefinitionId": "[variables('policyDefinitions').deployIdentityVnet]",
                 "scope": "[variables('scope')]",
                 "parameters" : {
@@ -124,6 +126,22 @@
                 }
             }
         },
+        {
+            // Conditionally create roleAssignment for Identity Vnet
+         
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2019-04-01-preview",
+            "name": "[variables('roleAssignmentNames').deployIdentityVnet]",
+            "dependsOn": [
+                "[variables('policyAssignmentNames').deployIdentityVnet]"
+            ],
+            "properties": {
+                "principalType": "ServicePrincipal",
+                "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacOwner'))]",
+                "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').deployIdentityVnet), '2018-05-01', 'Full' ).identity.principalId)]"
+            }
+        },
+       
         {
             // Conditionally enable policy to enforce VM Backup
             "condition": "[equals(parameters('enableVmBackupForIdentity'), 'Yes')]",
