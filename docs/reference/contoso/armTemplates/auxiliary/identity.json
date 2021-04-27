@@ -85,7 +85,8 @@
         "rbacOwner": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
         "roleAssignmentNames": {
             "deployIdentityVnet": "[guid(concat(parameters('toplevelManagementGroupPrefix'), 'identity', variables('policyAssignmentNames').deployIdentityVnet))]",
-            "deployConnectivityVnet": "[guid(concat(parameters('toplevelManagementGroupPrefix'), 'connectivity', variables('policyAssignmentNames').deployIdentityVnet))]"
+            "deployConnectivityVnet": "[guid(concat(parameters('toplevelManagementGroupPrefix'), 'connectivity', variables('policyAssignmentNames').deployIdentityVnet))]",
+            "deployVmBackup": "[guid(concat(parameters('toplevelManagementGroupPrefix'), 'identity', variables('policyAssignmentNames').deployVmBackup))]"
         }
         //"blankTemplateEscaped": "{\"$schema\":\"https://schema.management.azure.com/schemas/2019-08-01/tenantDeploymentTemplate.json#\",\"contentVersion\":\"1.0.0.0\",\"parameters\":{},\"variables\":{},\"resources\":[],\"outputs\":{}}"
     },
