@@ -1110,7 +1110,8 @@
 			"scope": "[concat('Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'), '-identity')]",
 			"name": "[variables('deploymentNames').identityDeploymentName]",
 			"dependsOn": [
-				"[variables('deploymentNames').policyDeploymentName]"
+				"[variables('deploymentNames').policyDeploymentName]",
+				"policyCompletion"
 			],
 			"location": "[deployment().location]",
 			"properties": {
