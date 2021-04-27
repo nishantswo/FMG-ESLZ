@@ -90,57 +90,6 @@
         //"blankTemplateEscaped": "{\"$schema\":\"https://schema.management.azure.com/schemas/2019-08-01/tenantDeploymentTemplate.json#\",\"contentVersion\":\"1.0.0.0\",\"parameters\":{},\"variables\":{},\"resources\":[],\"outputs\":{}}"
     },
     "resources": [
-         {
-            // Conditionally enable policy to implement Identity Vnet
-            "condition": "[equals(parameters('enableVnetDeploymentForIdentity'), 'Yes')]",
-            "type": "Microsoft.Authorization/policyAssignments",
-            "apiVersion": "2018-05-01",
-            "name": "[variables('policyAssignmentNames').deployIdentityVnet]",
-            "location": "[deployment().location]",
-            "identity": {
-                "type": "SystemAssigned"
-            },
-            "properties": {
-                "description": "Deploy-Identity-Vnet",
-                "displayName": "Deploy-Identity-Vnet3",
-                "policyDefinitionId": "[variables('policyDefinitions').deployIdentityVnet]",
-                "scope": "[variables('scope')]",
-                "parameters" : {
-                    "vNetName" : {
-                        "value": "rgvnet"
-                    },
-                    "vNetRgName" : {
-                        "value": "rg"
-                    },
-                    "vNetLocation" : {
-                        "value": "australiasoutheast"
-                    },
-                    "vNetCidrRange" : {
-                        "value": "100.10.0.0/24"
-                    },
-                    "hubResourceId" : {
-                        "value": "/subscriptions/0e4d1e00-5638-4667-ba48-357115eb32a1/resourceGroups/rg-conn-ase/providers/Microsoft.Network/virtualNetworks/test-vnet-conn"
-                    }
-
-
-                }
-            }
-        },
-        {
-            // Conditionally create roleAssignment for Identity Vnet
-         
-            "type": "Microsoft.Authorization/roleAssignments",
-            "apiVersion": "2019-04-01-preview",
-            "name": "[variables('roleAssignmentNames').deployIdentityVnet]",
-            "dependsOn": [
-                "[variables('policyAssignmentNames').deployIdentityVnet]"
-            ],
-            "properties": {
-                "principalType": "ServicePrincipal",
-                "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacOwner'))]",
-                "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').deployIdentityVnet), '2018-05-01', 'Full' ).identity.principalId)]"
-            }
-        },
        
         {
             // Conditionally enable policy to enforce VM Backup
