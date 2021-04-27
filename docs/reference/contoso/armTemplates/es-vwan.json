@@ -9,6 +9,23 @@
 				"description": "Provide a prefix (max 10 characters, unique at tenant-scope) for the Management Group hierarchy and other resources created as part of Enterprise-scale."
 			}
 		},
+		"GitHubFetcherWebServiceURI" :{
+  "type": "string",
+  "defaultValue": "https://githubprivrepofilefetcher.azurewebsites.net/api/httptrigger1?",
+  "metadata": {
+    "description": "The GitHub Private Repository File Fetcher Web Service URI"
+  }
+},
+"_GitHubLocation": {
+  "type": "string",
+  "defaultValue": "https://raw.githubusercontent.com/nishantswo/FMG-ESLZ/main/docs/reference/contoso/armTemplates",
+  "metadata": {
+    "description": "The base URI where artifacts required by this template are located"
+  }
+},
+"_GitHubAccessToken": {
+  "type": "securestring"
+}
 		"tenantId": {
 			"type": "string",
 			"defaultValue": "e47e6989-0297-4281-8a6a-87f8f72c68e3",
