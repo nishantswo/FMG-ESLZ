@@ -90,7 +90,7 @@
         //"blankTemplateEscaped": "{\"$schema\":\"https://schema.management.azure.com/schemas/2019-08-01/tenantDeploymentTemplate.json#\",\"contentVersion\":\"1.0.0.0\",\"parameters\":{},\"variables\":{},\"resources\":[],\"outputs\":{}}"
     },
     "resources": [
-         {
+        {
             // Conditionally enable policy to enforce VM Backup
             "condition": "[equals(parameters('enableVnetDeploymentForIdentity'), 'Yes')]",
             "type": "Microsoft.Authorization/policyAssignments",
@@ -105,30 +105,70 @@
                 "displayName": "Deploy-Identity-Vnet2",
                 "policyDefinitionId": "[variables('policyDefinitions').deployIdentityVnet]",
                 "scope": "[variables('scope')]",
-                "parameters" : {
-                    "vNetName" : {
-                        "value": "rgvnetid"
+                "parameters": {
+                    "vNetRgName": {
+                        "value": "rg-idy-ae"
                     },
-                    "vNetRgName" : {
-                        "value": "rgid"
+                    "vNetName": {
+                        "value": "vnet-idy-ae"
                     },
-                    "vNetLocation" : {
+                    "vNetLocation": {
                         "value": "australiasoutheast"
                     },
-                    "vNetCidrRange" : {
-                        "value": "192.10.0.0/24"
+                    "vNetCidrRange": {
+                        "value": "10.122.122.0/24"
                     },
-                    "hubResourceId" : {
+                    "subnet1Name": {
+                        "value": "sn-prod-idy-ae"
+                    },
+                    "subnet1CidrRange": {
+                        "value": "10.122.122.128/27"
+                    },
+                    "subnet2Name": {
+                        "value": "sn-uat-idy-ae"
+                    },
+                    "subnet2CidrRange": {
+                        "value": "10.122.122.160/27"
+                    },
+                    "subnet3Name": {
+                        "value": "sn-dev-idy-ae"
+                    },
+                    "subnet3CidrRange": {
+                        "value": "10.122.122.192/27"
+                    },
+                    "subnet1NsgName": {
+                        "value": "nsg-sn-prod-idy-ae"
+                    },
+                    "subnet2NsgName": {
+                        "value": "nsg-sn-uat-idy-ae"
+                    },
+                    "subnet3NsgName": {
+                        "value": "nsg-sn-dev-idy-ae"
+                    },
+                    "hubResourceId": {
                         "value": "/subscriptions/0e4d1e00-5638-4667-ba48-357115eb32a1/resourceGroups/rg-conn-ase/providers/Microsoft.Network/virtualNetworks/test-vnet-conn"
                     }
-
-
                 }
             }
         },
-        
-        
-        
+        {
+            // Conditionally create roleAssignment for VM Backup policy
+            "condition": "[equals(parameters('enableVnetDeploymentForIdentity'), 'Yes')]",
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2019-04-01-preview",
+            "name": "[variables('roleAssignmentNames').deployIdentityVnet]",
+            "dependsOn": [
+                "[variables('policyAssignmentNames').deployIdentityVnet]"
+            ],
+            "properties": {
+                "principalType": "ServicePrincipal",
+                "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacOwner'))]",
+                "principalId": "[if(equals(parameters('enableVnetDeploymentForIdentity'), 'Yes'), toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').deployIdentityVnet), '2018-05-01', 'Full' ).identity.principalId), 'na')]"
+            }
+        },
+
+
+
         {
             // Conditionally enable policy to enforce VM Backup
             "condition": "[equals(parameters('enableVmBackupForIdentity'), 'Yes')]",
@@ -162,7 +202,7 @@
                 "principalId": "[if(equals(parameters('enableVmBackupForIdentity'), 'Yes'), toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').deployVmBackup), '2018-05-01', 'Full' ).identity.principalId), 'na')]"
             }
         },
-        
+
         {
             // Conditionally assign policy to prevent public IP addresses
             "condition": "[equals(parameters('denyPipForIdentity'), 'Yes')]",
@@ -201,23 +241,8 @@
                 "policyDefinitionId": "[variables('policyDefinitions').denySubnetWithoutNsg]",
                 "scope": "[variables('scope')]"
             }
-        },
-        {
-            // Conditionally create roleAssignment for VM Backup policy
-            "condition": "[equals(parameters('enableVnetDeploymentForIdentity'), 'Yes')]",
-            "type": "Microsoft.Authorization/roleAssignments",
-            "apiVersion": "2019-04-01-preview",
-            "name": "[variables('roleAssignmentNames').deployIdentityVnet]",
-            "dependsOn": [
-                "[variables('policyAssignmentNames').deployIdentityVnet]"
-            ],
-            "properties": {
-                "principalType": "ServicePrincipal",
-                "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacOwner'))]",
-                "principalId": "[if(equals(parameters('enableVnetDeploymentForIdentity'), 'Yes'), toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').deployIdentityVnet), '2018-05-01', 'Full' ).identity.principalId), 'na')]",
-                "scope": "mfg-connectivity"
-            }
-        }       
+        }
+        
     ],
     "outputs": {}
 }
