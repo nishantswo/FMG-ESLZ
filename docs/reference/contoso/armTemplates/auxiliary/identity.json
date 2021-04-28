@@ -152,19 +152,20 @@
                 }
             }
         },
-        {
+       
+         {
             // Conditionally create roleAssignment for VM Backup policy
-            "condition": "[equals(parameters('enableVnetDeploymentForIdentity'), 'Yes')]",
+            "condition": "[equals(parameters('enableVmBackupForIdentity'), 'Yes')]",
             "type": "Microsoft.Authorization/roleAssignments",
             "apiVersion": "2019-04-01-preview",
-            "name": "[variables('roleAssignmentNames').deployIdentityVnet]",
+            "name": "[variables('roleAssignmentNames').deployVmBackup]",
             "dependsOn": [
-                "[variables('policyAssignmentNames').deployIdentityVnet]"
+                "[variables('policyAssignmentNames').deployVmBackup]"
             ],
             "properties": {
                 "principalType": "ServicePrincipal",
                 "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacOwner'))]",
-                "principalId": "[if(equals(parameters('enableVnetDeploymentForIdentity'), 'Yes'), toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').deployIdentityVnet), '2018-05-01', 'Full' ).identity.principalId), 'na')]"
+                "principalId": "[if(equals(parameters('enableVmBackupForIdentity'), 'Yes'), toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').deployVmBackup), '2018-05-01', 'Full' ).identity.principalId), 'na')]"
             }
         },
         {
