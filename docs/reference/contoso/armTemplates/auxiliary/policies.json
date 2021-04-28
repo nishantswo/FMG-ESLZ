@@ -1078,22 +1078,22 @@
                                                     "value": "[[parameters('vNetCidrRange')]"
                                                 },
                                                 "subnet1Name": {
-                                                    "value": "[[parameters('ssubnet1Name')]"
+                                                    "value": "[[parameters('subnet1Name')]"
                                                 },
                                                 "subnet1CidrRange": {
-                                                    "value": "[[parameters('subnetCidrRange')]"
+                                                    "value": "[[parameters('subnet1CidrRange')]"
                                                 },
                                                 "subnet2Name": {
                                                     "value": "[[parameters('subnet2Name')]"
                                                 },
                                                 "subnet2CidrRange": {
-                                                    "value": "[[parameters('subnetCidrRange')]"
+                                                    "value": "[[parameters('subnet2CidrRange')]"
                                                 },
                                                 "subnet3Name": {
                                                     "value": "[[parameters('subnet3Name')]"
                                                 },
                                                 "subnet3CidrRange": {
-                                                    "value": "[[parameters('subnetCidrRange')]"
+                                                    "value": "[[parameters('subnet3CidrRange')]"
                                                 },
                                                 "subnet1NsgName": {
                                                     "value": "[[parameters('subnet1NsgName')]"
