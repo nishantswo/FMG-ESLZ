@@ -79,7 +79,7 @@
             "denyRdp": "Deny-RDP-from-internet",
             "denyPip": "Deny-Public-IP",
             "deployVmBackup": "Deploy-VM-Backup",
-            "deployIdentityVnet": "Deploy-Identity-Vnet3"
+            "deployIdentityVnet": "Deploy-Identity-Vnet"
         },
         "rbacOwner": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
         "roleAssignmentNames": {
@@ -150,6 +150,21 @@
 
 
                 }
+            }
+        },
+        {
+            // Conditionally create roleAssignment for VM Backup policy
+            "condition": "[equals(parameters('enableVnetDeploymentForIdentity'), 'Yes')]",
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2019-04-01-preview",
+            "name": "[variables('roleAssignmentNames').deployIdentityVnet]",
+            "dependsOn": [
+                "[variables('policyAssignmentNames').deployIdentityVnet]"
+            ],
+            "properties": {
+                "principalType": "ServicePrincipal",
+                "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacOwner'))]",
+                "principalId": "[if(equals(parameters('enableVnetDeploymentForIdentity'), 'Yes'), toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').deployIdentityVnet), '2018-05-01', 'Full' ).identity.principalId), 'na')]"
             }
         },
         {
