@@ -940,7 +940,14 @@
                                     "description": "CIDR Range for the vNet"
                                 }
                             },
-							"subnetCidrRange": {
+                            "subnetRgName": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnetRgName",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnetCidrRange": {
                                 "type": "String",
                                 "metadata": {
                                     "displayName": "subnetCidrRange",
@@ -1008,6 +1015,12 @@
                                                 "vNetCidrRange": {
                                                     "value": "[[parameters('vNetCidrRange')]"
                                                 },
+                                                "subnetRgName": {
+                                                    "value": "[[parameters('subnetRgName')]"
+                                                },
+                                                "subnetCidrRange": {
+                                                    "value": "[[parameters('subnetCidrRange')]"
+                                                },
                                                 "hubResourceId": {
                                                     "value": "[[parameters('hubResourceId')]"
                                                 }
@@ -1026,6 +1039,12 @@
                                                         "type": "string"
                                                     },
                                                     "vNetCidrRange": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnetRgName": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnetCidrRange": {
                                                         "type": "string"
                                                     },
                                                     "vNetPeerUseRemoteGateway": {
@@ -1097,7 +1116,18 @@
                                                                                 "addressPrefixes": [
                                                                                     "[[parameters('vNetCidrRange')]"
                                                                                 ]
-                                                                            }
+                                                                            },
+                                                                            "subnets": [
+                                                                                {
+                                                                                    "name": "[parameters('subnetRgName')]",
+                                                                                    "properties": {
+                                                                                        "addressPrefix": "[parameters('subnetCidrRange')]",
+
+
+                                                                                    }
+                                                                                }
+
+                                                                            ]
                                                                         }
                                                                     },
                                                                     {
@@ -15744,7 +15774,7 @@
                         }
                     },
                     "name": "Deploy-Diagnostics-WVDAppGroup"
-                },                                         
+                },
                 {
                     "properties": {
                         "Description": "Deploy Windows Domain Join Extension with keyvault configuration when the extension does not exist on a given windows Virtual Machine",
