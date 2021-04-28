@@ -914,6 +914,7 @@
                         "Parameters": {
                             "vNetName": {
                                 "type": "String",
+                                "defaultValue": "vnet-identity-ae",
                                 "metadata": {
                                     "displayName": "vNetName",
                                     "description": "Name of the landing zone vNet"
@@ -921,6 +922,7 @@
                             },
                             "vNetRgName": {
                                 "type": "String",
+                                "defaultValue": "rg-idy-ase",
                                 "metadata": {
                                     "displayName": "vNetRgName",
                                     "description": "Name of the landing zone vNet RG"
@@ -928,6 +930,7 @@
                             },
                             "vNetLocation": {
                                 "type": "String",
+                                "defaultValue": "australiasoutheast",
                                 "metadata": {
                                     "displayName": "vNetLocation",
                                     "description": "Location for the vNet"
@@ -935,20 +938,79 @@
                             },
                             "vNetCidrRange": {
                                 "type": "String",
+                                "defaultValue": "10.122.122.0/24",
                                 "metadata": {
                                     "displayName": "vNetCidrRange",
                                     "description": "CIDR Range for the vNet"
                                 }
                             },
-                            "subnetRgName": {
+                            "subnet1Name": {
                                 "type": "String",
+                                "defaultValue": "sn-prod-idy-ae",
                                 "metadata": {
                                     "displayName": "subnetRgName",
                                     "description": "CIDR Range for the subnet"
                                 }
                             },
-                            "subnetCidrRange": {
+                            "subnet1CidrRange": {
                                 "type": "String",
+                                "defaultValue": "10.122.122.128/27",
+                                "metadata": {
+                                    "displayName": "subnetCidrRange",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet2Name": {
+                                "type": "String",
+                                "defaultValue": "sn-uat-idy-ae",
+                                "metadata": {
+                                    "displayName": "subnetRgName",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet2CidrRange": {
+                                "type": "String",
+                                "defaultValue": "10.122.122.160/27",
+                                "metadata": {
+                                    "displayName": "subnetCidrRange",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet3Name": {
+                                "type": "String",
+                                "defaultValue": "sn-dev-idy-ae",
+                                "metadata": {
+                                    "displayName": "subnetRgName",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet3CidrRange": {
+                                "type": "String",
+                                "defaultValue": "10.122.122.192/27",
+                                "metadata": {
+                                    "displayName": "subnetCidrRange",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet1NsgName": {
+                                "type": "String",
+                                "defaultValue": "nsg-sn-prod-idy-ae",
+                                "metadata": {
+                                    "displayName": "subnetCidrRange",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet2NsgName": {
+                                "type": "String",
+                                "defaultValue": "nsg-sn-uat-idy-ae",
+                                "metadata": {
+                                    "displayName": "subnetCidrRange",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet3NsgName": {
+                                "type": "String",
+                                "defaultValue": "nsg-sn-dev-idy-ae",
                                 "metadata": {
                                     "displayName": "subnetCidrRange",
                                     "description": "CIDR Range for the subnet"
@@ -999,7 +1061,7 @@
                                         ]
                                     },
                                     "deployment": {
-                                        "location": "northeurope",
+                                        "location": "australiasoutheast",
                                         "properties": {
                                             "mode": "incremental",
                                             "parameters": {
@@ -1015,11 +1077,32 @@
                                                 "vNetCidrRange": {
                                                     "value": "[[parameters('vNetCidrRange')]"
                                                 },
-                                                "subnetRgName": {
-                                                    "value": "[[parameters('subnetRgName')]"
+                                                "subnet1Name": {
+                                                    "value": "[[parameters('ssubnet1Name')]"
                                                 },
-                                                "subnetCidrRange": {
+                                                "subnet1CidrRange": {
                                                     "value": "[[parameters('subnetCidrRange')]"
+                                                },
+                                                "subnet2Name": {
+                                                    "value": "[[parameters('subnet2Name')]"
+                                                },
+                                                "subnet2CidrRange": {
+                                                    "value": "[[parameters('subnetCidrRange')]"
+                                                },
+                                                "subnet3Name": {
+                                                    "value": "[[parameters('subnet3Name')]"
+                                                },
+                                                "subnet3CidrRange": {
+                                                    "value": "[[parameters('subnetCidrRange')]"
+                                                },
+                                                "subnet1NsgName": {
+                                                    "value": "[[parameters('subnet1NsgName')]"
+                                                },
+                                                "subnet2NsgName": {
+                                                    "value": "[[parameters('subnet2NsgName')]"
+                                                },
+                                                "subnet3NsgName": {
+                                                    "value": "[[parameters('subnet3NsgName')]"
                                                 },
                                                 "hubResourceId": {
                                                     "value": "[[parameters('hubResourceId')]"
@@ -1041,10 +1124,31 @@
                                                     "vNetCidrRange": {
                                                         "type": "string"
                                                     },
-                                                    "subnetRgName": {
+                                                    "subnet1Name": {
                                                         "type": "string"
                                                     },
-                                                    "subnetCidrRange": {
+                                                    "subnet1CidrRange": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet2Name": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet2CidrRange": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet3Name": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet3CidrRange": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet1NsgName": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet2NsgName": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet3NsgName": {
                                                         "type": "string"
                                                     },
                                                     "vNetPeerUseRemoteGateway": {
@@ -1092,6 +1196,92 @@
                                                     },
                                                     {
                                                         "type": "Microsoft.Resources/deployments",
+                                                        "apiVersion": "2019-10-01",
+                                                        "name": "[[concat('es-lz-vnet-',substring(uniqueString(subscription().id),0,6),'-nsg')]",
+                                                        "properties": {
+                                                            "mode": "Incremental",
+                                                            "template": {
+                                                                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                                                                "contentVersion": "1.0.0.0",
+                                                                "parameters": {},
+                                                                "resources": [
+                                                                    {
+                                                                        "type": "Microsoft.Network/networkSecurityGroups",
+                                                                        "apiVersion": "2020-05-01",
+                                                                        "name": "[[parameters('subnet1NsgName')]",
+                                                                        "location": "[[parameters('vNetLocation')]",
+                                                                        "properties": {
+                                                                            "securityRules": [
+                                                                                {
+                                                                                    "name": "default-allow-3389",
+                                                                                    "properties": {
+                                                                                        "priority": 1000,
+                                                                                        "access": "Allow",
+                                                                                        "direction": "Inbound",
+                                                                                        "destinationPortRange": "3389",
+                                                                                        "protocol": "Tcp",
+                                                                                        "sourceAddressPrefix": "*",
+                                                                                        "sourcePortRange": "*",
+                                                                                        "destinationAddressPrefix": "*"
+                                                                                    }
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    },
+                                                                    {
+                                                                        "type": "Microsoft.Network/networkSecurityGroups",
+                                                                        "apiVersion": "2020-05-01",
+                                                                        "name": "[[parameters('subnet2NsgName')]",
+                                                                        "location": "[[parameters('vNetLocation')]",
+                                                                        "properties": {
+                                                                            "securityRules": [
+                                                                                {
+                                                                                    "name": "default-allow-3389",
+                                                                                    "properties": {
+                                                                                        "priority": 1000,
+                                                                                        "access": "Allow",
+                                                                                        "direction": "Inbound",
+                                                                                        "destinationPortRange": "3389",
+                                                                                        "protocol": "Tcp",
+                                                                                        "sourceAddressPrefix": "*",
+                                                                                        "sourcePortRange": "*",
+                                                                                        "destinationAddressPrefix": "*"
+                                                                                    }
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    },
+                                                                    {
+                                                                        "type": "Microsoft.Network/networkSecurityGroups",
+                                                                        "apiVersion": "2020-05-01",
+                                                                        "name": "[[parameters('subnet3NsgName')]",
+                                                                        "location": "[[parameters('vNetLocation')]",
+                                                                        "properties": {
+                                                                            "securityRules": [
+                                                                                {
+                                                                                    "name": "default-allow-3389",
+                                                                                    "properties": {
+                                                                                        "priority": 1000,
+                                                                                        "access": "Allow",
+                                                                                        "direction": "Inbound",
+                                                                                        "destinationPortRange": "3389",
+                                                                                        "protocol": "Tcp",
+                                                                                        "sourceAddressPrefix": "*",
+                                                                                        "sourcePortRange": "*",
+                                                                                        "destinationAddressPrefix": "*"
+                                                                                    }
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    }
+
+
+                                                                ]
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "Microsoft.Resources/deployments",
                                                         "apiVersion": "2020-06-01",
                                                         "name": "[[concat('es-lz-vnet-',substring(uniqueString(subscription().id),0,6))]",
                                                         "dependsOn": [
@@ -1119,13 +1309,30 @@
                                                                             },
                                                                             "subnets": [
                                                                                 {
-                                                                                    "name": "[[parameters('subnetRgName')]",
+                                                                                    "name": "[[parameters('subnet1Name')]",
                                                                                     "properties": {
-                                                                                        "addressPrefix": "[[parameters('subnetCidrRange')]"
+                                                                                        "addressPrefix": "[[parameters('subnet1CidrRange')]"
+
+
+                                                                                    }
+                                                                                },
+                                                                                {
+                                                                                    "name": "[[parameters('subnet2Name')]",
+                                                                                    "properties": {
+                                                                                        "addressPrefix": "[[parameters('subnet2CidrRange')]"
+
+
+                                                                                    }
+                                                                                },
+                                                                                {
+                                                                                    "name": "[[parameters('subnet3Name')]",
+                                                                                    "properties": {
+                                                                                        "addressPrefix": "[[parameters('subnet3CidrRange')]"
 
 
                                                                                     }
                                                                                 }
+
 
                                                                             ]
                                                                         }
