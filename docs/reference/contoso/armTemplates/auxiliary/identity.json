@@ -98,8 +98,8 @@
             "name": "[variables('policyAssignmentNames').deployIdentityVnet]",
             "location": "[deployment().location]",
             "identity": {
-          "type": "None"
-      },
+                "type": "SystemAssigned"
+            },
             "properties": {
                 "description": "Deploy-Identity-Vnet",
                 "displayName": "Deploy-Identity-Vnet2",
