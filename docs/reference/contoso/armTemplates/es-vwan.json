@@ -4,7 +4,7 @@
 	"parameters": {
 		"GitHubFetcherWebServiceURI": {
 			"type": "string",
-			"defaultValue": "https://githubprivrepofilefetcher.azurewebsites.net/api/GitHubPrivRepoFileFetcher?",
+			"defaultValue": "https://githubprivrepofilefetcher.azurewebsites.net/api/GitHubPrivRepoFileFetcher",
 			"metadata": {
 				"description": "The GitHub Private Repository File Fetcher Web Service URI"
 			}
