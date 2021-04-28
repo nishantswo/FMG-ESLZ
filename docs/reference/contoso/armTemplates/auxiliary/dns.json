@@ -36,7 +36,8 @@
 		"rgNameDev": "[concat('rg-', parameters('app'), '-dev')]",
 		"rgNamesbx": "[concat('rg-', parameters('app'), '-sbx')]"
 	},
-	"resources": [{
+	"resources": [
+		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"name": "[concat('Ent-Scale', '-DNSZones')]",
