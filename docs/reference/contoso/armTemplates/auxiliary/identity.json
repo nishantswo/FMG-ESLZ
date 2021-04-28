@@ -104,10 +104,8 @@
             "name": "[variables('policyAssignmentNames').deployIdentityVnet]",
             "location": "[deployment().location]",
             "identity": {
-          "type": "UserAssigned",
-          "userAssignedIdentities": {
-              "[resourceID('Microsoft.ManagedIdentity/userAssignedIdentities/','test')]": {}
-          }
+          "type": "None"
+       
       },
             "properties": {
                 "description": "Deploy-Identity-Vnet",
