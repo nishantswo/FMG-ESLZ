@@ -940,6 +940,13 @@
                                     "description": "CIDR Range for the vNet"
                                 }
                             },
+							"subnetCidrRange": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnetCidrRange",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
                             "hubResourceId": {
                                 "type": "String",
                                 "metadata": {
