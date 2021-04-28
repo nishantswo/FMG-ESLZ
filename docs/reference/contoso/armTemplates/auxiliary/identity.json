@@ -152,7 +152,6 @@
                 }
             }
         },
-       
          {
             // Conditionally create roleAssignment for VM Backup policy
             "condition": "[equals(parameters('enableVmBackupForIdentity'), 'Yes')]",
