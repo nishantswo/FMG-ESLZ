@@ -2,6 +2,24 @@
 	"$schema": "https://schema.management.azure.com/schemas/2019-08-01/tenantDeploymentTemplate.json#",
 	"contentVersion": "1.0.0.0",
 	"parameters": {
+		"GitHubFetcherWebServiceURI": {
+			"type": "string",
+			"defaultValue": "https://githubprivrepofilefetcher.azurewebsites.net/api/GitHubPrivRepoFileFetcher?",
+			"metadata": {
+				"description": "The GitHub Private Repository File Fetcher Web Service URI"
+			}
+		},
+		"_GitHubLocation": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/nishantswo/FMG-ESLZ/main/docs/reference/contoso/armTemplates",
+			"metadata": {
+				"description": "The base URI where artifacts required by this template are located"
+			}
+		},
+		"_GitHubAccessToken": {
+			"type": "securestring",
+			"defaultvalue": "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"
+		},
 		"enterpriseScaleCompanyPrefix": {
 			"type": "string",
 			"maxLength": 10,
@@ -142,7 +160,7 @@
 				"description": "dev vnet name"
 			}
 		},
-		 "identitySubnetDevName": {
+		"identitySubnetDevName": {
 			"type": "string",
 			"defaultValue": "sn-dev-idy-ae"
 		},
@@ -154,7 +172,7 @@
 			"type": "string",
 			"defaultValue": "sn-prod-idy-ae"
 		},
-        "identitySubnetDevPrefix": {
+		"identitySubnetDevPrefix": {
 			"type": "string",
 			"defaultValue": "10.122.122.192/27"
 		},
@@ -254,40 +272,40 @@
 		},
 		"onlineLzSubscriptionId": {
 			"type": "array",
-			"defaultValue": ["00427000-3587-4a3b-9817-803373c88774"],
+			"defaultValue": [ "00427000-3587-4a3b-9817-803373c88774" ],
 			"metadata": {
 				"description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first online landing zones."
 			}
 		},
 		"prodLzSubscriptionId": {
 			"type": "array",
-			"defaultValue": ["4dd899d2-4f99-485e-b1bc-7d44c2a2e993"],
+			"defaultValue": [ "4dd899d2-4f99-485e-b1bc-7d44c2a2e993" ],
 			"metadata": {
 				"description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first prod landing zones."
 			}
 		},
 		"uatLzSubscriptionId": {
 			"type": "array",
-			"defaultValue": ["146cdf8a-a785-468c-8e4c-ee958acad65b"],
+			"defaultValue": [ "146cdf8a-a785-468c-8e4c-ee958acad65b" ],
 			"metadata": {
 				"description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first uat landing zones."
 			}
 		},
 		"devLzSubscriptionId": {
 			"type": "array",
-			"defaultValue": ["6d73017e-c20f-4fe1-9f54-0f4a9d992e66"],
+			"defaultValue": [ "6d73017e-c20f-4fe1-9f54-0f4a9d992e66" ],
 			"metadata": {
 				"description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first dev landing zones."
 			}
 		},
 		"sbxLzSubscriptionId": {
 			"type": "array",
-			"defaultValue": ["47d60737-c43c-48d2-bdb5-8b851d533075"],
+			"defaultValue": [ "47d60737-c43c-48d2-bdb5-8b851d533075" ],
 			"metadata": {
 				"description": "Provide the subscription ids for existing, empty subscriptions you want to move in as your first sbx landing zones."
 			}
 		},
-		
+
 		"automationAccountName": {
 			"type": "string",
 			"defaultValue": "fmg-automation-account",
@@ -806,7 +824,7 @@
 		"azEnvPolicy": "[variables('azPolicyEnvMapping')[environment().resourceManager]]",
 		"deploymentUris": {
 			"managementGroups": "[uri(deployment().properties.templateLink.uri, 'auxiliary/mgmtGroups.json')]",
-			
+
 			"dns": "[uri(deployment().properties.templateLink.uri, 'auxiliary/dns.json')]",
 			"policyAssignments": "[uri(deployment().properties.templateLink.uri, 'auxiliary/custompolicy.json')]",
 			"policyDefinitions": "[concat(uri(deployment().properties.templateLink.uri, variables('azEnvPolicy')))]",
@@ -857,7 +875,8 @@
 			"azOpsDeploymentName": "[take(concat('EntScale-AzOps', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]"
 		}
 	},
-	"resources": [{
+	"resources": [
+		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"name": "[variables('deploymentNames').mgmtGroupDeploymentName]",
@@ -875,8 +894,8 @@
 				}
 			}
 		},
-		    
-		
+
+
 		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
@@ -899,7 +918,7 @@
 				}
 			}
 		},
-		     
+
 		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
@@ -1016,7 +1035,7 @@
 			},
 			"properties": {}
 		},
-		
+
 		{
 			"condition": "[and(not(empty(parameters('managementSubscriptionId'))),equals(parameters('enableLogAnalytics'), 'Yes'))]",
 			"type": "Microsoft.Resources/deployments",
@@ -1325,7 +1344,7 @@
 					},
 					"identityVnetName": {
 						"value": "[parameters('identityVnetName')]"
-					},	
+					},
 					"onlineVnetName": {
 						"value": "[parameters('onlineVnetName')]"
 					},
