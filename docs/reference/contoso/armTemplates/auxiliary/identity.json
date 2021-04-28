@@ -90,12 +90,7 @@
         //"blankTemplateEscaped": "{\"$schema\":\"https://schema.management.azure.com/schemas/2019-08-01/tenantDeploymentTemplate.json#\",\"contentVersion\":\"1.0.0.0\",\"parameters\":{},\"variables\":{},\"resources\":[],\"outputs\":{}}"
     },
     "resources": [
-        {
-    "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
-    "name": "test",
-    "apiVersion": "2018-11-30",
-    "location": "[deployment().location]"
-},
+       
          {
             // Conditionally enable policy to enforce VM Backup
             "condition": "[equals(parameters('enableVnetDeploymentForIdentity'), 'Yes')]",
