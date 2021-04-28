@@ -23,9 +23,7 @@
             "type": "array",
             "defaultValue": [
                 "online",
-				"prod",
-                "uat",
-				"dev"   
+				"corp"   
             ],
             "metadata": {
                 "description": "These are the landing zone management groups."

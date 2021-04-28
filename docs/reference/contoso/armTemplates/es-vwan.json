@@ -851,9 +851,9 @@
 		"moveSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-management', '/', parameters('managementSubscriptionId'))]",
 		"noSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-management', '/', 'na')]",
 		"noOnlineLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-online', '/', 'nalz')]",
-		"noProdLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-prod', '/', 'nalz')]",
-		"noUatLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-uat', '/', 'nalz')]",
-		"noDevLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-dev', '/', 'nalz')]",
+		"noProdLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-corp', '/', 'nalz')]",
+		"noUatLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-corp', '/', 'nalz')]",
+		"noDevLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-corp', '/', 'nalz')]",
 		"noSbxLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-sandboxes', '/', 'nalz')]",
 		"connectivityMoveSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-connectivity', '/', parameters('connectivitySubscriptionId'))]",
 		"noConnectivitySubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-connectivity', '/', 'naconn')]",
@@ -983,7 +983,7 @@
 			"condition": "[not(empty(parameters('prodLzSubscriptionId')))]",
 			"type": "Microsoft.Management/managementGroups/subscriptions",
 			"apiVersion": "2020-05-01",
-			"name": "[if(not(empty(parameters('prodLzSubscriptionId'))), concat(parameters('enterpriseScaleCompanyPrefix'), '-prod', '/', parameters('prodLzSubscriptionId')[copyIndex()]), variables('noProdLzSubscription'))]",
+			"name": "[if(not(empty(parameters('prodLzSubscriptionId'))), concat(parameters('enterpriseScaleCompanyPrefix'), '-corp', '/', parameters('prodLzSubscriptionId')[copyIndex()]), variables('noProdLzSubscription'))]",
 			"dependsOn": [
 				"[variables('deploymentNames').mgmtGroupDeploymentName]"
 			],
@@ -997,7 +997,7 @@
 			"condition": "[not(empty(parameters('uatLzSubscriptionId')))]",
 			"type": "Microsoft.Management/managementGroups/subscriptions",
 			"apiVersion": "2020-05-01",
-			"name": "[if(not(empty(parameters('uatLzSubscriptionId'))), concat(parameters('enterpriseScaleCompanyPrefix'), '-uat', '/', parameters('uatLzSubscriptionId')[copyIndex()]), variables('noUatLzSubscription'))]",
+			"name": "[if(not(empty(parameters('uatLzSubscriptionId'))), concat(parameters('enterpriseScaleCompanyPrefix'), '-corp', '/', parameters('uatLzSubscriptionId')[copyIndex()]), variables('noUatLzSubscription'))]",
 			"dependsOn": [
 				"[variables('deploymentNames').mgmtGroupDeploymentName]"
 			],
@@ -1011,7 +1011,7 @@
 			"condition": "[not(empty(parameters('devLzSubscriptionId')))]",
 			"type": "Microsoft.Management/managementGroups/subscriptions",
 			"apiVersion": "2020-05-01",
-			"name": "[if(not(empty(parameters('devLzSubscriptionId'))), concat(parameters('enterpriseScaleCompanyPrefix'), '-dev', '/', parameters('devLzSubscriptionId')[copyIndex()]), variables('noDevLzSubscription'))]",
+			"name": "[if(not(empty(parameters('devLzSubscriptionId'))), concat(parameters('enterpriseScaleCompanyPrefix'), '-corp', '/', parameters('devLzSubscriptionId')[copyIndex()]), variables('noDevLzSubscription'))]",
 			"dependsOn": [
 				"[variables('deploymentNames').mgmtGroupDeploymentName]"
 			],
