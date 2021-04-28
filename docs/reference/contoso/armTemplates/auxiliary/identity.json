@@ -90,6 +90,12 @@
         //"blankTemplateEscaped": "{\"$schema\":\"https://schema.management.azure.com/schemas/2019-08-01/tenantDeploymentTemplate.json#\",\"contentVersion\":\"1.0.0.0\",\"parameters\":{},\"variables\":{},\"resources\":[],\"outputs\":{}}"
     },
     "resources": [
+        {
+    "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+    "name": "test",
+    "apiVersion": "2018-11-30",
+    "location": "[deployment().location]"
+},
          {
             // Conditionally enable policy to enforce VM Backup
             "condition": "[equals(parameters('enableVnetDeploymentForIdentity'), 'Yes')]",
@@ -98,8 +104,11 @@
             "name": "[variables('policyAssignmentNames').deployIdentityVnet]",
             "location": "[deployment().location]",
             "identity": {
-                "type": "SystemAssigned"
-            },
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+              "[resourceID('Microsoft.ManagedIdentity/userAssignedIdentities/','test')]": {}
+          }
+      },
             "properties": {
                 "description": "Deploy-Identity-Vnet",
                 "displayName": "Deploy-Identity-Vnet2",
@@ -141,41 +150,7 @@
                 "principalId": "[if(equals(parameters('enableVnetDeploymentForIdentity'), 'Yes'), toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').deployIdentityVnet), '2018-05-01', 'Full' ).identity.principalId), 'na')]"
             }
         },
-        {
-			"condition": "[equals(parameters('enableVnetDeploymentForIdentity'), 'Yes')]",
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2019-05-01",
-			"name": "connectivityroleassignment",
-			"dependsOn": [
-				"[variables('roleAssignmentNames').deployIdentityVnet]"
-			],
-			"location": "[deployment().location]",
-			"properties": {
-				"mode": "Incremental",
-				"template": {
-					"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-					"contentVersion": "1.0.0.0",
-					"parameters": {},
-					"resources": [{   
-            "type": "Microsoft.Authorization/roleAssignments",
-            "apiVersion": "2020-04-01-preview",
-            "name": "connectivityrole",
-            "scope": "[variables('scope2')]",
-            "dependsOn": [
-                "[variables('roleAssignmentNames').deployIdentityVnet]"
-            ],
-            "properties": {
-                "principalType": "ServicePrincipal",
-                "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacOwner'))]",
-                "principalId": "[if(equals(parameters('enableVnetDeploymentForIdentity'), 'Yes'), toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').deployIdentityVnet), '2018-05-01', 'Full' ).identity.principalId), 'na')]"
-            }
-        }
-
-
-					]
-				}
-			}
-		},
+        
         
         {
             // Conditionally enable policy to enforce VM Backup
