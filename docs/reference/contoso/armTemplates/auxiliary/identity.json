@@ -101,7 +101,7 @@
             },
             "properties": {
                 "description": "Deploy-Identity-Vnet",
-                "displayName": "Deploy-Identity-Vnet2",
+                "displayName": "Deploy-Identity-Vnet",
                 "policyDefinitionId": "[variables('policyDefinitions').deployIdentityVnet]",
                 "scope": "[variables('scope')]",
                 "parameters" : {

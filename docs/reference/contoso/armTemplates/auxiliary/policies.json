@@ -1185,6 +1185,7 @@
                                                         "type": "Microsoft.Resources/deployments",
                                                         "apiVersion": "2019-10-01",
                                                         "name": "[[concat('es-lz-vnet-',substring(uniqueString(subscription().id),0,6),'-nsg')]",
+                                                        "location": "[[parameters('vNetLocation')]",
                                                         "properties": {
                                                             "mode": "Incremental",
                                                             "template": {
@@ -1413,6 +1414,725 @@
                         }
                     },
                     "name": "Deploy-VNET-HubSpoke"
+                },
+                {
+                    "Properties": {
+                        "Description": "This policy deploys virtual network and peer to the hub",
+                        "DisplayName": "Deploys virtual network peering to hub",
+                        "Mode": "All",
+                        "Parameters": {
+                            "vNetName": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "vNetName",
+                                    "description": "Name of the landing zone vNet"
+                                }
+                            },
+                            "vNetRgName": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "vNetRgName",
+                                    "description": "Name of the landing zone vNet RG"
+                                }
+                            },
+                            "vNetLocation": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "vNetLocation",
+                                    "description": "Location for the vNet"
+                                }
+                            },
+                            "vNetCidrRange": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "vNetCidrRange",
+                                    "description": "CIDR Range for the vNet"
+                                }
+                            },
+                            "subnet1Name": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnet1Name",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet1CidrRange": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnet1CidrRange",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet2Name": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnet2Name",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet2CidrRange": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnet2CidrRange",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet3Name": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnet3Name",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet3CidrRange": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnet3CidrRange",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet4Name": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnet4Name",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet4CidrRange": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnet4CidrRange",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet5Name": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnet5Name",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet5CidrRange": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnet5CidrRange",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet6Name": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnet6Name",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet6CidrRange": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnet6CidrRange",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet1NsgName": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnet1NsgName",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet2NsgName": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnet2NsgName",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet3NsgName": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnet3NsgName",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet4NsgName": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnet4NsgName",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet5NsgName": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnet5NsgName",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "subnet6NsgName": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnet6NsgName",
+                                    "description": "CIDR Range for the subnet"
+                                }
+                            },
+                            "hubResourceId": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "hubResourceId",
+                                    "description": "Resource ID for the HUB vNet"
+                                }
+                            }
+                        },
+                        "metadata": {
+                            "version": "1.0.0",
+                            "category": "Network"
+                        },
+                        "PolicyRule": {
+                            "if": {
+                                "allOf": [
+                                    {
+                                        "field": "type",
+                                        "equals": "Microsoft.Resources/subscriptions"
+                                    }
+                                ]
+                            },
+                            "then": {
+                                "effect": "deployIfNotExists",
+                                "details": {
+                                    "type": "Microsoft.Network/virtualNetworks",
+                                    "name": "[[parameters('vNetName')]",
+                                    "deploymentScope": "Subscription",
+                                    "existenceScope": "ResourceGroup",
+                                    "ResourceGroupName": "[[parameters('vNetRgName')]",
+                                    "roleDefinitionIds": [
+                                        "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+                                    ],
+                                    "existenceCondition": {
+                                        "allOf": [
+                                            {
+                                                "field": "name",
+                                                "like": "[[parameters('vNetName')]"
+                                            },
+                                            {
+                                                "field": "location",
+                                                "equals": "[[parameters('vNetLocation')]"
+                                            }
+                                        ]
+                                    },
+                                    "deployment": {
+                                        "location": "australiasoutheast",
+                                        "properties": {
+                                            "mode": "incremental",
+                                            "parameters": {
+                                                "vNetRgName": {
+                                                    "value": "[[parameters('vNetRgName')]"
+                                                },
+                                                "vNetName": {
+                                                    "value": "[[parameters('vNetName')]"
+                                                },
+                                                "vNetLocation": {
+                                                    "value": "[[parameters('vNetLocation')]"
+                                                },
+                                                "vNetCidrRange": {
+                                                    "value": "[[parameters('vNetCidrRange')]"
+                                                },
+                                                "subnet1Name": {
+                                                    "value": "[[parameters('subnet1Name')]"
+                                                },
+                                                "subnet1CidrRange": {
+                                                    "value": "[[parameters('subnet1CidrRange')]"
+                                                },
+                                                "subnet2Name": {
+                                                    "value": "[[parameters('subnet2Name')]"
+                                                },
+                                                "subnet2CidrRange": {
+                                                    "value": "[[parameters('subnet2CidrRange')]"
+                                                },
+                                                "subnet3Name": {
+                                                    "value": "[[parameters('subnet3Name')]"
+                                                },
+                                                "subnet3CidrRange": {
+                                                    "value": "[[parameters('subnet3CidrRange')]"
+                                                },
+                                                 "subnet4Name": {
+                                                    "value": "[[parameters('subnet4Name')]"
+                                                },
+                                                "subnet4CidrRange": {
+                                                    "value": "[[parameters('subnet4CidrRange')]"
+                                                },
+                                                "subnet5Name": {
+                                                    "value": "[[parameters('subnet5Name')]"
+                                                },
+                                                "subnet5CidrRange": {
+                                                    "value": "[[parameters('subnet5CidrRange')]"
+                                                },
+                                                "subnet6Name": {
+                                                    "value": "[[parameters('subnet6Name')]"
+                                                },
+                                                "subnet6CidrRange": {
+                                                    "value": "[[parameters('subnet6CidrRange')]"
+                                                },
+                                                "subnet1NsgName": {
+                                                    "value": "[[parameters('subnet1NsgName')]"
+                                                },
+                                                "subnet2NsgName": {
+                                                    "value": "[[parameters('subnet2NsgName')]"
+                                                },
+                                                "subnet3NsgName": {
+                                                    "value": "[[parameters('subnet3NsgName')]"
+                                                },
+                                                "subnet4NsgName": {
+                                                    "value": "[[parameters('subnet4NsgName')]"
+                                                },
+                                                "subnet5NsgName": {
+                                                    "value": "[[parameters('subnet5NsgName')]"
+                                                },
+                                                "subnet6NsgName": {
+                                                    "value": "[[parameters('subnet6NsgName')]"
+                                                },
+                                                "hubResourceId": {
+                                                    "value": "[[parameters('hubResourceId')]"
+                                                }
+                                            },
+                                            "template": {
+                                                "$schema": "http://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json",
+                                                "contentVersion": "1.0.0.0",
+                                                "parameters": {
+                                                    "vNetRgName": {
+                                                        "type": "string"
+                                                    },
+                                                    "vNetName": {
+                                                        "type": "string"
+                                                    },
+                                                    "vNetLocation": {
+                                                        "type": "string"
+                                                    },
+                                                    "vNetCidrRange": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet1Name": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet1CidrRange": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet2Name": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet2CidrRange": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet3Name": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet3CidrRange": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet4Name": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet4CidrRange": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet5Name": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet5CidrRange": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet6Name": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet6CidrRange": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet1NsgName": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet2NsgName": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet3NsgName": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet4NsgName": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet5NsgName": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet6NsgName": {
+                                                        "type": "string"
+                                                    },
+                                                    "vNetPeerUseRemoteGateway": {
+                                                        "type": "bool",
+                                                        "defaultValue": false
+                                                    },
+                                                    "hubResourceId": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "variables": {},
+                                                "resources": [
+                                                    {
+                                                        "type": "Microsoft.Resources/deployments",
+                                                        "apiVersion": "2020-06-01",
+                                                        "name": "[[concat('es-lz-vnet-',substring(uniqueString(subscription().id),0,6),'-rg')]",
+                                                        "location": "[[parameters('vNetLocation')]",
+                                                        "dependsOn": [],
+                                                        "properties": {
+                                                            "mode": "Incremental",
+                                                            "template": {
+                                                                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                                                                "contentVersion": "1.0.0.0",
+                                                                "parameters": {},
+                                                                "variables": {},
+                                                                "resources": [
+                                                                    {
+                                                                        "type": "Microsoft.Resources/resourceGroups",
+                                                                        "apiVersion": "2020-06-01",
+                                                                        "name": "[[parameters('vNetRgName')]",
+                                                                        "location": "[[parameters('vNetLocation')]",
+                                                                        "properties": {}
+                                                                    },
+                                                                    {
+                                                                        "type": "Microsoft.Resources/resourceGroups",
+                                                                        "apiVersion": "2020-06-01",
+                                                                        "name": "NetworkWatcherRG",
+                                                                        "location": "[[parameters('vNetLocation')]",
+                                                                        "properties": {}
+                                                                    }
+                                                                ],
+                                                                "outputs": {}
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "Microsoft.Resources/deployments",
+                                                        "apiVersion": "2019-10-01",
+                                                        "name": "[[concat('es-lz-vnet-',substring(uniqueString(subscription().id),0,6),'-nsg')]",
+                                                        "location": "[[parameters('vNetLocation')]",
+                                                        "properties": {
+                                                            "mode": "Incremental",
+                                                            "template": {
+                                                                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                                                                "contentVersion": "1.0.0.0",
+                                                                "parameters": {},
+                                                                "resources": [
+                                                                    {
+                                                                        "type": "Microsoft.Network/networkSecurityGroups",
+                                                                        "apiVersion": "2020-05-01",
+                                                                        "name": "[[parameters('subnet1NsgName')]",
+                                                                        "location": "[[parameters('vNetLocation')]",
+                                                                        "properties": {
+                                                                            "securityRules": [
+                                                                                {
+                                                                                    "name": "default-allow-3389",
+                                                                                    "properties": {
+                                                                                        "priority": 1000,
+                                                                                        "access": "Allow",
+                                                                                        "direction": "Inbound",
+                                                                                        "destinationPortRange": "3389",
+                                                                                        "protocol": "Tcp",
+                                                                                        "sourceAddressPrefix": "*",
+                                                                                        "sourcePortRange": "*",
+                                                                                        "destinationAddressPrefix": "*"
+                                                                                    }
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    },
+                                                                    {
+                                                                        "type": "Microsoft.Network/networkSecurityGroups",
+                                                                        "apiVersion": "2020-05-01",
+                                                                        "name": "[[parameters('subnet2NsgName')]",
+                                                                        "location": "[[parameters('vNetLocation')]",
+                                                                        "properties": {
+                                                                            "securityRules": [
+                                                                                {
+                                                                                    "name": "default-allow-3389",
+                                                                                    "properties": {
+                                                                                        "priority": 1000,
+                                                                                        "access": "Allow",
+                                                                                        "direction": "Inbound",
+                                                                                        "destinationPortRange": "3389",
+                                                                                        "protocol": "Tcp",
+                                                                                        "sourceAddressPrefix": "*",
+                                                                                        "sourcePortRange": "*",
+                                                                                        "destinationAddressPrefix": "*"
+                                                                                    }
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    },
+                                                                    {
+                                                                        "type": "Microsoft.Network/networkSecurityGroups",
+                                                                        "apiVersion": "2020-05-01",
+                                                                        "name": "[[parameters('subnet3NsgName')]",
+                                                                        "location": "[[parameters('vNetLocation')]",
+                                                                        "properties": {
+                                                                            "securityRules": [
+                                                                                {
+                                                                                    "name": "default-allow-3389",
+                                                                                    "properties": {
+                                                                                        "priority": 1000,
+                                                                                        "access": "Allow",
+                                                                                        "direction": "Inbound",
+                                                                                        "destinationPortRange": "3389",
+                                                                                        "protocol": "Tcp",
+                                                                                        "sourceAddressPrefix": "*",
+                                                                                        "sourcePortRange": "*",
+                                                                                        "destinationAddressPrefix": "*"
+                                                                                    }
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    },
+                                                                    {
+                                                                        "type": "Microsoft.Network/networkSecurityGroups",
+                                                                        "apiVersion": "2020-05-01",
+                                                                        "name": "[[parameters('subnet4NsgName')]",
+                                                                        "location": "[[parameters('vNetLocation')]",
+                                                                        "properties": {
+                                                                            "securityRules": [
+                                                                                {
+                                                                                    "name": "default-allow-3389",
+                                                                                    "properties": {
+                                                                                        "priority": 1000,
+                                                                                        "access": "Allow",
+                                                                                        "direction": "Inbound",
+                                                                                        "destinationPortRange": "3389",
+                                                                                        "protocol": "Tcp",
+                                                                                        "sourceAddressPrefix": "*",
+                                                                                        "sourcePortRange": "*",
+                                                                                        "destinationAddressPrefix": "*"
+                                                                                    }
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    },
+                                                                    {
+                                                                        "type": "Microsoft.Network/networkSecurityGroups",
+                                                                        "apiVersion": "2020-05-01",
+                                                                        "name": "[[parameters('subnet5NsgName')]",
+                                                                        "location": "[[parameters('vNetLocation')]",
+                                                                        "properties": {
+                                                                            "securityRules": [
+                                                                                {
+                                                                                    "name": "default-allow-3389",
+                                                                                    "properties": {
+                                                                                        "priority": 1000,
+                                                                                        "access": "Allow",
+                                                                                        "direction": "Inbound",
+                                                                                        "destinationPortRange": "3389",
+                                                                                        "protocol": "Tcp",
+                                                                                        "sourceAddressPrefix": "*",
+                                                                                        "sourcePortRange": "*",
+                                                                                        "destinationAddressPrefix": "*"
+                                                                                    }
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    },
+                                                                    {
+                                                                        "type": "Microsoft.Network/networkSecurityGroups",
+                                                                        "apiVersion": "2020-05-01",
+                                                                        "name": "[[parameters('subnet6NsgName')]",
+                                                                        "location": "[[parameters('vNetLocation')]",
+                                                                        "properties": {
+                                                                            "securityRules": [
+                                                                                {
+                                                                                    "name": "default-allow-3389",
+                                                                                    "properties": {
+                                                                                        "priority": 1000,
+                                                                                        "access": "Allow",
+                                                                                        "direction": "Inbound",
+                                                                                        "destinationPortRange": "3389",
+                                                                                        "protocol": "Tcp",
+                                                                                        "sourceAddressPrefix": "*",
+                                                                                        "sourcePortRange": "*",
+                                                                                        "destinationAddressPrefix": "*"
+                                                                                    }
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    }
+
+
+                                                                ]
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "Microsoft.Resources/deployments",
+                                                        "apiVersion": "2020-06-01",
+                                                        "name": "[[concat('es-lz-vnet-',substring(uniqueString(subscription().id),0,6))]",
+                                                        "dependsOn": [
+                                                            "[[concat('es-lz-vnet-',substring(uniqueString(subscription().id),0,6),'-rg')]"
+                                                        ],
+                                                        "properties": {
+                                                            "mode": "Incremental",
+                                                            "template": {
+                                                                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                                                                "contentVersion": "1.0.0.0",
+                                                                "parameters": {},
+                                                                "variables": {},
+                                                                "resources": [
+                                                                    {
+                                                                        "type": "Microsoft.Network/virtualNetworks",
+                                                                        "apiVersion": "2020-06-01",
+                                                                        "name": "[[parameters('vNetName')]",
+                                                                        "location": "[[parameters('vNetLocation')]",
+                                                                        "dependsOn": [],
+                                                                        "properties": {
+                                                                            "addressSpace": {
+                                                                                "addressPrefixes": [
+                                                                                    "[[parameters('vNetCidrRange')]"
+                                                                                ]
+                                                                            },
+                                                                            "subnets": [
+                                                                                {
+                                                                                    "name": "[[parameters('subnet1Name')]",
+                                                                                    "properties": {
+                                                                                        "addressPrefix": "[[parameters('subnet1CidrRange')]"
+
+
+                                                                                    }
+                                                                                },
+                                                                                {
+                                                                                    "name": "[[parameters('subnet2Name')]",
+                                                                                    "properties": {
+                                                                                        "addressPrefix": "[[parameters('subnet2CidrRange')]"
+
+
+                                                                                    }
+                                                                                },
+                                                                                {
+                                                                                    "name": "[[parameters('subnet3Name')]",
+                                                                                    "properties": {
+                                                                                        "addressPrefix": "[[parameters('subnet3CidrRange')]"
+
+
+                                                                                    }
+                                                                                },
+                                                                                  {
+                                                                                    "name": "[[parameters('subnet4Name')]",
+                                                                                    "properties": {
+                                                                                        "addressPrefix": "[[parameters('subnet4CidrRange')]"
+
+
+                                                                                    }
+                                                                                },
+                                                                                {
+                                                                                    "name": "[[parameters('subnet5Name')]",
+                                                                                    "properties": {
+                                                                                        "addressPrefix": "[[parameters('subnet5CidrRange')]"
+
+
+                                                                                    }
+                                                                                },
+                                                                                {
+                                                                                    "name": "[[parameters('subnet6Name')]",
+                                                                                    "properties": {
+                                                                                        "addressPrefix": "[[parameters('subnet6CidrRange')]"
+
+
+                                                                                    }
+                                                                                }
+
+
+                                                                            ]
+                                                                        }
+                                                                    },
+                                                                    {
+                                                                        "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+                                                                        "apiVersion": "2020-05-01",
+                                                                        "name": "[[concat(parameters('vNetName'), '/peerToHub')]",
+                                                                        "dependsOn": [
+                                                                            "[[parameters('vNetName')]"
+                                                                        ],
+                                                                        "properties": {
+                                                                            "remoteVirtualNetwork": {
+                                                                                "id": "[[parameters('hubResourceId')]"
+                                                                            },
+                                                                            "allowVirtualNetworkAccess": true,
+                                                                            "allowForwardedTraffic": true,
+                                                                            "allowGatewayTransit": true,
+                                                                            "useRemoteGateways": "[[parameters('vNetPeerUseRemoteGateway')]"
+                                                                        }
+                                                                    },
+                                                                    {
+                                                                        "type": "Microsoft.Resources/deployments",
+                                                                        "apiVersion": "2020-06-01",
+                                                                        "name": "[[concat('es-lz-hub-',substring(uniqueString(subscription().id),0,6),'-peering')]",
+                                                                        "subscriptionId": "[[split(parameters('hubResourceId'),'/')[2]]",
+                                                                        "resourceGroup": "[[split(parameters('hubResourceId'),'/')[4]]",
+                                                                        "dependsOn": [
+                                                                            "[[parameters('vNetName')]"
+                                                                        ],
+                                                                        "properties": {
+                                                                            "mode": "Incremental",
+                                                                            "expressionEvaluationOptions": {
+                                                                                "scope": "inner"
+                                                                            },
+                                                                            "template": {
+                                                                                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                                                                                "contentVersion": "1.0.0.0",
+                                                                                "parameters": {
+                                                                                    "remoteVirtualNetwork": {
+                                                                                        "Type": "string",
+                                                                                        "defaultValue": false
+                                                                                    },
+                                                                                    "hubName": {
+                                                                                        "Type": "string",
+                                                                                        "defaultValue": false
+                                                                                    }
+                                                                                },
+                                                                                "variables": {},
+                                                                                "resources": [
+                                                                                    {
+                                                                                        "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+                                                                                        "name": "[[[concat(parameters('hubName'),'/',last(split(parameters('remoteVirtualNetwork'),'/')))]",
+                                                                                        "apiVersion": "2020-05-01",
+                                                                                        "properties": {
+                                                                                            "allowVirtualNetworkAccess": true,
+                                                                                            "allowForwardedTraffic": true,
+                                                                                            "allowGatewayTransit": true,
+                                                                                            "useRemoteGateways": false,
+                                                                                            "remoteVirtualNetwork": {
+                                                                                                "id": "[[[parameters('remoteVirtualNetwork')]"
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                ],
+                                                                                "outputs": {}
+                                                                            },
+                                                                            "parameters": {
+                                                                                "remoteVirtualNetwork": {
+                                                                                    "value": "[[concat(subscription().id,'/resourceGroups/',parameters('vNetRgName'), '/providers/','Microsoft.Network/virtualNetworks/', parameters('vNetName'))]"
+                                                                                },
+                                                                                "hubName": {
+                                                                                    "value": "[[split(parameters('hubResourceId'),'/')[8]]"
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                ],
+                                                                "outputs": {}
+                                                            }
+                                                        },
+                                                        "resourceGroup": "[[parameters('vNetRgName')]"
+                                                    }
+                                                ],
+                                                "outputs": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "name": "Deploy-VNET-HubSpoke-Online"
                 },
                 {
                     "properties": {

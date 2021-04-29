@@ -1,0 +1,147 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/tenantDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "topLevelManagementGroupPrefix": {
+            "type": "string",
+            "maxLength": 10,
+            "metadata": {
+                "description": "Provide a prefix (max 10 characters, unique at tenant-scope) for the Management Group hierarchy and other resources created as part of Enterprise-scale."
+            }
+        },
+        "enableVnetDeploymentForOnline": {
+            "type": "string",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ],
+            "defaultValue": "Yes",
+            "metadata": {
+                "description": "Select whether policy to enable VM backup should be assigned or not."
+            }
+        }
+    },
+    "variables": {
+        "scope": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '-online')]",
+        "policyDefinitions": {
+            "deployIdentityVnet": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policyDefinitions/Deploy-VNET-HubSpoke-Online')]"
+        },
+        "policyAssignmentNames": {
+            "deployOnlineVnet": "Deploy-Online-Vnet"
+        },
+        "rbacOwner": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
+        "roleAssignmentNames": {
+            "deployOnlineVnet": "[guid(concat(parameters('toplevelManagementGroupPrefix'), 'online', variables('policyAssignmentNames').deployOnlineVnet))]"
+        }
+        //"blankTemplateEscaped": "{\"$schema\":\"https://schema.management.azure.com/schemas/2019-08-01/tenantDeploymentTemplate.json#\",\"contentVersion\":\"1.0.0.0\",\"parameters\":{},\"variables\":{},\"resources\":[],\"outputs\":{}}"
+    },
+    "resources": [
+         {
+            // Conditionally enable policy to enforce VM Backup
+            "condition": "[equals(parameters('enableVnetDeploymentForOnline'), 'Yes')]",
+            "type": "Microsoft.Authorization/policyAssignments",
+            "apiVersion": "2018-05-01",
+            "name": "[variables('policyAssignmentNames').deployOnlineVnet]",
+            "location": "[deployment().location]",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "description": "Deploy-Online-Vnet",
+                "displayName": "Deploy-Online-Vnet",
+                "policyDefinitionId": "[variables('policyDefinitions').deployOnlineVnet]",
+                "scope": "[variables('scope')]",
+                "parameters" : {
+                    "vNetRgName": {
+                        "value": "rg-online-ae"
+                    },
+                    "vNetName": {
+                        "value": "vnet-online-ae"
+                    },
+                    "vNetLocation": {
+                        "value": "australiasoutheast"
+                    },
+                    "vNetCidrRange": {
+                        "value": "10.122.0.0/19"
+                    },
+                    "subnet1Name": {
+                        "value": "sn-online-fe-ae"
+                    },
+                    "subnet1CidrRange": {
+                        "value": "10.122.24.0/23"
+                    },
+                    "subnet2Name": {
+                        "value": "sn-online-be-ae"
+                    },
+                    "subnet2CidrRange": {
+                        "value": "10.122.26.0/23"
+                    },
+                    "subnet3Name": {
+                        "value": "sn-online-data-ae"
+                    },
+                    "subnet3CidrRange": {
+                        "value": "10.122.28.0/24"
+                    },
+                     "subnet4Name": {
+                        "value": "sn-online-smi-ae"
+                    },
+                    "subnet4CidrRange": {
+                        "value": "10.122.30.0/24"
+                    },
+                    "subnet5Name": {
+                        "value": "sn-online-appgw-ae"
+                    },
+                    "subnet5CidrRange": {
+                        "value": "10.122.31.0/24"
+                    },
+                    "subnet6Name": {
+                        "value": "sn-online-ase-ae"
+                    },
+                    "subnet6CidrRange": {
+                        "value": "10.122.29.0/24"
+                    },
+                    "subnet1NsgName": {
+                        "value": "nsg-sn-online-fe-ae"
+                    },
+                    "subnet2NsgName": {
+                        "value": "nsg-sn-online-be-ae"
+                    },
+                    "subnet3NsgName": {
+                        "value": "nsg-sn-online-data-ae"
+                    },
+                     "subnet4NsgName": {
+                        "value": "nsg-sn-online-smi-ae"
+                    },
+                    "subnet5NsgName": {
+                        "value": "nsg-sn-online-appgw-ae"
+                    },
+                    "subnet6NsgName": {
+                        "value": "nsg-sn-online-ase-ae"
+                    },
+                    "hubResourceId": {
+                        "value": "/subscriptions/0e4d1e00-5638-4667-ba48-357115eb32a1/resourceGroups/rg-conn-ase/providers/Microsoft.Network/virtualNetworks/test-vnet-conn"
+                    }
+
+
+                }
+            }
+        },
+        {
+            // Conditionally create roleAssignment for VM Backup policy
+            "condition": "[equals(parameters('enableVnetDeploymentForOnline'), 'Yes')]",
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2019-04-01-preview",
+            "name": "[variables('roleAssignmentNames').deployOnlineVnet]",
+            "dependsOn": [
+                "[variables('policyAssignmentNames').deployOnlineVnet]"
+            ],
+            "properties": {
+                "principalType": "ServicePrincipal",
+                "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacOwner'))]",
+                "principalId": "[if(equals(parameters('enableVnetDeploymentForOnline'), 'Yes'), toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').deployOnlineVnet), '2018-05-01', 'Full' ).identity.principalId), 'na')]"
+            }
+        }
+             
+    ],
+    "outputs": {}
+}
