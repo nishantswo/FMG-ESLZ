@@ -100,24 +100,6 @@
                     "subnet6CidrRange": {
                         "value": "10.122.29.0/24"
                     },
-                    "subnet1NsgName": {
-                        "value": "nsg-sn-online-fe-ae"
-                    },
-                    "subnet2NsgName": {
-                        "value": "nsg-sn-online-be-ae"
-                    },
-                    "subnet3NsgName": {
-                        "value": "nsg-sn-online-data-ae"
-                    },
-                     "subnet4NsgName": {
-                        "value": "nsg-sn-online-smi-ae"
-                    },
-                    "subnet5NsgName": {
-                        "value": "nsg-sn-online-appgw-ae"
-                    },
-                    "subnet6NsgName": {
-                        "value": "nsg-sn-online-ase-ae"
-                    },
                     "hubResourceId": {
                         "value": "/subscriptions/0e4d1e00-5638-4667-ba48-357115eb32a1/resourceGroups/rg-conn-ase/providers/Microsoft.Network/virtualNetworks/test-vnet-conn"
                     }

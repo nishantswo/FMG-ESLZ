@@ -1533,48 +1533,7 @@
                                     "description": "CIDR Range for the subnet"
                                 }
                             },
-                            "subnet1NsgName": {
-                                "type": "String",
-                                "metadata": {
-                                    "displayName": "subnet1NsgName",
-                                    "description": "CIDR Range for the subnet"
-                                }
-                            },
-                            "subnet2NsgName": {
-                                "type": "String",
-                                "metadata": {
-                                    "displayName": "subnet2NsgName",
-                                    "description": "CIDR Range for the subnet"
-                                }
-                            },
-                            "subnet3NsgName": {
-                                "type": "String",
-                                "metadata": {
-                                    "displayName": "subnet3NsgName",
-                                    "description": "CIDR Range for the subnet"
-                                }
-                            },
-                            "subnet4NsgName": {
-                                "type": "String",
-                                "metadata": {
-                                    "displayName": "subnet4NsgName",
-                                    "description": "CIDR Range for the subnet"
-                                }
-                            },
-                            "subnet5NsgName": {
-                                "type": "String",
-                                "metadata": {
-                                    "displayName": "subnet5NsgName",
-                                    "description": "CIDR Range for the subnet"
-                                }
-                            },
-                            "subnet6NsgName": {
-                                "type": "String",
-                                "metadata": {
-                                    "displayName": "subnet6NsgName",
-                                    "description": "CIDR Range for the subnet"
-                                }
-                            },
+    
                             "hubResourceId": {
                                 "type": "String",
                                 "metadata": {
@@ -1672,24 +1631,7 @@
                                                 "subnet6CidrRange": {
                                                     "value": "[[parameters('subnet6CidrRange')]"
                                                 },
-                                                "subnet1NsgName": {
-                                                    "value": "[[parameters('subnet1NsgName')]"
-                                                },
-                                                "subnet2NsgName": {
-                                                    "value": "[[parameters('subnet2NsgName')]"
-                                                },
-                                                "subnet3NsgName": {
-                                                    "value": "[[parameters('subnet3NsgName')]"
-                                                },
-                                                "subnet4NsgName": {
-                                                    "value": "[[parameters('subnet4NsgName')]"
-                                                },
-                                                "subnet5NsgName": {
-                                                    "value": "[[parameters('subnet5NsgName')]"
-                                                },
-                                                "subnet6NsgName": {
-                                                    "value": "[[parameters('subnet6NsgName')]"
-                                                },
+                                               
                                                 "hubResourceId": {
                                                     "value": "[[parameters('hubResourceId')]"
                                                 }
@@ -1746,24 +1688,7 @@
                                                     "subnet6CidrRange": {
                                                         "type": "string"
                                                     },
-                                                    "subnet1NsgName": {
-                                                        "type": "string"
-                                                    },
-                                                    "subnet2NsgName": {
-                                                        "type": "string"
-                                                    },
-                                                    "subnet3NsgName": {
-                                                        "type": "string"
-                                                    },
-                                                    "subnet4NsgName": {
-                                                        "type": "string"
-                                                    },
-                                                    "subnet5NsgName": {
-                                                        "type": "string"
-                                                    },
-                                                    "subnet6NsgName": {
-                                                        "type": "string"
-                                                    },
+                                                   
                                                     "vNetPeerUseRemoteGateway": {
                                                         "type": "bool",
                                                         "defaultValue": false
@@ -1822,7 +1747,7 @@
                                                                     {
                                                                         "type": "Microsoft.Network/networkSecurityGroups",
                                                                         "apiVersion": "2020-05-01",
-                                                                        "name": "[[parameters('subnet1NsgName')]",
+                                                                        "name": "[[concat('nsg-', parameters('subnet1NsgName'))]",
                                                                         "location": "[[parameters('vNetLocation')]",
                                                                         "properties": {
                                                                             "securityRules": [
@@ -1845,7 +1770,7 @@
                                                                     {
                                                                         "type": "Microsoft.Network/networkSecurityGroups",
                                                                         "apiVersion": "2020-05-01",
-                                                                        "name": "[[parameters('subnet2NsgName')]",
+                                                                        "name": "[[concat('nsg-', parameters('subnet2NsgName'))]",
                                                                         "location": "[[parameters('vNetLocation')]",
                                                                         "properties": {
                                                                             "securityRules": [
@@ -1868,7 +1793,7 @@
                                                                     {
                                                                         "type": "Microsoft.Network/networkSecurityGroups",
                                                                         "apiVersion": "2020-05-01",
-                                                                        "name": "[[parameters('subnet3NsgName')]",
+                                                                        "name": "[[concat('nsg-', parameters('subnet3NsgName'))]",
                                                                         "location": "[[parameters('vNetLocation')]",
                                                                         "properties": {
                                                                             "securityRules": [
@@ -1891,7 +1816,7 @@
                                                                     {
                                                                         "type": "Microsoft.Network/networkSecurityGroups",
                                                                         "apiVersion": "2020-05-01",
-                                                                        "name": "[[parameters('subnet4NsgName')]",
+                                                                        "name": "[[concat('nsg-', parameters('subnet4NsgName'))]",
                                                                         "location": "[[parameters('vNetLocation')]",
                                                                         "properties": {
                                                                             "securityRules": [
@@ -1914,7 +1839,7 @@
                                                                     {
                                                                         "type": "Microsoft.Network/networkSecurityGroups",
                                                                         "apiVersion": "2020-05-01",
-                                                                        "name": "[[parameters('subnet5NsgName')]",
+                                                                        "name": "[[concat('nsg-', parameters('subnet5NsgName'))]",
                                                                         "location": "[[parameters('vNetLocation')]",
                                                                         "properties": {
                                                                             "securityRules": [
@@ -1937,7 +1862,7 @@
                                                                     {
                                                                         "type": "Microsoft.Network/networkSecurityGroups",
                                                                         "apiVersion": "2020-05-01",
-                                                                        "name": "[[parameters('subnet6NsgName')]",
+                                                                        "name": "[[concat('nsg-', parameters('subnet6NsgName'))]",
                                                                         "location": "[[parameters('vNetLocation')]",
                                                                         "properties": {
                                                                             "securityRules": [
