@@ -824,7 +824,6 @@
 		"azEnvPolicy": "[variables('azPolicyEnvMapping')[environment().resourceManager]]",
 		"deploymentUris": {
 			"managementGroups": "[uri(deployment().properties.templateLink.uri, 'auxiliary/mgmtGroups.json')]",
-
 			"dns": "[uri(deployment().properties.templateLink.uri, 'auxiliary/dns.json')]",
 			"policyAssignments": "[uri(deployment().properties.templateLink.uri, 'auxiliary/custompolicy.json')]",
 			"policyDefinitions": "[concat(uri(deployment().properties.templateLink.uri, variables('azEnvPolicy')))]",
