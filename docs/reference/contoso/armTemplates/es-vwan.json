@@ -861,7 +861,7 @@
 		"identityMoveSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-identity', '/', parameters('identitySubscriptionId'))]",
 		"noIdentitySubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-identity', '/', 'naid')]",
 		"deploymentNames": {
-			"mgmtGroupDeploymentName": "[take(concat('EntScale-Mgs', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
+			"mgmtGroupDeploymentName": "[take(concat('EntScale-Mgmt', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"resourceGroupDeploymentName": "[take(concat('EntScale-Rgs', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"identityNetworkDeploymentName": "[take(concat('EntScale-Idy-Network', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"dnsDeploymentName": "[take(concat('EntScale-Dns', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
