@@ -130,6 +130,7 @@
         }
     },
     "variables": {
+        "rgName": "[concat('rg', '-mgmt-', 'ae')]",
         "laResourceId": "[toLower(concat('/subscriptions/', parameters('managementSubscriptionId'), '/resourceGroups/', parameters('topLevelManagementGroupPrefix'), '-mgmt', '/providers/Microsoft.OperationalInsights/workspaces/', parameters('topLevelManagementGroupPrefix'), '-la-', parameters('managementSubscriptionId')))]",
         "solutions": {
             "security": {
@@ -176,10 +177,17 @@
     },
     "resources": [
         {
+            "type": "Microsoft.Resources/resourceGroups",
+            "apiVersion": "2019-10-01",
+            "location": "[deployment().location]",
+            "name": "[variables('rgName')]",
+            "properties": {}
+        },
+        {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2018-05-01",
             "name": "[take(concat('EntScale-', 'solutions-', guid(deployment().name)), 63)]",
-            "resourceGroup": "[concat(parameters('topLevelManagementGroupPrefix'), '-mgmt')]",
+            "resourceGroup": "[variables('rgName')]",
             "properties": {
                 "mode": "Incremental",
                 "template": {
@@ -357,7 +365,7 @@
                                 "promotionCode": "",
                                 "publisher": "Microsoft"
                             }
-                        }                                                       
+                        }
                     ]
                 }
             }

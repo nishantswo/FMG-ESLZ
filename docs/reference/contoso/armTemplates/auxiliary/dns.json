@@ -8,8 +8,23 @@
 				"description": "Provide a prefix (max 10 characters, unique at tenant-scope) for the Management Group hierarchy and other resources created as part of Enterprise-scale."
 			}
 		},
+		"connectivitySubscriptionId": {
+			"type": "string"
+		},
 		"identitySubscriptionId": {
 			"type": "string"
+		},
+		"onlineLzSubscriptionId": {
+			"type": "array"
+		},
+		"prodLzSubscriptionId": {
+			"type": "array"
+		},
+		"uatLzSubscriptionId": {
+			"type": "array"
+		},
+		"devLzSubscriptionId": {
+			"type": "array"
 		},
 		"privateDnsZoneName1": {
 			"type": "string"
@@ -40,7 +55,7 @@
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"name": "[concat('Ent-Scale', '-DNSZones')]",
-			"subscriptionId": "[parameters('identitySubscriptionId')]",
+			"subscriptionId": "[parameters('connectivitySubscriptionId')]",
 			"resourceGroup": "[variables('rgNameIdentity')]",
 			"properties": {
 				"mode": "Incremental",

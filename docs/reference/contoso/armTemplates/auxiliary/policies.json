@@ -1198,6 +1198,7 @@
                                                                         "apiVersion": "2020-05-01",
                                                                         "name": "[[parameters('subnet1NsgName')]",
                                                                         "location": "[[parameters('vNetLocation')]",
+                                                                        "resourceGroup": "[[parameters('vNetRgName')]",
                                                                         "properties": {
                                                                             "securityRules": [
                                                                                 {
@@ -1221,6 +1222,7 @@
                                                                         "apiVersion": "2020-05-01",
                                                                         "name": "[[parameters('subnet2NsgName')]",
                                                                         "location": "[[parameters('vNetLocation')]",
+                                                                        "resourceGroup": "[[parameters('vNetRgName')]",
                                                                         "properties": {
                                                                             "securityRules": [
                                                                                 {
@@ -1244,6 +1246,7 @@
                                                                         "apiVersion": "2020-05-01",
                                                                         "name": "[[parameters('subnet3NsgName')]",
                                                                         "location": "[[parameters('vNetLocation')]",
+                                                                        "resourceGroup": "[[parameters('vNetRgName')]",
                                                                         "properties": {
                                                                             "securityRules": [
                                                                                 {
@@ -1747,8 +1750,9 @@
                                                                     {
                                                                         "type": "Microsoft.Network/networkSecurityGroups",
                                                                         "apiVersion": "2020-05-01",
-                                                                        "name": "[[concat('nsg-', parameters('subnet1NsgName'))]",
+                                                                        "name": "[[concat('nsg-', parameters('subnet1Name'))]",
                                                                         "location": "[[parameters('vNetLocation')]",
+                                                                        "resourceGroup": "[[parameters('vNetRgName')]",
                                                                         "properties": {
                                                                             "securityRules": [
                                                                                 {
@@ -1770,8 +1774,9 @@
                                                                     {
                                                                         "type": "Microsoft.Network/networkSecurityGroups",
                                                                         "apiVersion": "2020-05-01",
-                                                                        "name": "[[concat('nsg-', parameters('subnet2NsgName'))]",
+                                                                        "name": "[[concat('nsg-', parameters('subnet2Name'))]",
                                                                         "location": "[[parameters('vNetLocation')]",
+                                                                        "resourceGroup": "[[parameters('vNetRgName')]",
                                                                         "properties": {
                                                                             "securityRules": [
                                                                                 {
@@ -1793,8 +1798,9 @@
                                                                     {
                                                                         "type": "Microsoft.Network/networkSecurityGroups",
                                                                         "apiVersion": "2020-05-01",
-                                                                        "name": "[[concat('nsg-', parameters('subnet3NsgName'))]",
+                                                                        "name": "[[concat('nsg-', parameters('subnet3Name'))]",
                                                                         "location": "[[parameters('vNetLocation')]",
+                                                                        "resourceGroup": "[[parameters('vNetRgName')]",
                                                                         "properties": {
                                                                             "securityRules": [
                                                                                 {
@@ -1816,8 +1822,9 @@
                                                                     {
                                                                         "type": "Microsoft.Network/networkSecurityGroups",
                                                                         "apiVersion": "2020-05-01",
-                                                                        "name": "[[concat('nsg-', parameters('subnet4NsgName'))]",
+                                                                        "name": "[[concat('nsg-', parameters('subnet4Name'))]",
                                                                         "location": "[[parameters('vNetLocation')]",
+                                                                        "resourceGroup": "[[parameters('vNetRgName')]",
                                                                         "properties": {
                                                                             "securityRules": [
                                                                                 {
@@ -1839,8 +1846,9 @@
                                                                     {
                                                                         "type": "Microsoft.Network/networkSecurityGroups",
                                                                         "apiVersion": "2020-05-01",
-                                                                        "name": "[[concat('nsg-', parameters('subnet5NsgName'))]",
+                                                                        "name": "[[concat('nsg-', parameters('subnet5Name'))]",
                                                                         "location": "[[parameters('vNetLocation')]",
+                                                                        "resourceGroup": "[[parameters('vNetRgName')]",
                                                                         "properties": {
                                                                             "securityRules": [
                                                                                 {
@@ -1862,8 +1870,9 @@
                                                                     {
                                                                         "type": "Microsoft.Network/networkSecurityGroups",
                                                                         "apiVersion": "2020-05-01",
-                                                                        "name": "[[concat('nsg-', parameters('subnet6NsgName'))]",
+                                                                        "name": "[[concat('nsg-', parameters('subnet6Name'))]",
                                                                         "location": "[[parameters('vNetLocation')]",
+                                                                        "resourceGroup": "[[parameters('vNetRgName')]",
                                                                         "properties": {
                                                                             "securityRules": [
                                                                                 {

@@ -1422,46 +1422,6 @@
 			}
 		},
 		{
-
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2019-10-01",
-			"name": "[variables('deploymentNames').dnsDeploymentName]",
-			"location": "[deployment().location]",
-			"dependsOn": [
-				"[variables('deploymentNames').connectivityDeploymentName]"
-			],
-			"properties": {
-				"mode": "Incremental",
-				"templateLink": {
-					"contentVersion": "1.0.0.0",
-					"uri": "[variables('deploymentUris').dns]"
-				},
-				"parameters": {
-					"topLevelManagementGroupPrefix": {
-						"value": "[parameters('enterpriseScaleCompanyPrefix')]"
-					},
-					"identitySubscriptionId": {
-						"value": "[parameters('identitySubscriptionId')]"
-					},
-					"primaryregioncode": {
-						"value": "[parameters('primaryregioncode')]"
-					},
-					"secondaryregioncode": {
-						"value": "[parameters('secondaryregioncode')]"
-					},
-					"identityVnetName": {
-						"value": "[parameters('identityVnetName')]"
-					},
-					"privateDnsZoneName1": {
-						"value": "[parameters('privateDnsZoneName1')]"
-					},
-					"app": {
-						"value": "[parameters('app')]"
-					}
-				}
-			}
-		},
-		{
 			"condition": "[and(equals(parameters('enableAzOps'), 'Yes'), not(empty(parameters('principalSecret'))))]",
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2020-06-01",
