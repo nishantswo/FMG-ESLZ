@@ -1,0 +1,320 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "enterpriseScaleCompanyPrefix": {
+            "value": "fmgd"
+        },
+        "tenantId": {
+            "value": "e47e6989-0297-4281-8a6a-87f8f72c68e3"
+        },
+        "objectId": {
+            "value": "1e6e96c6-9313-4136-9321-8cfbf5cec36e"
+        },
+        "privateDnsZoneName1": {
+            "value": "privatelink.database.windows.net"
+        },
+        "privateDnsZoneName2": {
+            "value": "privatelink.blob.core.windows.net"
+        },
+        "privateDnsZoneName3": {
+            "value": "privatelink.table.core.windows.net"
+        },
+        "privateDnsZoneName4": {
+            "value": "privatelink.queue.core.windows.net"
+        },
+        "privateDnsZoneName5": {
+            "value": "privatelink.file.core.windows.net"
+        },
+        "privateDnsZoneName6": {
+            "value": "privatelink.vaultcore.azure.net"
+        },
+        "keysPermissions": {
+            "value": [
+            	"list"
+            ]
+        },
+        "secretsPermissions": {
+            "value": [
+            	"list"
+            ]
+        },
+        "managementSubscriptionId": {
+            "value": "7d8bccc8-ddf0-40fb-acf8-61829c21db71"
+        },
+        "connectivitySubscriptionId": {
+            "value": "0e4d1e00-5638-4667-ba48-357115eb32a1"
+        },
+        "identitySubscriptionId": {
+            "value": "ccf951dc-2860-42f1-9e1a-5adf65d9220f"
+        },
+        "DNSServerAddress": {
+            "value": "10.122.122.135"
+        },
+        "onlineVnetName": {
+            "value": "online-vnet"
+        },
+        "prodVnetName": {
+            "value": "prod-vnet"
+        },
+        "uatVnetName": {
+            "value": "uat-vnet"
+        },
+        "devVnetName": {
+            "value": "dev-vnet"
+        },
+        "identitySubnetDevName": {
+            "value": "sn-dev-idy-ae"
+        },
+        "identitySubnetUatName": {
+            "value": "sn-uat-idy-ae"
+        },
+        "identitySubnetProdName": {
+            "value": "sn-prod-idy-ae"
+        },
+        "identitySubnetDevPrefix": {
+            "value": "10.122.122.192/27"
+        },
+        "identitySubnetUatPrefix": {
+            "value": "10.122.122.160/27"
+        },
+        "identitySubnetProdPrefix": {
+            "value": "10.122.122.128/27"
+        },
+        "devIdentityNsgName": {
+            "value": "nsg-sn-dev-idy-ae"
+        },
+        "uatIdentityNsgName": {
+            "value": "nsg-sn-uat-idy-ae"
+        },
+        "prodIdentityNsgName": {
+            "value": "nsg-sn-prod-idy-ae"
+        },
+        "identityVnetName": {
+            "value": "vnet-identity-ae"
+        },
+        "identityVnetPrefix": {
+            "value": "10.122.122.0/24"
+        },
+        "onlineVnetPrefix": {
+            "value": "10.122.0.0/19"
+        },
+        "prodVnetPrefix": {
+            "value": "10.122.32.0/19"
+        },
+        "uatVnetPrefix": {
+            "value": "10.122.80.0/20"
+        },
+        "devVnetPrefix": {
+            "value": "10.122.64.0/20"
+        },
+        "denySubnetWithoutNsgForIdentity": {
+            "value": "No"
+        },
+        "denyRdpForIdentity": {
+            "value": "No"
+        },
+        "denyPipForIdentity": {
+            "value": "No"
+        },
+        "enableVmBackupForIdentity": {
+            "value": "No"
+        },
+        "onlineLzSubscriptionId": {
+            "value": [ "00427000-3587-4a3b-9817-803373c88774" ]
+        },
+        "prodLzSubscriptionId": {
+            "value": [ "4dd899d2-4f99-485e-b1bc-7d44c2a2e993" ]
+        },
+        "uatLzSubscriptionId": {
+            "value": [ "146cdf8a-a785-468c-8e4c-ee958acad65b" ]
+        },
+        "devLzSubscriptionId": {
+            "value": [ "6d73017e-c20f-4fe1-9f54-0f4a9d992e66" ]
+        },
+        "sbxLzSubscriptionId": {
+            "value": [ "47d60737-c43c-48d2-bdb5-8b851d533075" ]
+        },
+        "automationAccountName": {
+            "value": "fmg-automation-account"
+        },
+        "keyVaultName": {
+            "value": "fmgd-kvault"
+        },
+        "enabledForDeployment": {
+            "value": true
+        },
+        "enabledForDiskEncryption": {
+            "value": true
+        },
+        "enabledForTemplateDeployment": {
+            "value": true
+        },
+        "skuName": {
+            "value": "Standard"
+        },
+        "adminUsername": {
+            "value": "azureuser"
+        },
+        "adminPassword": {
+            "value": "Wind0wsazure"
+        },
+        "domainName": {
+            "value": "test.com"
+        },
+        "_artifactsLocationSasToken": {
+            "value": ""
+        },
+        "vmSize": {
+            "value": "Standard_D2s_v3"
+        },
+        "virtualMachineName": {
+            "value": "adVM2"
+        },
+        "networkInterfaceName": {
+            "value": "adNic2"
+        },
+        "adProdAvailabilitySetName": {
+            "value": "avail-prod-identity-ase"
+        },
+        "adUatAvailabilitySetName": {
+            "value": "avail-uat-identity-ase"
+        },
+        "adDevAvailabilitySetName": {
+            "value": "avail-dev-identity-ase"
+        },
+        "enableLogAnalytics": {
+            "value": "No"
+        },
+        "retentionInDays": {
+            "value": ""
+        },
+        "enableAsc": {
+            "value": "No"
+        },
+        "enableAksPolicy": {
+            "value": "No"
+        },
+        "enableAscForServers": {
+            "value": "Free"
+        },
+        "enableAscForAppServices": {
+            "value": "Free"
+        },
+        "enableAscForStorage": {
+            "value": "Free"
+        },
+        "enableAscForSql": {
+            "value": "Free"
+        },
+        "enableAscForKeyVault": {
+            "value": "Free"
+        },
+        "enableAscForArm": {
+            "value": "Free"
+        },
+        "enableAscForDns": {
+            "value": "Free"
+        },
+        "enableAscForKubernetes": {
+            "value": "Free"
+        },
+        "enableAscForRegistries": {
+            "value": "Free"
+        },
+        "denyAksPrivileged": {
+            "value": "No"
+        },
+        "denyAksPrivilegedEscalation": {
+            "value": "No"
+        },
+        "denyHttpIngressForAks": {
+            "value": "No"
+        },
+        "enableArcMonitoring": {
+            "value": "No"
+        },
+        "enableVmMonitoring": {
+            "value": "No"
+        },
+        "enableVmssMonitoring": {
+            "value": "No"
+        },
+        "enableSecuritySolution": {
+            "value": "No"
+        },
+        "enableAgentHealth": {
+            "value": "No"
+        },
+        "enableChangeTracking": {
+            "value": "No"
+        },
+        "enableUpdateMgmt": {
+            "value": "Yes"
+        },
+        "enableActivityLog": {
+            "value": "Yes"
+        },
+        "enableAntiMalware": {
+            "value": "Yes"
+        },
+        "enableVmInsights": {
+            "value": "Yes"
+        },
+        "enableServiceMap": {
+            "value": "Yes"
+        },
+        "enableSqlAssessment": {
+            "value": "Yes"
+        },
+        "enableSqlAudit": {
+            "value": "No"
+        },
+        "enableSqlEncryption": {
+            "value": "No"
+        },
+        "enableVmBackup": {
+            "value": "No"
+        },
+        "denyRdp": {
+            "value": "No"
+        },
+        "enableStorageHttps": {
+            "value": "No"
+        },
+        "denyIpForwarding": {
+            "value": "No"
+        },
+        "denySubnetWithoutNsg": {
+            "value": "No"
+        },
+        "addressPrefix": {
+            "value": ""
+        },
+        "enableVpnGw": {
+            "value": "No"
+        },
+        "enableErGw": {
+            "value": "No"
+        },
+        "primaryregioncode": {
+            "value": "ase"
+        },
+        "secondaryregioncode": {
+            "value": "ae"
+        },
+        "app": {
+            "value": "sharepoint"
+        },
+        "location": {
+            "value": "australiasoutheast"
+        },
+        "enableVwan": {
+            "value": "No"
+        },
+        "enableAzFw": {
+            "value": "No"
+        }
+       
+    }
+}
