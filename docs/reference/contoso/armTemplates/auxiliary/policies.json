@@ -1192,7 +1192,7 @@
                                                         "type": "Microsoft.Resources/deployments",
                                                         "apiVersion": "2019-10-01",
                                                         "name": "[[concat('es-lz-vnet-',substring(uniqueString(subscription().id),0,6),'-nsg')]",
-                                                        "subscriptionId": "ccf951dc-2860-42f1-9e1a-5adf65d9220f",
+                                                        "subscriptionId": "[[parameters('identitySubscriptionId')]",
                                                         "resourceGroup": "[[parameters('vNetRgName')]",
                                                         "properties": {
                                                             "mode": "Incremental",
