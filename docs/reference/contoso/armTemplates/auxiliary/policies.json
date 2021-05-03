@@ -1030,8 +1030,8 @@
                                     "type": "Microsoft.Network/virtualNetworks",
                                     "name": "[[parameters('vNetName')]",
                                     "deploymentScope": "Subscription",
-                                    "existenceScope": "ResourceGroup",
-                                    "ResourceGroupName": "[[parameters('vNetRgName')]",
+                                    "existenceScope": "Subscription",
+        
                                     "roleDefinitionIds": [
                                         "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
                                     ],
@@ -1162,13 +1162,7 @@
                                                                 "parameters": {},
                                                                 "variables": {},
                                                                 "resources": [
-                                                                    {
-                                                                        "type": "Microsoft.Resources/resourceGroups",
-                                                                        "apiVersion": "2020-06-01",
-                                                                        "name": "[[parameters('vNetRgName')]",
-                                                                        "location": "[[parameters('vNetLocation')]",
-                                                                        "properties": {}
-                                                                    },
+                                                            
                                                                     {
                                                                         "type": "Microsoft.Resources/resourceGroups",
                                                                         "apiVersion": "2020-06-01",

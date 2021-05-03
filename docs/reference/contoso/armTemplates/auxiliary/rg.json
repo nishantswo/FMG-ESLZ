@@ -14,9 +14,6 @@
 		"managementSubscriptionId": {
 			"type": "string"
 		},
-		"connectivitySubscriptionId": {
-			"type": "string"
-		},
 		"onlineLzSubscriptionId": {
 			"type": "array"
 		},
@@ -44,7 +41,7 @@
 	},
 	"variables": {
 		"rgNameConnectivity": "[concat('rg', '-conn-', parameters('primaryregioncode'))]",
-		"rgNameIdentity": "[concat('rg', '-idy-', parameters('primaryregioncode'))]",
+		"rgNameIdentity": "[concat('rg', '-idy-', 'ae')]",
 		"rgNameManagement": "[concat('rg', '-mgmt-', parameters('primaryregioncode'))]",
 		"rgNamecldshellStgpri": "[concat('rg', '-cldshellStg-', parameters('primaryregioncode'))]",
 		"rgNamecldshellStgsec": "[concat('rg', '-cldshellStg-', parameters('secondaryregioncode'))]",
