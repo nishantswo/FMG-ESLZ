@@ -777,42 +777,6 @@
 				"No"
 			],
 			"defaultValue": "No"
-		},
-		"paToken": {
-			"type": "securestring",
-			"defaultValue": ""
-		},
-		"principalId": {
-			"type": "array",
-			"defaultValue": []
-		},
-		"appId": {
-			"type": "string",
-			"defaultValue": ""
-		},
-		"principalSecret": {
-			"type": "securestring",
-			"defaultValue": ""
-		},
-		"gitHubUserNameOrOrg": {
-			"type": "string",
-			"defaultValue": ""
-		},
-		"repositoryName": {
-			"type": "string",
-			"defaultValue": ""
-		},
-		"enableAzOps": {
-			"type": "string",
-			"allowedValues": [
-				"Yes",
-				"No"
-			]
-		},
-		"subscriptionId": {
-			"type": "string",
-			"defaultValue": "",
-			"maxLength": 36
 		}
 	},
 	"variables": {
