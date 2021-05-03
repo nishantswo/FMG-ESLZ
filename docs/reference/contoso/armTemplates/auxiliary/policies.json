@@ -1271,7 +1271,7 @@
 																					"properties": {
 																						"addressPrefix": "[[parameters('subnet1CidrRange')]",
 																						"networkSecurityGroup": {
-																							"id": "[concat('/subscriptions/', [parameters('identitySubscriptionId'), '/resourceGroups/', [parameters('vNetRgName'), '/providers/Microsoft.Network/networkSecurityGroups/', [parameters('subnet1NsgName'))]"
+																							"id": "[concat('/subscriptions/', [[parameters('identitySubscriptionId')], '/resourceGroups/', [[parameters('vNetRgName')], '/providers/Microsoft.Network/networkSecurityGroups/', [[parameters('subnet1NsgName')])]"
 																						}
 																					}
 																				},
