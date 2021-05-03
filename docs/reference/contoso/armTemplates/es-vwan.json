@@ -1420,58 +1420,6 @@
 					}
 				}
 			}
-		},
-		{
-			"condition": "[and(equals(parameters('enableAzOps'), 'Yes'), not(empty(parameters('principalSecret'))))]",
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2020-06-01",
-			"scope": "[concat('Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'))]",
-			"name": "[variables('deploymentNames').azOpsDeploymentName]",
-			"location": "[deployment().location]",
-			"dependsOn": [
-				"[variables('deploymentNames').lzDeploymentName]",
-				"[variables('deploymentNames').diagAndSecDeploymentName]",
-				"[variables('deploymentNames').mgmtGroupDeploymentName]",
-				"[variables('deploymentNames').monitoringDeploymentName]",
-				"[variables('deploymentNames').monitoringSolutionsDeploymentName]",
-				"[variables('deploymentNames').policyDeploymentName]",
-				"[variables('deploymentNames').connectivityDeploymentName]",
-				"[variables('deploymentNames').identityDeploymentName]",
-				"policyCompletion"
-			],
-			"properties": {
-				"mode": "Incremental",
-				"templateLink": {
-					"contentVersion": "1.0.0.0",
-					"uri": "[variables('deploymentUris').azOps]"
-				},
-				"parameters": {
-					"paToken": {
-						"value": "[parameters('paToken')]"
-					},
-					"principalId": {
-						"value": "[parameters('principalId')]"
-					},
-					"principalSecret": {
-						"value": "[parameters('principalSecret')]"
-					},
-					"gitHubUserNameOrOrg": {
-						"value": "[parameters('gitHubUserNameOrOrg')]"
-					},
-					"topLevelManagementGroupPrefix": {
-						"value": "[parameters('enterpriseScaleCompanyPrefix')]"
-					},
-					"subscriptionId": {
-						"value": "[parameters('subscriptionId')]"
-					},
-					"appId": {
-						"value": "[parameters('appId')]"
-					},
-					"repositoryName": {
-						"value": "[parameters('repositoryName')]"
-					}
-				}
-			}
 		}
 	],
 	"outputs": {
