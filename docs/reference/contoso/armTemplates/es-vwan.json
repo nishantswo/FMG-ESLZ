@@ -788,8 +788,7 @@
 		"azEnvPolicy": "[variables('azPolicyEnvMapping')[environment().resourceManager]]",
 		"deploymentUris": {
 			"managementGroups": "[uri(deployment().properties.templateLink.uri, 'auxiliary/mgmtGroups.json')]",
-			"dns": "[uri(deployment().properties.templateLink.uri, 'auxiliary/dns.json')]",
-			"policyAssignments": "[uri(deployment().properties.templateLink.uri, 'auxiliary/custompolicy.json')]",
+			"resourceGroups": "[uri(deployment().properties.templateLink.uri, 'auxiliary/rg.json')]",
 			"policyDefinitions": "[concat(uri(deployment().properties.templateLink.uri, variables('azEnvPolicy')))]",
 			"monitoring": "[uri(deployment().properties.templateLink.uri, 'auxiliary/logAnalytics.json')]",
 			"monitoringSolutions": "[uri(deployment().properties.templateLink.uri, 'auxiliary/logAnalyticsSolutions.json')]",
@@ -797,7 +796,6 @@
 			"diagnosticsAndSecurity": "[uri(deployment().properties.templateLink.uri, 'auxiliary/diagnosticsAndSecurity.json')]",
 			"landingZone": "[uri(deployment().properties.templateLink.uri, 'auxiliary/lz.json')]",
 			"identity": "[uri(deployment().properties.templateLink.uri, 'auxiliary/identity.json')]",
-			"online": "[uri(deployment().properties.templateLink.uri, 'auxiliary/online.json')]",
 			"azOps": "[uri(deployment().properties.templateLink.uri, 'auxiliary/azOpsSetup.json')]",
 			"adps": "[uri(deployment().properties.templateLink.uri, 'auxiliary/CreateADPDC.ps1')]",
 			"adzip": "[uri(deployment().properties.templateLink.uri, 'auxiliary/CreateADPDC.zip')]"
@@ -815,20 +813,17 @@
 		"moveSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-management', '/', parameters('managementSubscriptionId'))]",
 		"noSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-management', '/', 'na')]",
 		"noOnlineLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-online', '/', 'nalz')]",
-		"noProdLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-corp', '/', 'nalz')]",
-		"noUatLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-corp', '/', 'nalz')]",
-		"noDevLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-corp', '/', 'nalz')]",
+		"noProdLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-prod', '/', 'nalz')]",
+		"noUatLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-uat', '/', 'nalz')]",
+		"noDevLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-dev', '/', 'nalz')]",
 		"noSbxLzSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-sandboxes', '/', 'nalz')]",
 		"connectivityMoveSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-connectivity', '/', parameters('connectivitySubscriptionId'))]",
 		"noConnectivitySubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-connectivity', '/', 'naconn')]",
 		"identityMoveSubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-identity', '/', parameters('identitySubscriptionId'))]",
 		"noIdentitySubscription": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-identity', '/', 'naid')]",
 		"deploymentNames": {
-			"mgmtGroupDeploymentName": "[take(concat('EntScale-Mgmt', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
+			"mgmtGroupDeploymentName": "[take(concat('EntScale-Mgs', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"resourceGroupDeploymentName": "[take(concat('EntScale-Rgs', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
-			"identityNetworkDeploymentName": "[take(concat('EntScale-Idy-Network', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
-			"dnsDeploymentName": "[take(concat('EntScale-Dns', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
-			"policyAssignmentName": "[take(concat('EntScale-custpolicy', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"policyDeploymentName": "[take(concat('EntScale-Policy', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"monitoringDeploymentName": "[take(concat('EntScale-Monitoring', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"monitoringSolutionsDeploymentName": "[take(concat('EntScale-Solutions', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
@@ -836,7 +831,6 @@
 			"connectivityDeploymentName": "[take(concat('EntScale-connec', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"lzDeploymentName": "[take(concat('EntScale-LZ', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"identityDeploymentName": "[take(concat('EntScale-ID', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
-			"onlineDeploymentName": "[take(concat('EntScale-Online', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"azOpsDeploymentName": "[take(concat('EntScale-AzOps', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]"
 		}
 	},
@@ -1084,6 +1078,85 @@
 					"enableSqlAssessment": {
 						"value": "[parameters('enableSqlAssessment')]"
 					}
+				}
+			}
+		},
+		{
+
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"name": "[variables('deploymentNames').resourceGroupDeploymentName]",
+			"location": "[deployment().location]",
+			"properties": {
+				"mode": "Incremental",
+				"templateLink": {
+					"contentVersion": "1.0.0.0",
+					"uri": "[variables('deploymentUris').resourceGroups]"
+				},
+				"parameters": {
+					"topLevelManagementGroupPrefix": {
+						"value": "[parameters('enterpriseScaleCompanyPrefix')]"
+					},
+					"managementSubscriptionId": {
+						"value": "[parameters('managementSubscriptionId')]"
+					},
+					"onlineLzSubscriptionId": {
+						"value": "[parameters('onlineLzSubscriptionId')]"
+					},
+					"prodLzSubscriptionId": {
+						"value": "[parameters('prodLzSubscriptionId')]"
+					},
+					"uatLzSubscriptionId": {
+						"value": "[parameters('uatLzSubscriptionId')]"
+					},
+					"devLzSubscriptionId": {
+						"value": "[parameters('devLzSubscriptionId')]"
+					},
+					"identitySubscriptionId": {
+						"value": "[parameters('identitySubscriptionId')]"
+					},
+					"sbxLzSubscriptionId": {
+						"value": "[parameters('sbxLzSubscriptionId')]"
+					},
+					"primaryregioncode": {
+						"value": "[parameters('primaryregioncode')]"
+					},
+					"secondaryregioncode": {
+						"value": "[parameters('secondaryregioncode')]"
+					},
+					"app": {
+						"value": "[parameters('app')]"
+					}
+				},
+				"variables": {
+					"rgNameIdentity": {
+						"value": "[variables('rgNameIdentity')]"
+					},
+					"rgNameManagement": {
+						"value": "[variables('rgNameManagement')]"
+					},
+					"rgNamecldshellStgpri": {
+						"value": "[variables('rgNamecldshellStgpri')]"
+					},
+					"rgNamecldshellStgsec": {
+						"value": "[variables('rgNamecldshellStgsec')]"
+					},
+					"rgNameOnline": {
+						"value": "[variables('rgNameOnline')]"
+					},
+					"rgNameProd": {
+						"value": "[variables('rgNameProd')]"
+					},
+					"rgNameUat": {
+						"value": "[variables('rgNameUat')]"
+					},
+					"rgNameDev": {
+						"value": "[variables('rgNameDev')]"
+					},
+					"rgNamesbx": {
+						"value": "[variables('rgNamesbx')]"
+					}
+	
 				}
 			}
 		},
