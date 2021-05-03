@@ -89,7 +89,7 @@
         //"blankTemplateEscaped": "{\"$schema\":\"https://schema.management.azure.com/schemas/2019-08-01/tenantDeploymentTemplate.json#\",\"contentVersion\":\"1.0.0.0\",\"parameters\":{},\"variables\":{},\"resources\":[],\"outputs\":{}}"
     },
     "resources": [
-         {
+        {
             // Conditionally enable policy to enforce VM Backup
             "condition": "[equals(parameters('enableVnetDeploymentForIdentity'), 'Yes')]",
             "type": "Microsoft.Authorization/policyAssignments",
@@ -104,7 +104,7 @@
                 "displayName": "Deploy-Identity-Vnet",
                 "policyDefinitionId": "[variables('policyDefinitions').deployIdentityVnet]",
                 "scope": "[variables('scope')]",
-                "parameters" : {
+                "parameters": {
                     "vNetRgName": {
                         "value": "rg-idy-ae"
                     },
@@ -143,6 +143,9 @@
                     },
                     "subnet3NsgName": {
                         "value": "nsg-sn-dev-idy-ae"
+                    },
+                    "identitySubscriptionId": {
+                        "value": "ccf951dc-2860-42f1-9e1a-5adf65d9220f"
                     },
                     "hubResourceId": {
                         "value": "/subscriptions/0e4d1e00-5638-4667-ba48-357115eb32a1/resourceGroups/rg-conn-ase/providers/Microsoft.Network/virtualNetworks/test-vnet-conn"
@@ -200,7 +203,7 @@
                 "principalId": "[if(equals(parameters('enableVmBackupForIdentity'), 'Yes'), toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').deployVmBackup), '2018-05-01', 'Full' ).identity.principalId), 'na')]"
             }
         },
-        
+
         {
             // Conditionally assign policy to prevent public IP addresses
             "condition": "[equals(parameters('denyPipForIdentity'), 'Yes')]",
@@ -239,7 +242,7 @@
                 "policyDefinitionId": "[variables('policyDefinitions').denySubnetWithoutNsg]",
                 "scope": "[variables('scope')]"
             }
-        }        
+        }
     ],
     "outputs": {}
 }
