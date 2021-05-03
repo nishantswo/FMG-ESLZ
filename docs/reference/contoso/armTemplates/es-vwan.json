@@ -796,6 +796,8 @@
 			"diagnosticsAndSecurity": "[uri(deployment().properties.templateLink.uri, 'auxiliary/diagnosticsAndSecurity.json')]",
 			"landingZone": "[uri(deployment().properties.templateLink.uri, 'auxiliary/lz.json')]",
 			"identity": "[uri(deployment().properties.templateLink.uri, 'auxiliary/identity.json')]",
+			"online": "[uri(deployment().properties.templateLink.uri, 'auxiliary/online.json')]",
+
 			"azOps": "[uri(deployment().properties.templateLink.uri, 'auxiliary/azOpsSetup.json')]",
 			"adps": "[uri(deployment().properties.templateLink.uri, 'auxiliary/CreateADPDC.ps1')]",
 			"adzip": "[uri(deployment().properties.templateLink.uri, 'auxiliary/CreateADPDC.zip')]"
@@ -831,6 +833,8 @@
 			"connectivityDeploymentName": "[take(concat('EntScale-connec', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"lzDeploymentName": "[take(concat('EntScale-LZ', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
 			"identityDeploymentName": "[take(concat('EntScale-ID', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
+						"onlineDeploymentName": "[take(concat('EntScale-Online', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]",
+
 			"azOpsDeploymentName": "[take(concat('EntScale-AzOps', '-', deployment().location, guid(parameters('enterpriseScaleCompanyPrefix'))), 64)]"
 		}
 	},
