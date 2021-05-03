@@ -982,6 +982,14 @@
 									"description": "CIDR Range for the subnet"
 								}
 							},
+                            "subnet1NsgNameId": {
+								"type": "String",
+								"metadata": {
+									"displayName": "subnet1NsgNameId",
+									"description": "Resource ID for the HUB vNet"
+								}
+							},
+                            
 							"hubResourceId": {
 								"type": "String",
 								"metadata": {
@@ -1070,6 +1078,9 @@
 												"identitySubscriptionId": {
 													"value": "[[parameters('identitySubscriptionId')]"
 												},
+                                                 "subnet1NsgNameId": {
+													"value": "[[parameters('subnet1NsgNameId')]"
+													},
 												"hubResourceId": {
 													"value": "[[parameters('hubResourceId')]"
 												}
@@ -1122,6 +1133,9 @@
 														"defaultValue": false
 													},
 													"identitySubscriptionId": {
+														"type": "string"
+													},
+                                                    "subnet1NsgNameId": {
 														"type": "string"
 													},
 													"hubResourceId": {
@@ -1271,8 +1285,9 @@
 																					"properties": {
 																						"addressPrefix": "[[parameters('subnet1CidrRange')]",
 																						"networkSecurityGroup": {
-																							"id": "[concat('/subscriptions/', [[parameters('identitySubscriptionId')], '/resourceGroups/', [[parameters('vNetRgName')], '/providers/Microsoft.Network/networkSecurityGroups/', [[parameters('subnet1NsgName')])]"
+																							"id": "[[parameters('subnet1NsgNameId')]"
 																						}
+                                                                                        
 																					}
 																				},
 																				{

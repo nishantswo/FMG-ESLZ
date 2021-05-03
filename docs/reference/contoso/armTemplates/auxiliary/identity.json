@@ -147,6 +147,15 @@
                     "identitySubscriptionId": {
                         "value": "ccf951dc-2860-42f1-9e1a-5adf65d9220f"
                     },
+                    "subnet1NsgNameId": {
+                        "value": "/subscriptions/ccf951dc-2860-42f1-9e1a-5adf65d9220f/resourceGroups/rg-idy-ae/providers/Microsoft.Network/networkSecurityGroups/nsg-sn-prod-idy-ae"
+                    },
+                    "subnet2NsgNameId": {
+                        "value": "/subscriptions/ccf951dc-2860-42f1-9e1a-5adf65d9220f/resourceGroups/rg-idy-ae/providers/Microsoft.Network/networkSecurityGroups/nsg-sn-uat-idy-ae"
+                    },
+                    "subnet3NsgNameId": {
+                        "value": "/subscriptions/ccf951dc-2860-42f1-9e1a-5adf65d9220f/resourceGroups/rg-idy-ae/providers/Microsoft.Network/networkSecurityGroups/nsg-sn-dev-idy-ae"
+                    },
                     "hubResourceId": {
                         "value": "/subscriptions/0e4d1e00-5638-4667-ba48-357115eb32a1/resourceGroups/rg-conn-ase/providers/Microsoft.Network/virtualNetworks/test-vnet-conn"
                     }
