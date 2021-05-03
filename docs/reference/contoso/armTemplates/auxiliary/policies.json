@@ -1018,7 +1018,20 @@
                                     "description": "Resource ID for the HUB vNet"
                                 }
                             },
-
+                            "subnet2NsgNameId": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnet2NsgNameId",
+                                    "description": "Resource ID for the HUB vNet"
+                                }
+                            },
+                            "subnet3NsgNameId": {
+                                "type": "String",
+                                "metadata": {
+                                    "displayName": "subnet3NsgNameId",
+                                    "description": "Resource ID for the HUB vNet"
+                                }
+                            },
                             "hubResourceId": {
                                 "type": "String",
                                 "metadata": {
@@ -1113,6 +1126,12 @@
                                                 "subnet1NsgNameId": {
                                                     "value": "[[parameters('subnet1NsgNameId')]"
                                                 },
+                                                "subnet2NsgNameId": {
+                                                    "value": "[[parameters('subnet2NsgNameId')]"
+                                                },
+                                                "subnet3NsgNameId": {
+                                                    "value": "[[parameters('subnet3NsgNameId')]"
+                                                },
                                                 "hubResourceId": {
                                                     "value": "[[parameters('hubResourceId')]"
                                                 }
@@ -1168,6 +1187,12 @@
                                                         "type": "string"
                                                     },
                                                     "subnet1NsgNameId": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet2NsgNameId": {
+                                                        "type": "string"
+                                                    },
+                                                    "subnet3NsgNameId": {
                                                         "type": "string"
                                                     },
                                                     "hubResourceId": {
@@ -1335,7 +1360,10 @@
                                                                                 {
                                                                                     "name": "[[parameters('subnet2Name')]",
                                                                                     "properties": {
-                                                                                        "addressPrefix": "[[parameters('subnet2CidrRange')]"
+                                                                                        "addressPrefix": "[[parameters('subnet2CidrRange')]",
+                                                                                        "networkSecurityGroup": {
+                                                                                            "id": "[[parameters('subnet2NsgNameId')]"
+                                                                                        }
 
 
                                                                                     }
@@ -1343,7 +1371,10 @@
                                                                                 {
                                                                                     "name": "[[parameters('subnet3Name')]",
                                                                                     "properties": {
-                                                                                        "addressPrefix": "[[parameters('subnet3CidrRange')]"
+                                                                                        "addressPrefix": "[[parameters('subnet3CidrRange')]",
+                                                                                        "networkSecurityGroup": {
+                                                                                            "id": "[[parameters('subnet3NsgNameId')]"
+                                                                                        }
 
 
                                                                                     }
